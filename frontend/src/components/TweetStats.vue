@@ -1,8 +1,12 @@
 <template>
+  <div class="date-selection">
+    <div>Datum:</div>
+    <input type="date" v-model="date" />
+  </div>
   <div class="row">
     <div class="column square square-gray">
       <div class="count">{{ tweetCounts.all }}</div>
-      {{ pluralize('tweet', tweetCounts.all) }}
+      {{ pluralize("tweet", tweetCounts.all) }}
     </div>
     <div class="column square square-gray">
       <div class="count">{{ tweetTime }}</div>
@@ -12,16 +16,16 @@
   <div class="row">
     <div class="column square square-green">
       <div class="count">{{ tweetCounts.original }}</div>
-      {{ pluralize('original', tweetCounts.original) }}
-      {{ pluralize('tweet', tweetCounts.original) }}
+      {{ pluralize("original", tweetCounts.original) }}
+      {{ pluralize("tweet", tweetCounts.original) }}
     </div>
     <div class="column square square-orange">
       <div class="count">{{ tweetCounts.retweets }}</div>
-      re{{ pluralize('tweet', tweetCounts.retweets) }}
+      re{{ pluralize("tweet", tweetCounts.retweets) }}
     </div>
     <div class="column square square-yellow">
       <div class="count">{{ tweetCounts.retweetsWithComment }}</div>
-      re{{ pluralize('tweet', tweetCounts.retweets) }} s komentarjem
+      re{{ pluralize("tweet", tweetCounts.retweets) }} s komentarjem
     </div>
   </div>
 </template>
@@ -34,6 +38,7 @@ export default {
   data() {
     return {
       tweets: [],
+      date: '2020-10-30',
     };
   },
   computed: {
@@ -80,15 +85,23 @@ export default {
       }
 
       return WORD_FORMS[word][getWordForm(count)];
+    },
+    async fetchDataForDate(date) {
+      try {
+        this.tweets = await fetchTweetData(date);
+      } catch (error) {
+        console.error(error);
+      }
     }
   },
   async created() {
-    try {
-      this.tweets = await fetchTweetData();
-    } catch (error) {
-      console.error(error);
-    }
+    this.fetchDataForDate(this.date)
   },
+  watch: {
+    date(newVal) {
+      if (newVal) this.fetchDataForDate(newVal)
+    }
+  }
 };
 </script>
 
@@ -101,8 +114,23 @@ export default {
     margin: 0 0.5rem;
     flex: 1;
   }
-  .column:first-child { margin-left: 0; }
-  .column:last-child { margin-right: 0; }
+  .column:first-child {
+    margin-left: 0;
+  }
+  .column:last-child {
+    margin-right: 0;
+  }
+}
+
+.date-selection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.date-selection input {
+  margin-left: 1rem;
+  height: 2rem;
 }
 
 .square {
@@ -110,12 +138,19 @@ export default {
   text-align: center;
   padding: 1rem;
   border-radius: 0.5rem;
-
 }
-.square-gray { background: #d8d8d8; }
-.square-green { background: #4fe3c1; }
-.square-orange { background: #f5a623; }
-.square-yellow { background: #f8e71d; }
+.square-gray {
+  background: #d8d8d8;
+}
+.square-green {
+  background: #4fe3c1;
+}
+.square-orange {
+  background: #f5a623;
+}
+.square-yellow {
+  background: #f8e71d;
+}
 
 .count {
   font-size: 2rem;
