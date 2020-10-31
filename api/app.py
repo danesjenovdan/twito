@@ -1,0 +1,27 @@
+from flask import Flask, Response
+from requests import get
+from requests.auth import HTTPBasicAuth
+import json
+import csv
+import codecs
+from contextlib import closing
+from config import dmi_tcat_username, dmi_tcat_password
+
+app = Flask(__name__)
+
+
+@app.route('/<date>', methods=['GET'])
+def index(date):
+  file_url = f'http://51.15.220.60/analysis/mod.export_tweets.php?dataset=ONLY_jjansasds&query=&url_query=&media_url_query=&exclude=&from_user_name=&from_user_lang=&lang=&exclude_from_user_name=&from_user_description=&from_source=&startdate={date}&enddate={date}&whattodo=export_tweets&exportSettings=&graph_resolution=day&outputformat=csv'
+  with closing(get(file_url, stream=True, auth=HTTPBasicAuth(dmi_tcat_username, dmi_tcat_password))) as stream:
+    csv_reader = csv.DictReader(
+        codecs.iterdecode(stream.iter_lines(), 'utf-8')
+    )
+    tweets = []
+    for row in csv_reader:
+      tweets.append(row)
+
+  return Response(json.dumps(tweets), mimetype='application/json')
+
+if __name__ == '__main__':
+   app.run(host='0.0.0.0', debug=True)
