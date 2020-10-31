@@ -40,7 +40,13 @@ export default {
       return getTweetCounts(this.tweets);
     },
     tweetTime() {
-      return getTweetTime(this.tweets);
+      const tweetTimeInMiliseconds = getTweetTime(this.tweets);
+      const tweetTimeInMinutes = Math.round(tweetTimeInMiliseconds / 60000)
+
+      const hours = Math.floor(tweetTimeInMinutes / 60)
+      const minutes = String(tweetTimeInMinutes % 60).padStart(2, '0')
+
+      return `${hours}:${minutes}`;
     }
   },
   async created() {
@@ -54,7 +60,6 @@ export default {
 </script>
 
 <style scoped>
-
 @media (min-width: 768px) {
   .row {
     display: flex;
