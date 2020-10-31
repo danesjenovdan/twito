@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       tweets: [],
-      date: '2020-10-30',
+      date: "2020-10-30",
     };
   },
   computed: {
@@ -47,42 +47,42 @@ export default {
     },
     tweetTime() {
       const tweetTimeInMiliseconds = getTweetTime(this.tweets);
-      const tweetTimeInMinutes = Math.round(tweetTimeInMiliseconds / 60000)
+      const tweetTimeInMinutes = Math.round(tweetTimeInMiliseconds / 60000);
 
-      const hours = Math.floor(tweetTimeInMinutes / 60)
-      const minutes = String(tweetTimeInMinutes % 60).padStart(2, '0')
+      const hours = Math.floor(tweetTimeInMinutes / 60);
+      const minutes = String(tweetTimeInMinutes % 60).padStart(2, "0");
 
       return `${hours}:${minutes}`;
-    }
+    },
   },
   methods: {
     pluralize(word, count) {
       const WORD_FORMS = {
         original: {
-          singular: 'izviren',
-          dual: 'izvirna',
-          smallPlural: 'izvirni',
-          bigPlural: 'izvirnih',
+          singular: "izviren",
+          dual: "izvirna",
+          smallPlural: "izvirni",
+          bigPlural: "izvirnih",
         },
         tweet: {
-          singular: 'tweet',
-          dual: 'tweeta',
-          smallPlural: 'tweeti',
-          bigPlural: 'tweetov',
+          singular: "tweet",
+          dual: "tweeta",
+          smallPlural: "tweeti",
+          bigPlural: "tweetov",
         },
       };
 
       const getWordForm = (count) => {
         count = count % 100;
         if (count <= 1) {
-          return 'singular'
+          return "singular";
         } else if (count === 2) {
-          return 'dual'
+          return "dual";
         } else if (count < 5) {
-          return 'smallPlural'
+          return "smallPlural";
         }
-        return 'bigPlural'
-      }
+        return "bigPlural";
+      };
 
       return WORD_FORMS[word][getWordForm(count)];
     },
@@ -92,16 +92,16 @@ export default {
       } catch (error) {
         console.error(error);
       }
-    }
+    },
   },
   async created() {
-    this.fetchDataForDate(this.date)
+    this.fetchDataForDate(this.date);
   },
   watch: {
     date(newVal) {
-      if (newVal) this.fetchDataForDate(newVal)
-    }
-  }
+      if (newVal) this.fetchDataForDate(newVal);
+    },
+  },
 };
 </script>
 

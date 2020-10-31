@@ -64,11 +64,15 @@ export const getTweetTime = (tweets: Tweet[]) =>
 export const getTweetCounts = (tweets: Tweet[]) => {
   return {
     all: tweets.length,
-    original: tweets.filter(t => getTweetType(t) === TweetType.ORIGINAL).length,
-    retweets: tweets.filter(t => getTweetType(t) === TweetType.RETWEET).length,
-    retweetsWithComment: tweets.filter(t => getTweetType(t) === TweetType.RETWEET_WITH_COMMENT).length,
-  }
-}
+    original: tweets.filter((t) => getTweetType(t) === TweetType.ORIGINAL)
+      .length,
+    retweets: tweets.filter((t) => getTweetType(t) === TweetType.RETWEET)
+      .length,
+    retweetsWithComment: tweets.filter(
+      (t) => getTweetType(t) === TweetType.RETWEET_WITH_COMMENT
+    ).length,
+  };
+};
 
 // Determines type of tweet
 const getTweetType = (tweet: Tweet): TweetType => {
