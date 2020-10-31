@@ -2,7 +2,7 @@
   <div class="row">
     <div class="column square square-gray">
       <div class="count">{{ tweetCounts.all }}</div>
-      tweetov
+      {{ pluralize('tweet', tweetCounts.all) }}
     </div>
     <div class="column square square-gray">
       <div class="count">{{ tweetTime }}</div>
@@ -12,15 +12,16 @@
   <div class="row">
     <div class="column square square-green">
       <div class="count">{{ tweetCounts.original }}</div>
-      Izvirni tweeti
+      {{ pluralize('original', tweetCounts.original) }}
+      {{ pluralize('tweet', tweetCounts.original) }}
     </div>
     <div class="column square square-orange">
       <div class="count">{{ tweetCounts.retweets }}</div>
-      Retweeti
+      re{{ pluralize('tweet', tweetCounts.retweets) }}
     </div>
     <div class="column square square-yellow">
       <div class="count">{{ tweetCounts.retweetsWithComment }}</div>
-      Retweeti s komentarjem
+      re{{ pluralize('tweet', tweetCounts.retweets) }} s komentarjem
     </div>
   </div>
 </template>
@@ -47,6 +48,38 @@ export default {
       const minutes = String(tweetTimeInMinutes % 60).padStart(2, '0')
 
       return `${hours}:${minutes}`;
+    }
+  },
+  methods: {
+    pluralize(word, count) {
+      const WORD_FORMS = {
+        original: {
+          singular: 'izviren',
+          dual: 'izvirna',
+          smallPlural: 'izvirni',
+          bigPlural: 'izvirnih',
+        },
+        tweet: {
+          singular: 'tweet',
+          dual: 'tweeta',
+          smallPlural: 'tweeti',
+          bigPlural: 'tweetov',
+        },
+      };
+
+      const getWordForm = (count) => {
+        count = count % 100;
+        if (count <= 1) {
+          return 'singular'
+        } else if (count === 2) {
+          return 'dual'
+        } else if (count < 5) {
+          return 'smallPlural'
+        }
+        return 'bigPlural'
+      }
+
+      return WORD_FORMS[word][getWordForm(count)];
     }
   },
   async created() {
