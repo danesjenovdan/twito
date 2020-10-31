@@ -1,44 +1,51 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3.0 + Vite" />
-  {{ tweets }}
+  <div>
+    <h1 class="header-text">Maršal Twito - Sledilnik</h1>
+    <header class="header-image">
+      <img src="./assets/header.jpg" class="header-image" />
+    </header>
+    <h3 class="tagline">Slepo sledimo, kamorkoli nas že vodi</h3>
+    <main class="content">
+      <tweet-stats />
+    </main>
+  </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-import { generateIntervals, calculateTweetTime } from "./timeAnalysis";
-
-const API_URL = import.meta.env.VITE_API_URL;
+import TweetStats from "./components/TweetStats.vue";
 
 export default {
-  name: "App",
   components: {
-    HelloWorld,
-  },
-  data() {
-    return {
-      tweets: [],
-    };
-  },
-  created() {
-    this.fetchTweetData();
-  },
-  methods: {
-    async fetchTweetData() {
-      try {
-        const response = await fetch(`${API_URL}2020-10-30`);
-        if (response.status !== 200) {
-          console.log(
-            "Looks like there was a problem. Status Code: " + response.status
-          );
-          return;
-        }
-        const tweets = await response.json();
-        this.tweets = tweets;
-      } catch (error) {
-        console.error(error);
-      }
-    },
+    TweetStats,
   },
 };
 </script>
+
+<style scoped>
+.header-text {
+  margin: 0;
+  padding: 0.5em;
+}
+
+.header-image {
+  line-height: 0;
+  background: #c54013;
+}
+
+.header-image img {
+  width: 100%;
+  max-width: 960px;
+}
+
+.tagline {
+  border-bottom: 3px solid black;
+  margin: 0;
+  padding: 0.5em;
+}
+
+.content {
+  padding: 1rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+</style>
