@@ -25,7 +25,7 @@
     </div>
     <div class="column square square-yellow">
       <div class="count">{{ tweetCounts.retweetsWithComment }}</div>
-      re{{ pluralize("tweet", tweetCounts.retweets) }} s komentarjem
+      re{{ pluralize("tweet", tweetCounts.retweetsWithComment) }} s komentarjem
     </div>
   </div>
 </template>
