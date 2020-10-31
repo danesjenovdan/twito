@@ -1,4 +1,5 @@
 from flask import Flask, Response
+from flask_cors import CORS
 from requests import get
 from requests.auth import HTTPBasicAuth
 import json
@@ -8,7 +9,7 @@ from contextlib import closing
 from config import DMI_TCAT_USERNAME, DMI_TCAT_PASSWORD
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route('/<date>', methods=['GET'])
 def index(date):
