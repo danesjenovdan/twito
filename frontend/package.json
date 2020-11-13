@@ -6,10 +6,12 @@
     "build": "vite build"
   },
   "dependencies": {
+    "date-fns": "^2.16.1",
+    "tailwindcss": "^1.9.6",
     "vue": "^3.0.2"
   },
   "devDependencies": {
-    "vite": "^1.0.0-rc.9",
-    "@vue/compiler-sfc": "^3.0.2"
+    "@vue/compiler-sfc": "^3.0.2",
+    "vite": "^1.0.0-rc.9"
   }
 }

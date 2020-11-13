@@ -3,38 +3,66 @@
     <div>Datum:</div>
     <input type="date" v-model="date" />
   </div>
-  <div class="row">
-    <div class="column square square-gray">
-      <div class="count">{{ tweetCounts.all }}</div>
-      {{ pluralize("tweet", tweetCounts.all) }}
-    </div>
-    <div class="column square square-gray">
-      <div class="count">{{ tweetTime }}</div>
-      preživel na twitterju
+
+  <div class="box-top">
+    Torek, 10. november 2020
+  </div>
+
+  <div class="frame">
+    <div class="row">
+      <div class="column big-count tweet-count">
+        <div class="big-count-label">število tweetov</div>
+        <div class="big-count-number">{{ tweetCounts.all }}</div>
+      </div>
+      <div class="column big-count tweet-time">
+        <div class="big-count-label">ocena časa, preživetega na Twitterju</div>
+        <div class="big-count-number">
+          {{ tweetTime.hours }}<span class="time-unit">h</span>
+          {{ tweetTime.minutes }}<span class="time-unit">min</span>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="row">
-    <div class="column square square-green">
-      <div class="count">{{ tweetCounts.original }}</div>
-      {{ pluralize("original", tweetCounts.original) }}
-      {{ pluralize("tweet", tweetCounts.original) }}
+
+  <div class="box-middle" />
+
+  <div class="frame">
+    <timeline :tweets="tweets" />
+  </div>
+
+  <div class="frame">
+    <div class="row">
+      <div class="column small-count original">
+        <div class="small-count-label">izvirni tviti</div>
+        <div class="small-count-number">{{ tweetCounts.original }}</div>
+      </div>
+      <div class="column small-count retweets">
+        <div class="small-count-label">RT-ji</div>
+        <div class="small-count-number">{{ tweetCounts.retweets }}</div>
+      </div>
+      <div class="column small-count retweets-with-comment">
+        <div class="small-count-label">RT-ji s komentarjem</div>
+        <div class="small-count-number">{{ tweetCounts.retweetsWithComment }}</div>
+      </div>
     </div>
-    <div class="column square square-orange">
-      <div class="count">{{ tweetCounts.retweets }}</div>
-      re{{ pluralize("tweet", tweetCounts.retweets) }}
-    </div>
-    <div class="column square square-yellow">
-      <div class="count">{{ tweetCounts.retweetsWithComment }}</div>
-      re{{ pluralize("tweet", tweetCounts.retweetsWithComment) }} s komentarjem
-    </div>
+  </div>
+
+  <div class="box-bottom">
+    <div class="button">Prenesi</div>
+    <div class="button">Deli na FB</div>
+    <div class="button">Deli na TW</div>
   </div>
 </template>
 
 <script>
-import { getTweetTime, getTweetCounts } from "../timeAnalysis";
+import { getTweetTime, getTweetCounts } from "../utils";
 import { fetchTweetData } from "../api";
+import Timeline from "./Timeline.vue";
 
 export default {
+  components: {
+    Timeline,
+  },
   data() {
     return {
       tweets: [],
@@ -52,40 +80,10 @@ export default {
       const hours = Math.floor(tweetTimeInMinutes / 60);
       const minutes = String(tweetTimeInMinutes % 60).padStart(2, "0");
 
-      return `${hours}:${minutes}`;
+      return { hours, minutes};
     },
   },
   methods: {
-    pluralize(word, count) {
-      const WORD_FORMS = {
-        original: {
-          singular: "izviren",
-          dual: "izvirna",
-          smallPlural: "izvirni",
-          bigPlural: "izvirnih",
-        },
-        tweet: {
-          singular: "tweet",
-          dual: "tweeta",
-          smallPlural: "tweeti",
-          bigPlural: "tweetov",
-        },
-      };
-
-      const getWordForm = (count) => {
-        count = count % 100;
-        if (count <= 1) {
-          return "singular";
-        } else if (count === 2) {
-          return "dual";
-        } else if (count < 5) {
-          return "smallPlural";
-        }
-        return "bigPlural";
-      };
-
-      return WORD_FORMS[word][getWordForm(count)];
-    },
     async fetchDataForDate(date) {
       try {
         this.tweets = await fetchTweetData(date);
@@ -106,12 +104,125 @@ export default {
 </script>
 
 <style scoped>
+.box-top {
+  margin: 4rem 2.5rem 0;
+  border: 1px solid white;
+  border-bottom: none;
+  padding: 2.5rem;
+  font-size: 50px;
+  line-height: 1em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.box-middle {
+  margin: 0 2.5rem;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  height: 3.125rem;
+}
+
+.box-bottom {
+  margin: 0 2.5rem 4rem;
+  padding: 2.5rem;
+  border: 1px solid white;
+  border-top: none;
+  display: flex;
+  justify-content: center;
+}
+
+.frame {
+  background: white;
+  color: black;
+  padding: 2.5rem;
+  text-align: left;
+}
+
+
+.big-count {
+  padding: 1.5rem;
+}
+
+.big-count-label {
+  font-size: 1.25rem;
+  line-height: 1em;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid black;
+  margin-bottom: 1.25rem;
+  font-weight: bold;
+}
+
+.big-count-number {
+  font-size: 6.25rem;
+  line-height: 1em;
+  font-weight: bold;
+  height: 6rem;
+}
+
+.time-unit { font-size: 0.5em }
+
+.tweet-count {
+  background: #ddf7f8;
+}
+
+.tweet-time {
+  background: #ffeacc;
+  flex: 2;
+}
+
+.small-count {
+  padding: 1rem;
+}
+
+.small-count-label {
+  margin-bottom: 0.75rem;
+}
+
+.small-count-number {
+  font-size: 4.375rem;
+  line-height: 1em;
+  font-weight: bold;
+  height: 4.375rem;
+}
+
+.original {
+  background-color: #ffedeb;
+  border: 5px solid #ff4e3a;
+}
+
+.retweets {
+  border: 5px solid #44a58a;
+background-color: #ecf6f3;
+}
+
+.retweets-with-comment {
+  border: 5px solid #ffc208;
+background-color: #fff9e6;
+}
+
+.button {
+  border: 1px solid white;
+  border-radius: 1.75rem;
+  height: 3.5rem;
+  line-height: 3.25rem;
+  font-size: 1.875rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 0 1rem;
+  width: 15.125rem;
+  cursor: pointer;
+}
+.button:hover {
+  background: white;
+  color: black;
+}
+
 @media (min-width: 768px) {
   .row {
     display: flex;
   }
   .column {
-    margin: 0 0.5rem;
+    margin: 0 1.25rem;
     flex: 1;
   }
   .column:first-child {
@@ -123,6 +234,9 @@ export default {
 }
 
 .date-selection {
+  position: absolute;
+  top: 0;
+  left: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -131,29 +245,5 @@ export default {
 .date-selection input {
   margin-left: 1rem;
   height: 2rem;
-}
-
-.square {
-  margin-bottom: 1rem;
-  text-align: center;
-  padding: 1rem;
-  border-radius: 0.5rem;
-}
-.square-gray {
-  background: #d8d8d8;
-}
-.square-green {
-  background: #4fe3c1;
-}
-.square-orange {
-  background: #f5a623;
-}
-.square-yellow {
-  background: #f8e71d;
-}
-
-.count {
-  font-size: 2rem;
-  font-weight: bold;
 }
 </style>

@@ -1,13 +1,9 @@
 <template>
-  <div>
-    <h1 class="header-text">Maršal Twito - Sledilnik</h1>
+  <div class="container">
     <header class="header-image">
-      <img src="./assets/header.jpg" class="header-image" />
+      Tu not bo žumer nekaj carskega narisau
     </header>
-    <h3 class="tagline">Slepo sledimo, kamorkoli nas že vodi</h3>
-    <main class="content">
-      <tweet-stats />
-    </main>
+    <tweet-stats />
   </div>
 </template>
 
@@ -22,30 +18,14 @@ export default {
 </script>
 
 <style scoped>
-.header-text {
-  margin: 0;
-  padding: 0.5em;
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 .header-image {
   line-height: 0;
-  background: #c54013;
-}
-
-.header-image img {
-  width: 100%;
-  max-width: 960px;
-}
-
-.tagline {
-  border-bottom: 3px solid black;
-  margin: 0;
-  padding: 0.5em;
-}
-
-.content {
-  padding: 1rem;
-  max-width: 960px;
-  margin: 0 auto;
+  background: #44a58a;
+  padding: 25% 0;
 }
 </style>

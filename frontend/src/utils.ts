@@ -75,7 +75,7 @@ export const getTweetCounts = (tweets: Tweet[]) => {
 };
 
 // Determines type of tweet
-const getTweetType = (tweet: Tweet): TweetType => {
+export const getTweetType = (tweet: Tweet): TweetType => {
   if (tweet.text.startsWith(RETWEET_PREFIX)) {
     return TweetType.RETWEET;
   } else if (tweet.quoted_status_id) {
@@ -85,4 +85,5 @@ const getTweetType = (tweet: Tweet): TweetType => {
   }
 };
 
+// Returns timestamp of tweet
 const getTweetTimestamp = (tweet) => new Date(tweet.created_at).getTime();
