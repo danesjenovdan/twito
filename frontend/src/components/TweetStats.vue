@@ -5,7 +5,7 @@
   </div>
 
   <div class="box-top">
-    Torek, 10. november 2020
+    {{ formattedDate }}
   </div>
 
   <div class="frame">
@@ -55,9 +55,11 @@
 </template>
 
 <script>
+import format from "date-fns/format";
 import { getTweetTime, getTweetCounts } from "../utils";
 import { fetchTweetData } from "../api";
 import Timeline from "./Timeline.vue";
+import { sl } from 'date-fns/locale'
 
 export default {
   components: {
@@ -82,6 +84,9 @@ export default {
 
       return { hours, minutes};
     },
+    formattedDate() {
+      return format(new Date(this.date), "EEEE, d. MMMM y", { locale: sl })
+    }
   },
   methods: {
     async fetchDataForDate(date) {
