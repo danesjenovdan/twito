@@ -37,7 +37,9 @@
       </div>
       <div class="column small-count retweets-with-comment">
         <div class="small-count-label">RT-ji s komentarjem</div>
-        <div class="small-count-number">{{ tweetCounts.retweetsWithComment }}</div>
+        <div class="small-count-number">
+          {{ tweetCounts.retweetsWithComment }}
+        </div>
       </div>
     </div>
   </div>
@@ -50,59 +52,60 @@
 </template>
 
 <script>
-import format from "date-fns/format";
-import { getTweetTime, getTweetCounts } from "../utils";
-import { fetchTweetData } from "../api";
-import Timeline from "./Timeline.vue";
+import { defineComponent } from 'vue'
+import format from 'date-fns/format'
+import { getTweetTime, getTweetCounts } from '../utils'
+import { fetchTweetData } from '../api'
+import Timeline from './Timeline.vue'
 import { sl } from 'date-fns/locale'
 
-export default {
-  props: {
-    date: { type: String, required: true }
-  },
+export default defineComponent({
   components: {
     Timeline,
+  },
+  props: {
+    date: { type: String, required: true },
   },
   data() {
     return {
       tweets: [],
-    };
+    }
   },
   computed: {
     tweetCounts() {
-      return getTweetCounts(this.tweets);
+      return getTweetCounts(this.tweets)
     },
     tweetTime() {
-      const tweetTimeInMiliseconds = getTweetTime(this.tweets);
-      const tweetTimeInMinutes = Math.round(tweetTimeInMiliseconds / 60000);
+      const tweetTimeInMiliseconds = getTweetTime(this.tweets)
+      const tweetTimeInMinutes = Math.round(tweetTimeInMiliseconds / 60000)
 
-      const hours = Math.floor(tweetTimeInMinutes / 60);
-      const minutes = String(tweetTimeInMinutes % 60).padStart(2, "0");
+      const hours = Math.floor(tweetTimeInMinutes / 60)
+      const minutes = String(tweetTimeInMinutes % 60).padStart(2, '0')
 
-      return { hours, minutes};
+      return { hours, minutes }
     },
     formattedDate() {
-      return format(new Date(this.date), "EEEE, d. MMMM y", { locale: sl })
-    }
+      return format(new Date(this.date), 'EEEE, d. MMMM y', { locale: sl })
+    },
+  },
+  watch: {
+    date(newVal) {
+      if (newVal) this.fetchDataForDate(newVal)
+    },
+  },
+  async created() {
+    this.fetchDataForDate(this.date)
   },
   methods: {
     async fetchDataForDate(date) {
       try {
-        this.tweets = await fetchTweetData(date);
+        this.tweets = await fetchTweetData(date)
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     },
   },
-  async created() {
-    this.fetchDataForDate(this.date);
-  },
-  watch: {
-    date(newVal) {
-      if (newVal) this.fetchDataForDate(newVal);
-    },
-  },
-};
+})
 </script>
 
 <style scoped>
@@ -140,7 +143,6 @@ export default {
   text-align: left;
 }
 
-
 .big-count {
   padding: 1.5rem;
 }
@@ -161,7 +163,9 @@ export default {
   height: 6rem;
 }
 
-.time-unit { font-size: 0.5em }
+.time-unit {
+  font-size: 0.5em;
+}
 
 .tweet-count {
   background: #ddf7f8;
@@ -194,12 +198,12 @@ export default {
 
 .retweets {
   border: 5px solid #44a58a;
-background-color: #ecf6f3;
+  background-color: #ecf6f3;
 }
 
 .retweets-with-comment {
   border: 5px solid #ffc208;
-background-color: #fff9e6;
+  background-color: #fff9e6;
 }
 
 .button {

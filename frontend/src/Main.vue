@@ -6,16 +6,22 @@
 </template>
 
 <script>
-import TweetStats from "./components/TweetStats.vue";
+import { defineComponent } from 'vue'
+import TweetStats from './components/TweetStats.vue'
 
-export default {
+export default defineComponent({
   components: {
     TweetStats,
   },
   props: {
-    date: { type: String, default() { return new Date().toISOString() } }
+    date: {
+      type: String,
+      default() {
+        return new Date().toISOString()
+      },
+    },
   },
-};
+})
 </script>
 
 <style scoped>

@@ -2,9 +2,12 @@
   <div class="wrapper">
     <div class="label">razporeditev tvitov čez dan</div>
     <div class="timeline">
-      <div v-for="tweet in tweetsWithTime" class="tweet" :style="tweet.style">
-
-      </div>
+      <div
+        v-for="tweet in tweetsWithTime"
+        :key="tweet.id"
+        class="tweet"
+        :style="tweet.style"
+      ></div>
     </div>
     <div class="legend">
       <div class="hour">00:00</div>
@@ -19,9 +22,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import startOfDay from 'date-fns/startOfDay'
-import { TweetType, getTweetType } from '../utils'
+import { TweetType, Tweet, getTweetType } from '../utils'
 
 const addDistances = (tweets) => {
   if (tweets.length === 0) return []
@@ -33,23 +36,23 @@ const addDistances = (tweets) => {
     [TweetType.RETWEET]: '#44a58a',
     [TweetType.RETWEET_WITH_COMMENT]: '#ffc208',
   }
-  return tweets.map(tweet => ({
+  return tweets.map((tweet) => ({
     ...tweet,
     style: {
-      left: `${(tweet.time - startInSeconds) / secondsInDay * 100}%`,
-      background: colorMap[getTweetType(tweet)]
-    }
+      left: `${((tweet.time - startInSeconds) / secondsInDay) * 100}%`,
+      background: colorMap[getTweetType(tweet)],
+    },
   }))
 }
 
 export default defineComponent({
   props: {
-    tweets: { type: Array, default: [] }
+    tweets: { type: Array as PropType<Tweet[]>, default: () => [] },
   },
   computed: {
     tweetsWithTime() {
       return addDistances(this.tweets)
-    }
+    },
   },
 })
 </script>
@@ -92,6 +95,10 @@ export default defineComponent({
 .hour {
   width: 2.875rem;
 }
-.hour:first-child { margin-right: -1.4375rem; }
-.hour:last-child { margin-left: -1.4375rem; }
+.hour:first-child {
+  margin-right: -1.4375rem;
+}
+.hour:last-child {
+  margin-left: -1.4375rem;
+}
 </style>

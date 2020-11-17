@@ -1,9 +1,12 @@
-import Main from "./Main.vue";
+import { RouteRecordRaw } from 'vue-router'
+import Main from './Main.vue'
 
-export default [
+export default <RouteRecordRaw[]>[
   {
-    path: "/:date?",
+    path: '/:date?',
     component: Main,
-    props: (route) => ({ date: route.params.date || undefined }),
+    props: (route) => ({
+      date: route.params.date || undefined,
+    }),
   },
-];
+]
