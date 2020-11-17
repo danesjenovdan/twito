@@ -27,20 +27,13 @@
 
   <div class="frame">
     <div class="row">
-      <div class="column small-count original">
-        <div class="small-count-label">izvirni tviti</div>
-        <div class="small-count-number">{{ tweetCounts.original }}</div>
-      </div>
-      <div class="column small-count retweets">
-        <div class="small-count-label">RT-ji</div>
-        <div class="small-count-number">{{ tweetCounts.retweets }}</div>
-      </div>
-      <div class="column small-count retweets-with-comment">
-        <div class="small-count-label">RT-ji s komentarjem</div>
-        <div class="small-count-number">
-          {{ tweetCounts.retweetsWithComment }}
-        </div>
-      </div>
+      <small-tweet-count
+        v-for="countType in ['original', 'retweets', 'retweetsWithComment']"
+        :key="countType"
+        :type="countType"
+        :count="tweetCounts[countType]"
+        class="column"
+      />
     </div>
   </div>
 
@@ -54,13 +47,16 @@
 <script>
 import { defineComponent } from 'vue'
 import format from 'date-fns/format'
+import { sl } from 'date-fns/locale'
+
 import { getTweetTime, getTweetCounts } from '../utils'
 import { fetchTweetData } from '../api'
+import SmallTweetCount from './SmallTweetCount.vue'
 import Timeline from './Timeline.vue'
-import { sl } from 'date-fns/locale'
 
 export default defineComponent({
   components: {
+    SmallTweetCount,
     Timeline,
   },
   props: {
@@ -173,36 +169,6 @@ export default defineComponent({
 .tweet-time {
   background: #ffeacc;
   flex: 2;
-}
-
-.small-count {
-  padding: 1rem;
-}
-
-.small-count-label {
-  margin-bottom: 0.75rem;
-}
-
-.small-count-number {
-  font-size: 4.375rem;
-  line-height: 1em;
-  font-weight: bold;
-  height: 4.375rem;
-}
-
-.original {
-  background-color: #ffedeb;
-  border: 0.3125rem solid #ff4e3a;
-}
-
-.retweets {
-  border: 0.3125rem solid #44a58a;
-  background-color: #ecf6f3;
-}
-
-.retweets-with-comment {
-  border: 0.3125rem solid #ffc208;
-  background-color: #fff9e6;
 }
 
 .button {
