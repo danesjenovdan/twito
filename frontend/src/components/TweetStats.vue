@@ -44,10 +44,10 @@
     </div>
   </div>
 
-  <div class="box-bottom">
-    <div class="button">Prenesi</div>
-    <div class="button">Deli na FB</div>
-    <div class="button">Deli na TW</div>
+  <div class="box-bottom row">
+    <div class="button column">Prenesi</div>
+    <div class="button column">Deli na FB</div>
+    <div class="button column">Deli na TW</div>
   </div>
 </template>
 
@@ -114,7 +114,7 @@ export default defineComponent({
   border: 1px solid white;
   border-bottom: none;
   padding: 2.5rem;
-  font-size: 50px;
+  font-size: 3.125rem;
   line-height: 1em;
   font-weight: bold;
   text-transform: uppercase;
@@ -132,7 +132,6 @@ export default defineComponent({
   padding: 2.5rem;
   border: 1px solid white;
   border-top: none;
-  display: flex;
   justify-content: center;
 }
 
@@ -193,16 +192,16 @@ export default defineComponent({
 
 .original {
   background-color: #ffedeb;
-  border: 5px solid #ff4e3a;
+  border: 0.3125rem solid #ff4e3a;
 }
 
 .retweets {
-  border: 5px solid #44a58a;
+  border: 0.3125rem solid #44a58a;
   background-color: #ecf6f3;
 }
 
 .retweets-with-comment {
-  border: 5px solid #ffc208;
+  border: 0.3125rem solid #ffc208;
   background-color: #fff9e6;
 }
 
@@ -214,28 +213,10 @@ export default defineComponent({
   font-size: 1.875rem;
   font-weight: bold;
   text-transform: uppercase;
-  margin: 0 1rem;
-  width: 15.125rem;
   cursor: pointer;
 }
 .button:hover {
   background: white;
   color: black;
-}
-
-@media (min-width: 768px) {
-  .row {
-    display: flex;
-  }
-  .column {
-    margin: 0 1.25rem;
-    flex: 1;
-  }
-  .column:first-child {
-    margin-left: 0;
-  }
-  .column:last-child {
-    margin-right: 0;
-  }
 }
 </style>

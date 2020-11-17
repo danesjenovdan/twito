@@ -11,11 +11,11 @@
     </div>
     <div class="legend">
       <div class="hour">00:00</div>
-      <div class="hour">04:00</div>
+      <div class="hour hidden-mobile">04:00</div>
       <div class="hour">08:00</div>
-      <div class="hour">12:00</div>
+      <div class="hour hidden-mobile">12:00</div>
       <div class="hour">16:00</div>
-      <div class="hour">20:00</div>
+      <div class="hour hidden-mobile">20:00</div>
       <div class="hour">00:00</div>
     </div>
   </div>
