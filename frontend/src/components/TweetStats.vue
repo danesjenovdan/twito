@@ -1,9 +1,4 @@
 <template>
-  <div class="date-selection">
-    <div>Datum:</div>
-    <input type="date" v-model="date" />
-  </div>
-
   <div class="box-top">
     {{ formattedDate }}
   </div>
@@ -62,13 +57,15 @@ import Timeline from "./Timeline.vue";
 import { sl } from 'date-fns/locale'
 
 export default {
+  props: {
+    date: { type: String, required: true }
+  },
   components: {
     Timeline,
   },
   data() {
     return {
       tweets: [],
-      date: "2020-10-30",
     };
   },
   computed: {
@@ -236,19 +233,5 @@ background-color: #fff9e6;
   .column:last-child {
     margin-right: 0;
   }
-}
-
-.date-selection {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
-.date-selection input {
-  margin-left: 1rem;
-  height: 2rem;
 }
 </style>
