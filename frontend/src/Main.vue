@@ -31,21 +31,26 @@ export default defineComponent({
     }
   },
   mounted() {
-    const options = {
-      root: document,
-      rootMargin: '0px',
-      threshold: 1,
+    if (!this.$route.params.date) {
+      this.initInfiniteLoading()
     }
-
-    const addDayThrottled = throttle(this.addDay, 1000, { trailing: false })
-    const observer = new IntersectionObserver(addDayThrottled, options)
-    observer.observe(this.$refs.bottom)
   },
   methods: {
     addDay() {
       const lastDay = new Date(this.dates[this.dates.length - 1])
       const dayToAdd = getShortIsoDate(subDays(lastDay, 1))
       this.dates = [...this.dates, dayToAdd]
+    },
+    initInfiniteLoading() {
+      const options = {
+        root: document,
+        rootMargin: '0px',
+        threshold: 1,
+      }
+
+      const addDayThrottled = throttle(this.addDay, 1000, { trailing: false })
+      const observer = new IntersectionObserver(addDayThrottled, options)
+      observer.observe(this.$refs.bottom)
     },
   },
 })
