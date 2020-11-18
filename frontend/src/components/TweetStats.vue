@@ -39,8 +39,8 @@
 
   <div class="box-bottom row">
     <div class="button column">Prenesi</div>
-    <div class="button column">Deli na FB</div>
-    <div class="button column">Deli na TW</div>
+    <a :href="shareUrls.facebook" class="button column">Deli na FB</a>
+    <a :href="shareUrls.twitter" class="button column">Deli na TW</a>
   </div>
 </template>
 
@@ -82,6 +82,14 @@ export default defineComponent({
     },
     formattedDate() {
       return format(new Date(this.date), 'EEEE, d. MMMM y', { locale: sl })
+    },
+    shareUrls() {
+      const text = encodeURIComponent('Maršal Twito.')
+      const url = encodeURIComponent(`https://twito.si/#/${this.date}`)
+      return {
+        facebook: `https://www.facebook.com/dialog/feed?app_id=301375193309601&redirect_uri=${url}&link=${url}&ref=responsive&name=${text}`,
+        twitter: `https://twitter.com/intent/tweet?text=${text}%20${url}`,
+      }
     },
   },
   watch: {
@@ -172,6 +180,9 @@ export default defineComponent({
 }
 
 .button {
+  color: inherit;
+  display: block;
+  text-decoration: none;
   border: 1px solid white;
   border-radius: 1.75rem;
   height: 3.5rem;
