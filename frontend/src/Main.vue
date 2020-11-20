@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <header class="header-image">Tu not bo žumer nekaj carskega narisau</header>
+    <header class="header-image"></header>
     <tweet-stats v-for="d in dates" :key="d" :date="d" />
     <div ref="bottom" />
   </div>
@@ -65,6 +65,10 @@ export default defineComponent({
 .header-image {
   line-height: 0;
   background: #44a58a;
-  padding: 25% 0;
+  padding: 28.15% 0;
+  background-image: url('./assets/twito.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 </style>
