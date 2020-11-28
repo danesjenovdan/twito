@@ -33,8 +33,11 @@ body {
     display: flex;
   }
   .column {
-    margin: 0 1.25rem;
+    margin: 0 1rem;
     flex: 1;
+  }
+  .column-small-gutter {
+    margin: 0 0.5rem;
   }
   .column:first-child {
     margin-left: 0;

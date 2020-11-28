@@ -17,30 +17,26 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="box-middle" />
+    <div class="divider" />
 
-  <div class="frame">
     <timeline :tweets="tweets" />
-  </div>
 
-  <div class="frame">
     <div class="row">
       <small-tweet-count
         v-for="countType in ['original', 'retweets', 'retweetsWithComment']"
         :key="countType"
         :type="countType"
         :count="tweetCounts[countType]"
-        class="column"
+        class="column column-small-gutter"
       />
     </div>
   </div>
 
-  <div class="box-bottom row">
-    <div class="button column">Prenesi</div>
-    <a :href="shareUrls.facebook" class="button column">Deli na FB</a>
-    <a :href="shareUrls.twitter" class="button column">Deli na TW</a>
+  <div class="box-bottom button-container">
+    <div class="button">Prenesi</div>
+    <a :href="shareUrls.facebook" class="button">Deli na FB</a>
+    <a :href="shareUrls.twitter" class="button">Deli na TW</a>
   </div>
 </template>
 
@@ -114,26 +110,19 @@ export default defineComponent({
 
 <style scoped>
 .box-top {
-  margin: 4rem 2.5rem 0;
+  margin: 3.75rem 1.75rem 0;
   border: 1px solid white;
   border-bottom: none;
-  padding: 2.5rem;
-  font-size: 3.125rem;
+  padding: 1.8125rem;
+  font-size: 2.5rem;
   line-height: 1em;
   font-weight: bold;
   text-transform: uppercase;
 }
 
-.box-middle {
-  margin: 0 2.5rem;
-  border-left: 1px solid white;
-  border-right: 1px solid white;
-  height: 3.125rem;
-}
-
 .box-bottom {
-  margin: 0 2.5rem 4rem;
-  padding: 2.5rem;
+  margin: 0 1.75rem 2.75rem;
+  padding: 1.625rem;
   border: 1px solid white;
   border-top: none;
   justify-content: center;
@@ -142,28 +131,35 @@ export default defineComponent({
 .frame {
   background: white;
   color: black;
-  padding: 2.5rem;
+  padding: 2rem 1.75rem;
   text-align: left;
 }
 
+.divider {
+  background: black;
+  height: 1px;
+  margin: 2.25rem 0 1.875rem;
+}
+
 .big-count {
-  padding: 1.5rem;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .big-count-label {
   font-size: 1.25rem;
   line-height: 1em;
-  padding-bottom: 1rem;
+  padding-bottom: 0.8125rem;
   border-bottom: 1px solid black;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.1875rem;
   font-weight: bold;
 }
 
 .big-count-number {
-  font-size: 6.25rem;
-  line-height: 1em;
+  font-size: 5rem;
+  line-height: 0.725em;
   font-weight: bold;
-  height: 6rem;
+  height: 0.725em;
 }
 
 .time-unit {
@@ -184,16 +180,35 @@ export default defineComponent({
   display: block;
   text-decoration: none;
   border: 1px solid white;
-  border-radius: 1.75rem;
-  height: 3.5rem;
-  line-height: 3.25rem;
-  font-size: 1.875rem;
+  border-radius: 1.4rem;
+  height: 2.8rem;
+  line-height: 2.625rem;
+  font-size: 1.25rem;
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
 }
+.button:not(:last-child) {
+  margin-bottom: 1rem;
+}
 .button:hover {
   background: white;
   color: black;
+}
+
+@media (min-width: 768px) {
+  .big-count {
+    margin-bottom: 0;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .button {
+    width: 11.625rem;
+    margin: 0 0.666rem !important;
+  }
 }
 </style>

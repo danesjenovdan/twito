@@ -1,7 +1,7 @@
 <template>
   <div class="small-count" :style="colorStyle">
     <div class="small-count-number">{{ count }}</div>
-    <div class="small-count-label">{{ label }}</div>
+    <div class="small-count-label" v-html="label" />
   </div>
 </template>
 
@@ -17,31 +17,31 @@ export default defineComponent({
     label() {
       const WORD_FORMS = {
         original: {
-          singular: 'izviren tweet',
-          dual: 'izvirna tweeta',
-          smallPlural: 'izvirni tweeti',
-          bigPlural: 'izvirnih tweetov',
+          singular: 'izviren<br>tweet',
+          dual: 'izvirna<br>tweeta',
+          smallPlural: 'izvirni<br>tweeti',
+          bigPlural: 'izvirnih<br>tweetov',
         },
         retweets: {
-          singular: 'RT',
-          dual: 'RT-ja',
-          smallPlural: 'RT-ji',
-          bigPlural: 'RT-jev',
+          singular: '<br>RT',
+          dual: '<br>RT-ja',
+          smallPlural: '<br>RT-ji',
+          bigPlural: '<br>RT-jev',
         },
         retweetsWithComment: {
-          singular: 'RT s komentarjem',
-          dual: 'RT-ja s komentarjem',
-          smallPlural: 'RT-ji s komentarjem',
-          bigPlural: 'RT-jev s komentarjem',
+          singular: 'RT s<br>komentarjem',
+          dual: 'RT-ja s<br>komentarjem',
+          smallPlural: 'RT-ji s<br>komentarjem',
+          bigPlural: 'RT-jev s<br>komentarjem',
         },
       }
       const getWordForm = (count) => {
         count = count % 100
-        if (count <= 1) {
+        if (count === 1) {
           return 'singular'
         } else if (count === 2) {
           return 'dual'
-        } else if (count < 5) {
+        } else if (count === 3 || count === 4) {
           return 'smallPlural'
         }
         return 'bigPlural'
@@ -70,21 +70,32 @@ export default defineComponent({
 
 <style scoped>
 .small-count {
-  align-items: baseline;
+  align-items: flex-end;
   border-width: 0.3125rem;
   border-style: solid;
   display: flex;
   padding: 1rem;
+  justify-content: center;
+}
+.small-count:not(:last-child) {
+  margin-bottom: 1rem;
 }
 
 .small-count-label {
-  margin-left: 0.5rem;
+  margin-left: 0.375rem;
+  line-height: 1em;
 }
 
 .small-count-number {
-  font-size: 4.375rem;
-  line-height: 1em;
+  font-size: 3.125rem;
+  line-height: 0.76em;
   font-weight: bold;
-  height: 4.375rem;
+  height: 2.375rem;
+}
+
+@media (min-width: 768px) {
+  .small-count {
+    margin-bottom: 0 !important;
+  }
 }
 </style>

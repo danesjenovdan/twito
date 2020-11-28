@@ -58,10 +58,15 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.wrapper {
+  margin-bottom: 1.5rem;
+}
+
 .label {
   font-size: 1.25rem;
   font-weight: bold;
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
+  line-height: 1em;
 }
 
 .timeline {
@@ -74,10 +79,10 @@ export default defineComponent({
   );
   border: 2px solid #afafaf;
   border-right-width: 1px;
-  height: 6.875rem;
+  height: 5.25rem;
   width: 100%;
   position: relative;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .tweet {
@@ -89,6 +94,8 @@ export default defineComponent({
 
 .legend {
   display: flex;
+  font-size: 0.875rem;
+  font-weight: bold;
   justify-content: space-between;
 }
 
