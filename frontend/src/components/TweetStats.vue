@@ -4,19 +4,7 @@
   </div>
 
   <div class="frame">
-    <div class="row">
-      <div class="column big-count tweet-count">
-        <div class="big-count-label">število tweetov</div>
-        <div class="big-count-number">{{ tweetCounts.all }}</div>
-      </div>
-      <div class="column big-count tweet-time">
-        <div class="big-count-label">ocena časa, preživetega na Twitterju</div>
-        <div class="big-count-number">
-          {{ tweetTime.hours }}<span class="time-unit">h</span>
-          {{ tweetTime.minutes }}<span class="time-unit">min</span>
-        </div>
-      </div>
-    </div>
+    <big-tweet-counts :count="tweetCounts.all" :time="tweetTime" />
 
     <div class="divider" />
 
@@ -47,11 +35,13 @@ import { sl } from 'date-fns/locale'
 
 import { getTweetTime, getTweetCounts } from '../utils'
 import { fetchTweetData } from '../api'
+import BigTweetCounts from './BigTweetCounts.vue'
 import SmallTweetCount from './SmallTweetCount.vue'
 import Timeline from './Timeline.vue'
 
 export default defineComponent({
   components: {
+    BigTweetCounts,
     SmallTweetCount,
     Timeline,
   },
@@ -68,13 +58,7 @@ export default defineComponent({
       return getTweetCounts(this.tweets)
     },
     tweetTime() {
-      const tweetTimeInMiliseconds = getTweetTime(this.tweets)
-      const tweetTimeInMinutes = Math.round(tweetTimeInMiliseconds / 60000)
-
-      const hours = Math.floor(tweetTimeInMinutes / 60)
-      const minutes = String(tweetTimeInMinutes % 60).padStart(2, '0')
-
-      return { hours, minutes }
+      return getTweetTime(this.tweets)
     },
     formattedDate() {
       return format(new Date(this.date), 'EEEE, d. MMMM y', { locale: sl })
@@ -141,40 +125,6 @@ export default defineComponent({
   margin: 2.25rem 0 1.875rem;
 }
 
-.big-count {
-  padding: 1.25rem;
-  margin-bottom: 1rem;
-}
-
-.big-count-label {
-  font-size: 1.25rem;
-  line-height: 1em;
-  padding-bottom: 0.8125rem;
-  border-bottom: 1px solid black;
-  margin-bottom: 1.1875rem;
-  font-weight: bold;
-}
-
-.big-count-number {
-  font-size: 5rem;
-  line-height: 0.725em;
-  font-weight: bold;
-  height: 0.725em;
-}
-
-.time-unit {
-  font-size: 0.5em;
-}
-
-.tweet-count {
-  background: #ddf7f8;
-}
-
-.tweet-time {
-  background: #ffeacc;
-  flex: 2;
-}
-
 .button {
   color: inherit;
   display: block;
@@ -197,10 +147,6 @@ export default defineComponent({
 }
 
 @media (min-width: 768px) {
-  .big-count {
-    margin-bottom: 0;
-  }
-
   .button-container {
     display: flex;
     justify-content: center;
