@@ -5,22 +5,35 @@
       <div class="big-count-number">{{ count }}</div>
     </div>
     <div class="column big-count tweet-time">
-      <div class="big-count-label">ocena časa, preživetega na Twitterju</div>
+      <div class="big-count-label">
+        <div class="help-icon" @click="toggleModal(true)">?</div>
+        ocena preživetega časa na Twitterju
+      </div>
       <div class="big-count-number">
         {{ formattedTime.hours }}<span class="time-unit">h</span>
         {{ formattedTime.minutes }}<span class="time-unit">min</span>
       </div>
     </div>
   </div>
+  <teleport to="body">
+    <modal v-if="modalOpen" @close="toggleModal(false)" />
+  </teleport>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import Modal from './Modal.vue'
 
 export default defineComponent({
+  components: {
+    Modal,
+  },
   props: {
     count: { type: Number, required: true },
     time: { type: Number, required: true },
+  },
+  data() {
+    return { modalOpen: false }
   },
   computed: {
     formattedTime() {
@@ -30,6 +43,11 @@ export default defineComponent({
       const minutes = String(tweetTimeInMinutes % 60).padStart(2, '0')
 
       return { hours, minutes }
+    },
+  },
+  methods: {
+    toggleModal(newState) {
+      this.modalOpen = newState
     },
   },
 })
@@ -68,6 +86,21 @@ export default defineComponent({
 .tweet-time {
   background: #ffeacc;
   flex: 2;
+}
+
+.help-icon {
+  float: right;
+  background: black;
+  color: #ffeacc;
+  width: 1.25rem;
+  height: 1.25rem;
+  line-height: 1.334em;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 50%;
+  cursor: pointer;
+  user-select: none;
 }
 
 @media (min-width: 768px) {
