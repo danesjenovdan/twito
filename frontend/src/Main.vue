@@ -2,7 +2,7 @@
   <div class="container">
     <header class="header-image"></header>
     <tweet-stats v-for="d in dates" :key="d" :date="d" />
-    <div ref="bottom" />
+    <div ref="bottom" class="infinite-loading-trigger" />
   </div>
 </template>
 
@@ -45,10 +45,10 @@ export default defineComponent({
       const options = {
         root: document,
         rootMargin: '0px',
-        threshold: 1,
+        threshold: 0.75,
       }
 
-      const addDayThrottled = throttle(this.addDay, 1000, { trailing: false })
+      const addDayThrottled = throttle(this.addDay, 250, { trailing: false })
       const observer = new IntersectionObserver(addDayThrottled, options)
       observer.observe(this.$refs.bottom)
     },
@@ -70,5 +70,9 @@ export default defineComponent({
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.infinite-loading-trigger {
+  height: 0.5rem;
 }
 </style>
