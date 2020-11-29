@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="button">Prenesi</div>
+    <a :href="shareUrls.link" class="button">Deli</a>
     <a :href="shareUrls.facebook" class="button">Deli na FB</a>
     <a :href="shareUrls.twitter" class="button">Deli na TW</a>
   </div>
@@ -9,17 +9,22 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
+import { formatDate } from '../utils'
+
 export default defineComponent({
   props: {
     date: { type: String, required: true },
   },
   computed: {
     shareUrls() {
-      const text = encodeURIComponent('Maršal Twito')
+      const text = encodeURIComponent(
+        `${formatDate(this.date)} // Maršal Twito - Sledilnik`
+      )
       const url = encodeURIComponent(`https://twito.si/${this.date}`)
       return {
         facebook: `https://www.facebook.com/dialog/feed?app_id=301375193309601&redirect_uri=${url}&link=${url}&ref=responsive&name=${text}`,
         twitter: `https://twitter.com/intent/tweet?text=${text}%20${url}`,
+        link: decodeURIComponent(url),
       }
     },
   },

@@ -1,5 +1,6 @@
 import camelCase from 'lodash-es/camelCase'
 import mapKeys from 'lodash-es/mapKeys'
+import capitalize from 'lodash-es/capitalize'
 import format from 'date-fns/format'
 import { sl } from 'date-fns/locale'
 
@@ -108,4 +109,4 @@ export const keysToCamel = (
 
 // Formats date a specific way used as title and social media share text
 export const formatDate = (dateString: string): string =>
-  format(new Date(dateString), 'EEEE, d. MMMM y', { locale: sl })
+  capitalize(format(new Date(dateString), 'EEEE, d. MMMM y', { locale: sl }))
