@@ -66,7 +66,7 @@ export default defineComponent({
   line-height: 0;
   background: #44a58a;
   padding: 28.15% 0;
-  background-image: url('./assets/twito.png');
+  background-image: url('/twito.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
