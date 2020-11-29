@@ -28,10 +28,8 @@
 
 <script>
 import { defineComponent } from 'vue'
-import format from 'date-fns/format'
-import { sl } from 'date-fns/locale'
 
-import { getTweetTime, getTweetCounts } from '../utils'
+import { getTweetTime, getTweetCounts, formatDate } from '../utils'
 import { fetchTweetData } from '../api'
 import BigTweetCounts from './BigTweetCounts.vue'
 import ShareButtons from './ShareButtons.vue'
@@ -61,7 +59,7 @@ export default defineComponent({
       return getTweetTime(this.tweets)
     },
     formattedDate() {
-      return format(new Date(this.date), 'EEEE, d. MMMM y', { locale: sl })
+      return formatDate(this.date)
     },
   },
   watch: {

@@ -1,4 +1,7 @@
 import camelCase from 'lodash-es/camelCase'
+import mapKeys from 'lodash-es/mapKeys'
+import format from 'date-fns/format'
+import { sl } from 'date-fns/locale'
 
 export type Tweet = {
   createdAt: string
@@ -101,5 +104,8 @@ const getTweetTimestamp = (tweet) => new Date(tweet.createdAt).getTime()
 // Converts object keys to camelCase
 export const keysToCamel = (
   object: Record<string, unknown>
-): Record<string, unknown> =>
-  Object.fromEntries(Object.entries(object).map(([k, v]) => [camelCase(k), v]))
+): Record<string, unknown> => mapKeys(object, (_, k) => camelCase(k))
+
+// Formats date a specific way used as title and social media share text
+export const formatDate = (dateString: string): string =>
+  format(new Date(dateString), 'EEEE, d. MMMM y', { locale: sl })
