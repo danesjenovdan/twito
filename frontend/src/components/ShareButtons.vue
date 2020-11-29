@@ -15,8 +15,8 @@ export default defineComponent({
   },
   computed: {
     shareUrls() {
-      const text = encodeURIComponent('Maršal Twito.')
-      const url = encodeURIComponent(`https://twito.si/#/${this.date}`)
+      const text = encodeURIComponent('Maršal Twito')
+      const url = encodeURIComponent(`https://twito.si/${this.date}`)
       return {
         facebook: `https://www.facebook.com/dialog/feed?app_id=301375193309601&redirect_uri=${url}&link=${url}&ref=responsive&name=${text}`,
         twitter: `https://twitter.com/intent/tweet?text=${text}%20${url}`,
