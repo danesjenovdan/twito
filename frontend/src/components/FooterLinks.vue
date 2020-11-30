@@ -45,6 +45,9 @@ export default defineComponent({
 
 <style scoped>
 .link-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
   background: black;
   bottom: 0;
   padding: 1rem;
@@ -63,5 +66,12 @@ export default defineComponent({
 .link:hover {
   cursor: pointer;
   font-weight: bold;
+}
+
+@media (min-width: 768px) {
+  .link-container {
+    display: block;
+    width: auto;
+  }
 }
 </style>
