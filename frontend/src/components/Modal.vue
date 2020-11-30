@@ -3,36 +3,9 @@
     <div class="container" @click.stop>
       <div class="close-button" @click="close">×</div>
 
-      <div class="title">O projektu</div>
+      <div class="title">{{ title }}</div>
 
-      <p>
-        Premier Janez Janša rad tvita. Projekt Maršal Twito – Sledilnik beleži
-        in analizira njegovo aktivnost na Twitterju.
-      </p>
-      <p>
-        Projekt želi pokazati na premierjevo zasvojenost z družabnimi omrežji.
-        Obenem želi opozoriti tudi na potrebo po večji transparentnosti in
-        nadzorom nad aktivnostmi najpomembnejšega človeka v državi, zlasti v
-        času epidemije.
-      </p>
-
-      <div class="subtitle">Pridruži se</div>
-      <p>
-        Sledilnik nameravamo razvijati tudi v prihodnosti in redno dodajati nove
-        analize. Če imaš znanja in veščine z analiziranjem in vizualizacijo
-        podatkov, pa tudi s področja front-end programiranja, nam piši na
-        <a href="mailto:vsi@danesjenovdan.si">vsi@danesjenovdan.si</a>.
-      </p>
-
-      <div class="subtitle">Avtorji</div>
-      <p>
-        Za spletno mesto skrbi ekipa Danes je nov dan. Če želiš podpreti naše
-        delo, <a href="https://danesjenovdan.si/doniraj">doniraj</a>.
-      </p>
-      <p>
-        Naslovno ilustracijo je ustvaril
-        <a href="https://www.stokto.com/">Stokto</a>.
-      </p>
+      <slot></slot>
     </div>
   </div>
 </template>
@@ -41,12 +14,12 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
+  props: {
+    title: { type: String, required: true },
+  },
   methods: {
     close() {
       this.$emit('close')
-    },
-    print() {
-      console.log('foo')
     },
   },
 })
@@ -68,12 +41,14 @@ export default defineComponent({
 
 .container {
   color: black;
-  padding: 4.125rem;
+  padding: 2rem;
   width: 100%;
   background: white;
   max-width: 52.5rem;
+  max-height: calc(100vh - 4rem);
   font-size: 1.25rem;
   position: relative;
+  overflow-y: auto;
 }
 
 .close-button {
@@ -99,21 +74,32 @@ export default defineComponent({
   font-weight: bold;
   text-transform: uppercase;
   margin-bottom: 1.75rem;
+  padding-right: 1.75rem;
 }
 
-.subtitle {
+::v-deep(.subtitle) {
   text-transform: uppercase;
   font-size: 2rem;
   margin-top: 3rem;
   margin-bottom: 0.25rem;
 }
 
-p {
+::v-deep(p) {
   line-height: 1.75em;
   margin: 0 0 0.75em;
 }
 
-a {
+::v-deep(p:last-child) {
+  margin: 0;
+}
+
+::v-deep(a) {
   color: inherit;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 4.125rem;
+  }
 }
 </style>

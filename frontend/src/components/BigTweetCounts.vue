@@ -16,17 +16,17 @@
     </div>
   </div>
   <teleport to="body">
-    <modal v-if="modalOpen" @close="toggleModal(false)" />
+    <modal-methodology v-if="modalOpen" @close="toggleModal(false)" />
   </teleport>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Modal from './Modal.vue'
+import ModalMethodology from './ModalMethodology.vue'
 
 export default defineComponent({
   components: {
-    Modal,
+    ModalMethodology,
   },
   props: {
     count: { type: Number, required: true },
