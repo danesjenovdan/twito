@@ -3,6 +3,7 @@
     <header class="header-image"></header>
     <tweet-stats v-for="d in dates" :key="d" :date="d" />
     <div ref="bottom" class="infinite-loading-trigger" />
+    <footer-links />
   </div>
 </template>
 
@@ -11,12 +12,15 @@ import { defineComponent } from 'vue'
 import subDays from 'date-fns/subDays'
 import formatISO from 'date-fns/formatISO'
 import throttle from 'lodash-es/throttle'
+
+import FooterLinks from './components/FooterLinks.vue'
 import TweetStats from './components/TweetStats.vue'
 
 const getShortIsoDate = (date) => formatISO(date, { representation: 'date' })
 
 export default defineComponent({
   components: {
+    FooterLinks,
     TweetStats,
   },
   props: {
