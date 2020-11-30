@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <header class="header-image"></header>
+    <a href="/"><header class="header-image"></header></a>
     <tweet-stats v-for="d in dates" :key="d" :date="d" />
     <div ref="bottom" class="infinite-loading-trigger" />
     <footer-links />

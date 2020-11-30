@@ -1,6 +1,6 @@
 <template>
   <div class="box-top">
-    {{ formattedDate }}
+    <a :href="`/${date}`">{{ formattedDate }}</a>
   </div>
 
   <div class="frame">

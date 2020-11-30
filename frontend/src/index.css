@@ -20,6 +20,14 @@ body {
   box-sizing: border-box;
 }
 
+a {
+  color: inherit !important;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
 .hidden-mobile { display: none; }
 
 @media (min-width: 768px) {
