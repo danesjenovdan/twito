@@ -110,3 +110,6 @@ export const keysToCamel = (
 // Formats date a specific way used as title and social media share text
 export const formatDate = (dateString: string): string =>
   capitalize(format(new Date(dateString), 'EEEE, d. MMMM y', { locale: sl }))
+
+export const formatDateMobile = (dateString: string): string =>
+  capitalize(format(new Date(dateString), 'EEEE, d. M. y', { locale: sl }))

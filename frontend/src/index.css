@@ -32,6 +32,7 @@ a:hover {
 
 @media (min-width: 768px) {
   .hidden-mobile { display: initial; }
+  .hidden-desktop { display: none; }
 
   :root {
     font-size: 16px;

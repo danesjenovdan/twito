@@ -1,6 +1,15 @@
 <template>
   <div class="box-top">
-    <a :href="`/${date}`">{{ formattedDate }}</a>
+    <a :href="`/${date}`">
+      <span class="hidden-mobile">
+        {{ formattedDateDesktop }}
+      </span>
+      <span class="hidden-desktop">
+        {{ formattedDateMobile.day }},
+        <br />
+        {{ formattedDateMobile.remainder }}
+      </span>
+    </a>
   </div>
 
   <div class="frame">
@@ -29,7 +38,12 @@
 <script>
 import { defineComponent } from 'vue'
 
-import { getTweetTime, getTweetCounts, formatDate } from '../utils'
+import {
+  getTweetTime,
+  getTweetCounts,
+  formatDate,
+  formatDateMobile,
+} from '../utils'
 import { fetchTweetData } from '../api'
 import BigTweetCounts from './BigTweetCounts.vue'
 import ShareButtons from './ShareButtons.vue'
@@ -58,8 +72,12 @@ export default defineComponent({
     tweetTime() {
       return getTweetTime(this.tweets)
     },
-    formattedDate() {
+    formattedDateDesktop() {
       return formatDate(this.date)
+    },
+    formattedDateMobile() {
+      const [day, remainder] = formatDateMobile(this.date).split(', ')
+      return { day, remainder }
     },
   },
   watch: {
