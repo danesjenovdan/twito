@@ -70,32 +70,32 @@ export default defineComponent({
 
 <style scoped>
 .small-count {
-  align-items: flex-end;
   border-width: 0.3125rem;
   border-style: solid;
-  display: flex;
-  padding: 1rem;
-  justify-content: center;
-}
-.small-count:not(:last-child) {
-  margin-bottom: 1rem;
+  flex: 1;
+  padding: 1rem 0;
+  text-align: center;
 }
 
 .small-count-label {
-  margin-left: 0.375rem;
   line-height: 1em;
+  margin-left: 0.375rem;
 }
 
 .small-count-number {
   font-size: 3.125rem;
-  line-height: 0.76em;
   font-weight: bold;
   height: 2.375rem;
+  line-height: 0.76em;
 }
 
 @media (min-width: 768px) {
   .small-count {
-    margin-bottom: 0 !important;
+    align-items: flex-end;
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    text-align: left;
   }
 }
 </style>

@@ -19,7 +19,7 @@
 
     <timeline :tweets="tweets" />
 
-    <div class="row">
+    <div class="mobile-row">
       <small-tweet-count
         v-for="countType in ['original', 'retweets', 'retweetsWithComment']"
         :key="countType"

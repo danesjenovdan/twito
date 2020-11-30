@@ -30,6 +30,21 @@ a:hover {
 
 .hidden-mobile { display: none; }
 
+.mobile-row {
+  display: flex;
+}
+
+.column-small-gutter {
+  margin: 0 0.5rem;
+}
+
+.column:first-child {
+  margin-left: 0;
+}
+.column:last-child {
+  margin-right: 0;
+}
+
 @media (min-width: 768px) {
   .hidden-mobile { display: initial; }
   .hidden-desktop { display: none; }
@@ -41,17 +56,9 @@ a:hover {
   .row {
     display: flex;
   }
+
   .column {
     margin: 0 1rem;
     flex: 1;
-  }
-  .column-small-gutter {
-    margin: 0 0.5rem;
-  }
-  .column:first-child {
-    margin-left: 0;
-  }
-  .column:last-child {
-    margin-right: 0;
   }
 }
