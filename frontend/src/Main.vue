@@ -11,6 +11,7 @@
 import { defineComponent } from 'vue'
 import subDays from 'date-fns/subDays'
 import formatISO from 'date-fns/formatISO'
+import parseISO from 'date-fns/parseISO'
 import throttle from 'lodash-es/throttle'
 
 import FooterLinks from './components/FooterLinks.vue'
@@ -41,7 +42,7 @@ export default defineComponent({
   },
   methods: {
     addDay() {
-      const lastDay = new Date(this.dates[this.dates.length - 1])
+      const lastDay = parseISO(this.dates[this.dates.length - 1])
       const dayToAdd = getShortIsoDate(subDays(lastDay, 1))
       this.dates = [...this.dates, dayToAdd]
     },

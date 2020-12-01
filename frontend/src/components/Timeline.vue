@@ -24,6 +24,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import startOfDay from 'date-fns/startOfDay'
+import parseISO from 'date-fns/parseISO'
 import { TweetType, Tweet, getTweetType } from '../utils'
 
 const addDistances = (tweets) => {

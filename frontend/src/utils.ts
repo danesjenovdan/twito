@@ -2,6 +2,7 @@ import camelCase from 'lodash-es/camelCase'
 import mapKeys from 'lodash-es/mapKeys'
 import capitalize from 'lodash-es/capitalize'
 import format from 'date-fns/format'
+import parseISO from 'date-fns/parseISO'
 import { sl } from 'date-fns/locale'
 
 export type Tweet = {
@@ -100,7 +101,7 @@ export const getTweetType = (tweet: Tweet): TweetType => {
 }
 
 // Returns timestamp of tweet
-const getTweetTimestamp = (tweet) => new Date(tweet.createdAt).getTime()
+const getTweetTimestamp = (tweet) => parseISO(tweet.createdAt).getTime()
 
 // Converts object keys to camelCase
 export const keysToCamel = (
@@ -109,7 +110,7 @@ export const keysToCamel = (
 
 // Formats date a specific way used as title and social media share text
 export const formatDate = (dateString: string): string =>
-  capitalize(format(new Date(dateString), 'EEEE, d. MMMM y', { locale: sl }))
+  capitalize(format(parseISO(dateString), 'EEEE, d. MMMM y', { locale: sl }))
 
 export const formatDateMobile = (dateString: string): string =>
-  capitalize(format(new Date(dateString), 'EEEE, d. M. y', { locale: sl }))
+  capitalize(format(parseISO(dateString), 'EEEE, d. M. y', { locale: sl }))
