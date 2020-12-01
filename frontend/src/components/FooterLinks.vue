@@ -4,6 +4,7 @@
       Kako računamo čas?
     </div>
     <div class="link" @click="toggleAboutModal(true)">O projektu</div>
+    <a class="link" href="https://twitter.com/twitosledilnik" target="_blank">@twitosledilnik</a>
     <a class="link" href="https://danesjenovdan.si/">Danes je nov dan</a>
   </div>
   <teleport to="body">
@@ -56,7 +57,7 @@ export default defineComponent({
 }
 
 .link {
-  color: #ffeacc;
+  color: #ffeacc !important;
   display: block;
   font-size: 1rem;
   line-height: 2.25rem;
@@ -72,6 +73,12 @@ export default defineComponent({
   .link-container {
     display: block;
     width: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .link:first-child {
+    display: none;
   }
 }
 </style>
