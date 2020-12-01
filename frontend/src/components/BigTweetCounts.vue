@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="column big-count tweet-count">
-      <div class="big-count-label">število tweetov</div>
+      <div class="big-count-label">število tvitov</div>
       <div class="big-count-number">{{ count }}</div>
     </div>
     <div class="column big-count tweet-time">
