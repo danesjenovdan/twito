@@ -17,10 +17,10 @@ export default defineComponent({
     label() {
       const WORD_FORMS = {
         original: {
-          singular: 'izviren<br>tweet',
-          dual: 'izvirna<br>tweeta',
-          smallPlural: 'izvirni<br>tweeti',
-          bigPlural: 'izvirnih<br>tweetov',
+          singular: 'izviren<br>tvit',
+          dual: 'izvirna<br>tvita',
+          smallPlural: 'izvirni<br>tviti',
+          bigPlural: 'izvirnih<br>tvitov',
         },
         retweets: {
           singular: '<br>RT',
