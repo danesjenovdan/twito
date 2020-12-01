@@ -22,7 +22,7 @@ export default defineComponent({
       )
       const url = encodeURIComponent(`https://twito.si/${this.date}`)
       return {
-        facebook: `https://www.facebook.com/dialog/feed?app_id=301375193309601&redirect_uri=${url}&link=${url}&ref=responsive&name=${text}`,
+        facebook: `https://www.facebook.com/dialog/feed?app_id=381430693089489&redirect_uri=${url}&link=${url}&ref=responsive&name=${text}`,
         twitter: `https://twitter.com/intent/tweet?text=${text}%20${url}`,
         link: decodeURIComponent(url),
       }
