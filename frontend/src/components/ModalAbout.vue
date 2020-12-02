@@ -5,20 +5,27 @@
       in analizira njegovo aktivnost na Twitterju.
     </p>
     <p>
-      Tvitanje je eden Janševih osrednjih političnih instrumentov. Kot predsednik vlade
-      državljanom in medijem na Twitterju sporoča pomembne odločitve, ukrepe in poteze.
-      Obenem pa ga uporablja za utrjevanje strankarske baze, mobilizacijo skrajne desnice
-      in dajanje potuhe sovražnemu govoru.
+      Twitter je eden Janševih osrednjih političnih instrumentov. Z njim kot predsednik
+      vlade državljanom in medijem sporoča pomembne odločitve, ukrepe in poteze vlade v
+      času epidemije. Obenem pa ga že vrsto let uporablja tudi za osebne napade na
+      posameznike, ideološka obračunavanja z institucijami in mediji, promocijo lastnega
+      medijskega podjetja Nova24, mobilizacijo skrajne desnice in podpihovanje sovražnega
+      govora, lažnih novic in teorij zarote. Profil Janeza Janše je gotovo najbolj
+      vpliven Twitter profil v državi in menimo, da je pomembno, da smo nanj pozorni.
     </p>
     <p>
-      Videti je, da tvite večinoma piše sam, glede na njihovo pogostost (še posebno ritvitov) pa
-      je mogoče slutiti, da na omrežju preživlja veliko časa. Dokler je v funkciji predsednika
-      vlade in to še posebej v času epidemije, je njegova zasvojenost z družbenimi omrežji
-      zaskrbljujoča in pomembna za širšo družbo.
+      Namen projekta je opozoriti na zaskrbljujočo odvisnost predsednika vlade od družbenih
+      omrežij, raziskovalce, medije in civilno družbo pa opolnomočiti z informacijami,
+      ki jim lahko pomagajo pri pozivanju k odgovornosti tistih, ki so na položajih moči.
+      Sekundarni cilj je zavarovati in ohraniti omrežje Twitter kot svoboden javni prostor
+      političnega diskurza in opozoriti na problematiko propagandističnih aktivnosti
+      vladajoče stranke.
     </p>
     <p>
-      Projekt Maršal Twito – Sledilnik želi opozoriti na to stanje in z analizo podatkov
-      pridobiti vpogled v propagandistično aktivnost najbolj vplivnega Twitter profila v državi.
+      Metodo sledilnika smo izbrali po vzoru projekta Sledilnik COVID-19, ki ga vidimo kot
+      eno od boljših zgodb učinkovitega in pomembnega angažiranja digitalne civilne družbe,
+      h kateremu smo zavezani tudi sami. Maršal Twito - Sledilnik z njim ni povezan v
+      nobeni meri.
     </p>
 
     <div class="subtitle">Pridruži se</div>
