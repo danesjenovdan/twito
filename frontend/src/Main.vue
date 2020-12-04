@@ -2,7 +2,7 @@
   <div class="container">
     <a href="/"><header class="header-image"></header></a>
     <tweet-stats v-for="d in dates" :key="d" :date="d" />
-    <div ref="bottom" class="infinite-loading-trigger" />
+    <div ref="bottom" />
     <footer-links />
   </div>
 </template>
@@ -49,7 +49,8 @@ export default defineComponent({
     initInfiniteLoading() {
       const options = {
         root: document,
-        threshold: 0.5,
+        rootMargin: '0px 0px 10% 0px',
+        threshold: 0,
       }
 
       const callback = (entries) => {
@@ -84,9 +85,5 @@ export default defineComponent({
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-}
-
-.infinite-loading-trigger {
-  height: 0.5rem;
 }
 </style>
