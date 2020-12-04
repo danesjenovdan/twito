@@ -12,7 +12,6 @@ import { defineComponent } from 'vue'
 import subDays from 'date-fns/subDays'
 import formatISO from 'date-fns/formatISO'
 import parseISO from 'date-fns/parseISO'
-import throttle from 'lodash-es/throttle'
 
 import FooterLinks from './components/FooterLinks.vue'
 import TweetStats from './components/TweetStats.vue'
@@ -33,6 +32,7 @@ export default defineComponent({
   data() {
     return {
       dates: [this.date],
+      isIntersecting: false,
     }
   },
   mounted() {
@@ -49,12 +49,21 @@ export default defineComponent({
     initInfiniteLoading() {
       const options = {
         root: document,
-        rootMargin: '0px',
-        threshold: 0.75,
+        threshold: 0.5,
       }
 
-      const addDayThrottled = throttle(this.addDay, 250, { trailing: false })
-      const observer = new IntersectionObserver(addDayThrottled, options)
+      const callback = (entries) => {
+        entries.forEach((entry) => {
+          if (!this.isIntersecting && entry.isIntersecting) {
+            this.addDay()
+            this.$nextTick(() => {
+              this.isIntersecting = false
+            })
+          }
+        })
+      }
+
+      const observer = new IntersectionObserver(callback, options)
       observer.observe(this.$refs.bottom)
     },
   },
