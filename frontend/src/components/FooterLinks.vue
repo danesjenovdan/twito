@@ -4,8 +4,12 @@
       Kako računamo čas?
     </div>
     <div class="link" @click="toggleAboutModal(true)">O projektu</div>
-    <a class="link" href="https://twitter.com/twitosledilnik" target="_blank">@twitosledilnik</a>
-    <a class="link" href="https://danesjenovdan.si/">Danes je nov dan</a>
+    <a class="link" href="https://twitter.com/twitosledilnik" target="_blank">
+      @twitosledilnik
+    </a>
+    <a class="link" href="https://danesjenovdan.si/" target="_blank">
+      Danes je nov dan
+    </a>
   </div>
   <teleport to="body">
     <modal-methodology
