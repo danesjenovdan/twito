@@ -16,7 +16,7 @@ def _get_tweet_counts(tweets):
 def _get_tweet_type(tweet):
   if tweet["text"].startswith(RETWEET_PREFIX):
     return "retweet"
-  elif "quotedStatusId" in tweet:
+  elif tweet["quoted_status_id"] is not "":
     return "retweet_with_comment"
   else:
     return "tweet"
