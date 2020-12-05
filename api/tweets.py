@@ -3,7 +3,7 @@ from datetime import date, datetime, timedelta
 
 RETWEET_PREFIX = 'RT '
 MAX_TIME_BETWEEN_TWEETS = timedelta(minutes=5)
-TIME_FOR_ONE_TWEET = timedelta(minutes=2)
+TIME_FOR_ONE_TWEET = timedelta(minutes=5)
 
 def _generate_intervals(tweets):
   all_sessions = []
