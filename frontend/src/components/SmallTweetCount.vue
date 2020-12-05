@@ -16,19 +16,19 @@ export default defineComponent({
   computed: {
     label() {
       const WORD_FORMS = {
-        original: {
+        tweet: {
           singular: 'izviren<br>tvit',
           dual: 'izvirna<br>tvita',
           smallPlural: 'izvirni<br>tviti',
           bigPlural: 'izvirnih<br>tvitov',
         },
-        retweets: {
+        retweet: {
           singular: '<br>RT',
           dual: '<br>RT-ja',
           smallPlural: '<br>RT-ji',
           bigPlural: '<br>RT-jev',
         },
-        retweetsWithComment: {
+        retweetWithComment: {
           singular: 'RT s<br>komentarjem',
           dual: 'RT-ja s<br>komentarjem',
           smallPlural: 'RT-ji s<br>komentarjem',
@@ -50,15 +50,15 @@ export default defineComponent({
     },
     colorStyle() {
       return {
-        original: {
+        tweet: {
           backgroundColor: '#ffedeb',
           borderColor: '#ff4e3a',
         },
-        retweets: {
+        retweet: {
           backgroundColor: '#ecf6f3',
           borderColor: '#44a58a',
         },
-        retweetsWithComment: {
+        retweetWithComment: {
           backgroundColor: '#fff9e6',
           borderColor: '#ffc208',
         },

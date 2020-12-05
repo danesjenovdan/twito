@@ -37,7 +37,7 @@ export default defineComponent({
   },
   computed: {
     formattedTime() {
-      const tweetTimeInMinutes = Math.round(this.time / 60000)
+      const tweetTimeInMinutes = Math.round(this.time / 60)
 
       const hours = Math.floor(tweetTimeInMinutes / 60)
       const minutes = String(tweetTimeInMinutes % 60).padStart(2, '0')

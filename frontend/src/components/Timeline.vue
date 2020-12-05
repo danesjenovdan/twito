@@ -32,7 +32,7 @@ const addDistances = (tweets) => {
   const startInSeconds = start.getTime() / 1000
   const secondsInDay = 24 * 60 * 60
   const colorMap = {
-    [TweetType.ORIGINAL]: '#ff4e3a',
+    [TweetType.TWEET]: '#ff4e3a',
     [TweetType.RETWEET]: '#44a58a',
     [TweetType.RETWEET_WITH_COMMENT]: '#ffc208',
   }

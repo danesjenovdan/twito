@@ -2,7 +2,19 @@ import { Tweet, keysToCamel } from './utils'
 
 const API_URL = import.meta.env.VITE_API_URL
 
-export const fetchTweetData = async (date: string): Promise<Tweet[]> => {
+type SingleDateResponse = {
+  calculations: {
+    tweet: number
+    retweet: number
+    retweetWithComment: number
+    time: number
+  }
+  tweets: Tweet[]
+}
+
+export const fetchSingleDate = async (
+  date: string
+): Promise<SingleDateResponse> => {
   const response = await fetch(API_URL + date)
   if (response.status !== 200) {
     console.log(
@@ -12,5 +24,8 @@ export const fetchTweetData = async (date: string): Promise<Tweet[]> => {
   }
 
   const responseData = await response.json()
-  return responseData.map(keysToCamel)
+  return {
+    calculations: keysToCamel(responseData.calculations),
+    tweets: responseData.tweets.map(keysToCamel),
+  } as SingleDateResponse
 }

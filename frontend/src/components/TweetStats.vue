@@ -13,7 +13,7 @@
   </div>
 
   <div class="frame">
-    <big-tweet-counts :count="tweetCounts.all" :time="tweetTime" />
+    <big-tweet-counts :count="allTweets" :time="calculations.time" />
 
     <div class="divider" />
 
@@ -21,10 +21,10 @@
 
     <div class="mobile-row">
       <small-tweet-count
-        v-for="countType in ['original', 'retweets', 'retweetsWithComment']"
+        v-for="countType in ['tweet', 'retweet', 'retweetWithComment']"
         :key="countType"
         :type="countType"
-        :count="tweetCounts[countType]"
+        :count="calculations[countType]"
         class="column column-small-gutter"
       />
     </div>
@@ -38,13 +38,8 @@
 <script>
 import { defineComponent } from 'vue'
 
-import {
-  getTweetTime,
-  getTweetCounts,
-  formatDate,
-  formatDateMobile,
-} from '../utils'
-import { fetchTweetData } from '../api'
+import { formatDate, formatDateMobile } from '../utils'
+import { fetchSingleDate } from '../api'
 import BigTweetCounts from './BigTweetCounts.vue'
 import ShareButtons from './ShareButtons.vue'
 import SmallTweetCount from './SmallTweetCount.vue'
@@ -62,15 +57,19 @@ export default defineComponent({
   },
   data() {
     return {
+      calculations: {
+        tweet: 0,
+        retweet: 0,
+        retweetWithComment: 0,
+        time: 0,
+      },
       tweets: [],
     }
   },
   computed: {
-    tweetCounts() {
-      return getTweetCounts(this.tweets)
-    },
-    tweetTime() {
-      return getTweetTime(this.tweets)
+    allTweets() {
+      const { tweet, retweet, retweetWithComment } = this.calculations
+      return tweet + retweet + retweetWithComment
     },
     formattedDateDesktop() {
       return formatDate(this.date)
@@ -82,16 +81,18 @@ export default defineComponent({
   },
   watch: {
     date(newVal) {
-      if (newVal) this.fetchDataForDate(newVal)
+      if (newVal) this.fetch(newVal)
     },
   },
   async created() {
-    this.fetchDataForDate(this.date)
+    this.fetch(this.date)
   },
   methods: {
-    async fetchDataForDate(date) {
+    async fetch(date) {
       try {
-        this.tweets = await fetchTweetData(date)
+        const response = await fetchSingleDate(date)
+        this.calculations = response.calculations
+        this.tweets = response.tweets
       } catch (error) {
         console.error(error)
       }
