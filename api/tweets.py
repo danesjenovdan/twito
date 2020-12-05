@@ -51,14 +51,9 @@ def _calculate_time(tweets):
   duration = timedelta()
 
   for interval in intervals:
-    if (len(interval) == 1):
-      # Lone tweet, append default time
-      duration += TIME_FOR_ONE_TWEET
-      continue
-
     start = datetime.fromisoformat(interval[0]["created_at"])
     end = datetime.fromisoformat(interval[-1]["created_at"])
-    duration += end - start
+    duration += max(end - start, TIME_FOR_ONE_TWEET)
 
   return duration
 
@@ -89,5 +84,3 @@ def get_date_range(days=90):
   start =  start_date.strftime(date_format)
 
   return start, end
-
-
