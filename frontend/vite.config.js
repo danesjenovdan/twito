@@ -6,8 +6,9 @@ export default {
     include: [
       'lodash-es/camelCase',
       'lodash-es/capitalize',
+      'lodash-es/forEach',
       'lodash-es/mapKeys',
-      'lodash-es/throttle',
+      'lodash-es/mapValues',
     ],
   },
   indexHtmlTransforms: [({ code }) => _.template(code)(templateStrings)],
