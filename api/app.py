@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, g
 from flask_cors import CORS
 from flask_caching import Cache
 from config import CACHE_CONFIG
@@ -8,12 +8,30 @@ from utils import calculate_date_cache_key
 from tweets import get_date_range, group_by_day, get_all_calculations, get_longest_gap, get_current_gap
 from dmi_tcat import fetch_tweets_for_date
 
+from db import get_db, query_db
+
 app = Flask(__name__)
 CORS(app)
 
 app.config.from_mapping(CACHE_CONFIG)
 cache = Cache(app)
 
+def init_db():
+    with app.app_context():
+        db = get_db()
+        with app.open_resource('schema.sql', mode='r') as f:
+            db.cursor().executescript(f.read())
+        db.commit()
+
+def calculate_date_cache_key(date):
+  app.logger.debug(f'Calculating cache key for {date}')
+  if datetime.now().date() == datetime.strptime(date, '%Y-%m-%d').date():
+    period = int(int(datetime.strftime(datetime.now(), '%M')) / 15)
+    calculated_cache_key = datetime.strftime(datetime.now(), f'%Y-%m-%d %H {period}')
+  else:
+    calculated_cache_key = date
+  app.logger.debug(f'CALCULATED CACHE KEY: {calculated_cache_key}')
+  return calculated_cache_key
 
 @app.route('/<date>', methods=['GET'])
 @cache.cached(make_cache_key=calculate_date_cache_key)
@@ -49,6 +67,15 @@ def running_gap():
     'longest_gap': get_longest_gap(tweets),
     'current_gap': get_current_gap(tweets)
   })
-
+# query_db(
+#     'INSERT INTO daily_stats (metric_date, original_tweets, retweets, quoted_tweets, estimated_minutes)'
+#     'VALUES (? ? ? ? ?)',
+#     (date, tweet_counts['number_of_original_tweets'], tweet_counts['number_of_retweets'], tweet_counts['number_of_quoted_tweets'], 0))
 if __name__ == '__main__':
    app.run(host='0.0.0.0', debug=True)
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
