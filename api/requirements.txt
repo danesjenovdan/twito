@@ -3,4 +3,3 @@ flask_cors
 requests
 python-dotenv
 Flask-Caching
-python-dateutil
