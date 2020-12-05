@@ -1,16 +1,11 @@
-from flask import Flask, Response
+from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_caching import Cache
-from requests import get
-from requests.auth import HTTPBasicAuth
-import json
-import csv
-import codecs
-from contextlib import closing
-from config import DMI_TCAT_USERNAME, DMI_TCAT_PASSWORD, CACHE_CONFIG
+from config import CACHE_CONFIG
 from datetime import datetime
 
 from tweets import get_date_range, group_and_count
+from dmi_tcat import fetch_tweets_for_date
 
 app = Flask(__name__)
 CORS(app)
@@ -31,16 +26,8 @@ def calculate_date_cache_key(date):
 @app.route('/<date>', methods=['GET'])
 @cache.cached(make_cache_key=calculate_date_cache_key)
 def index(date):
-  file_url = f'http://51.15.220.60/analysis/mod.export_tweets.php?dataset=ONLY_jjansasds&query=&url_query=&media_url_query=&exclude=&from_user_name=&from_user_lang=&lang=&exclude_from_user_name=&from_user_description=&from_source=&startdate={date}&enddate={date}&whattodo=export_tweets&exportSettings=&graph_resolution=day&outputformat=csv'
-  with closing(get(file_url, stream=True, auth=HTTPBasicAuth(DMI_TCAT_USERNAME, DMI_TCAT_PASSWORD))) as stream:
-    csv_reader = csv.DictReader(
-        codecs.iterdecode(stream.iter_lines(), 'utf-8')
-    )
-    tweets = []
-    for row in csv_reader:
-      tweets.append(row)
-
-  return Response(json.dumps(tweets), mimetype='application/json')
+  tweets = fetch_tweets_for_date(date)
+  return jsonify(tweets)
 
 def get_summary_cache_key():
   return datetime.now().strftime('%Y-%m-%d')
@@ -49,18 +36,10 @@ def get_summary_cache_key():
 @cache.cached(make_cache_key=get_summary_cache_key)
 def summary():
   start, end = get_date_range()
-  file_url = f'http://51.15.220.60/analysis/mod.export_tweets.php?dataset=ONLY_jjansasds&query=&url_query=&media_url_query=&exclude=&from_user_name=&from_user_lang=&lang=&exclude_from_user_name=&from_user_description=&from_source=&startdate={start}&enddate={end}&whattodo=export_tweets&exportSettings=&graph_resolution=day&outputformat=csv'
-  with closing(get(file_url, stream=True, auth=HTTPBasicAuth(DMI_TCAT_USERNAME, DMI_TCAT_PASSWORD))) as stream:
-    csv_reader = csv.DictReader(
-        codecs.iterdecode(stream.iter_lines(), 'utf-8')
-    )
-    tweets = []
-    for row in csv_reader:
-      tweets.append(row)
-
+  tweets = fetch_tweets_for_date(start, end)
   counts = group_and_count(tweets)
 
-  return Response(json.dumps(counts), mimetype='application/json')
+  return jsonify(counts)
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', debug=True)
