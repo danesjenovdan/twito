@@ -1,16 +1,21 @@
+import mapValues from 'lodash-es/mapValues'
 import { Tweet, keysToCamel } from './utils'
 
 const API_URL = import.meta.env.VITE_API_URL
 
+type Calculation = {
+  tweet: number
+  retweet: number
+  retweetWithComment: number
+  time: number
+}
+
 type SingleDateResponse = {
-  calculations: {
-    tweet: number
-    retweet: number
-    retweetWithComment: number
-    time: number
-  }
+  calculations: Calculation
   tweets: Tweet[]
 }
+
+type SummaryResponse = Record<string, Calculation>
 
 export const fetchSingleDate = async (
   date: string
@@ -28,4 +33,17 @@ export const fetchSingleDate = async (
     calculations: keysToCamel(responseData.calculations),
     tweets: responseData.tweets.map(keysToCamel),
   } as SingleDateResponse
+}
+
+export const fetchSummary = async (): Promise<SummaryResponse> => {
+  const response = await fetch(API_URL + 'summary')
+  if (response.status !== 200) {
+    console.log(
+      'Looks like there was a problem. Status Code: ' + response.status
+    )
+    return
+  }
+
+  const responseData = await response.json()
+  return mapValues(responseData, keysToCamel) as SummaryResponse
 }

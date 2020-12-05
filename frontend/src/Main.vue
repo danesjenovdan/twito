@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <a href="/"><header class="header-image"></header></a>
+    <summary-chart />
     <tweet-stats v-for="d in dates" :key="d" :date="d" />
     <div ref="bottom" />
     <footer-links />
@@ -14,6 +15,7 @@ import formatISO from 'date-fns/formatISO'
 import parseISO from 'date-fns/parseISO'
 
 import FooterLinks from './components/FooterLinks.vue'
+import SummaryChart from './components/SummaryChart.vue'
 import TweetStats from './components/TweetStats.vue'
 
 const getShortIsoDate = (date) => formatISO(date, { representation: 'date' })
@@ -21,6 +23,7 @@ const getShortIsoDate = (date) => formatISO(date, { representation: 'date' })
 export default defineComponent({
   components: {
     FooterLinks,
+    SummaryChart,
     TweetStats,
   },
   props: {
