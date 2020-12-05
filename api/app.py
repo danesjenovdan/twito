@@ -4,7 +4,7 @@ from flask_caching import Cache
 from config import CACHE_CONFIG
 from datetime import datetime
 
-from tweets import get_date_range, group_and_count
+from tweets import get_date_range, group_by_day, get_all_calculations
 from dmi_tcat import fetch_tweets_for_date
 
 app = Flask(__name__)
@@ -27,7 +27,8 @@ def calculate_date_cache_key(date):
 @cache.cached(make_cache_key=calculate_date_cache_key)
 def index(date):
   tweets = fetch_tweets_for_date(date)
-  return jsonify(tweets)
+  calculations = get_all_calculations(tweets)
+  return jsonify(calculations)
 
 def get_summary_cache_key():
   return datetime.now().strftime('%Y-%m-%d')
@@ -37,9 +38,14 @@ def get_summary_cache_key():
 def summary():
   start, end = get_date_range()
   tweets = fetch_tweets_for_date(start, end)
-  counts = group_and_count(tweets)
 
-  return jsonify(counts)
+  tweets_by_day = group_by_day(tweets)
+  calculations_by_day = {}
+
+  for day, tweets in tweets_by_day.items():
+    calculations_by_day[day] = get_all_calculations(tweets)
+
+  return jsonify(calculations_by_day)
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', debug=True)
