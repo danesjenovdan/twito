@@ -50,7 +50,7 @@ def _get_counts(tweets):
 def _get_hashtags(tweets):
   hashtags = defaultdict(int)
   for tweet in tweets:
-    words = tweet["text"].split()
+    words = map(lambda word: word.lower().replace('-', ''), tweet["text"].split())
 
     for word in words:
       if word.startswith("#"):
