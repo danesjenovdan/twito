@@ -28,10 +28,6 @@
         class="column column-small-gutter"
       />
     </div>
-
-    <div class="divider" />
-
-    <hashtags :hashtags="calculations.hashtags" />
   </div>
 
   <div class="box-bottom button-container">
@@ -45,7 +41,6 @@ import { defineComponent } from 'vue'
 import { formatDate, formatDateMobile } from '../utils'
 import { fetchSingleDate } from '../api'
 import BigTweetCounts from './BigTweetCounts.vue'
-import Hashtags from './Hashtags.vue'
 import ShareButtons from './ShareButtons.vue'
 import SmallTweetCount from './SmallTweetCount.vue'
 import Timeline from './Timeline.vue'
@@ -53,7 +48,6 @@ import Timeline from './Timeline.vue'
 export default defineComponent({
   components: {
     BigTweetCounts,
-    Hashtags,
     ShareButtons,
     SmallTweetCount,
     Timeline,
@@ -68,14 +62,12 @@ export default defineComponent({
         retweet: 0,
         retweetWithComment: 0,
         time: 0,
-        hashtags: {},
       },
       tweets: [],
     }
   },
   computed: {
     allTweets() {
-      console.log('the calc', this.calculations)
       const { tweet, retweet, retweetWithComment } = this.calculations
       return tweet + retweet + retweetWithComment
     },

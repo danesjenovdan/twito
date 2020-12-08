@@ -8,7 +8,6 @@ type SingleDateResponse = {
     retweet: number
     retweetWithComment: number
     time: number
-    hashtags: object
   }
   tweets: Tweet[]
 }
