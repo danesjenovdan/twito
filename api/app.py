@@ -28,6 +28,7 @@ def calculate_date_cache_key(date):
 def index(date):
   tweets = fetch_tweets_for_date(date)
   calculations = get_all_calculations(tweets)
+
   return jsonify(tweets=tweets, calculations=calculations)
 
 def get_summary_cache_key():
