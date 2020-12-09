@@ -58,7 +58,7 @@ def _get_hashtags(tweets):
 
   sorted_tuples = sorted(hashtags.items(), key=lambda hashtag: hashtag[1])
 
-  sorted_hashtags = {hashtag: number for hashtag, number in list(reversed(sorted_tuples))}
+  sorted_hashtags = [{"hashtag": hashtag, "number": number} for hashtag, number in list(reversed(sorted_tuples))]
 
   return sorted_hashtags
 

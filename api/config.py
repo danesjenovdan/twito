@@ -10,5 +10,4 @@ CACHE_CONFIG = {
     'DEBUG': True,
     'CACHE_TYPE': 'simple',
     'CACHE_DEFAULT_TIMEOUT': 30 * 24 * 60 * 60, # 30 days
-    'JSON_SORT_KEYS': False
 }
