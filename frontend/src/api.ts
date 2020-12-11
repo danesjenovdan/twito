@@ -29,3 +29,16 @@ export const fetchSingleDate = async (
     tweets: responseData.tweets.map(keysToCamel),
   } as SingleDateResponse
 }
+
+export const fetchGap = async (): Promise<Number> => {
+  const response = await fetch(`${API_URL}running-gap`);
+  if (response.status !== 200) {
+    console.log(
+      `Looks like there was a problem. Status Code: ${response.status}`
+    );
+    return
+  }
+
+  const responseData = await response.text();
+  return parseInt(responseData, 10);
+};
