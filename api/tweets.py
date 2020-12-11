@@ -73,6 +73,20 @@ def _calculate_time(tweets):
 
   return duration
 
+def get_longest_gap(tweets):
+  gap = 0
+  current_tweet_time = datetime.fromisoformat(tweets[0]["created_at"])
+  previous_tweet_time = None
+  for tweet in tweets[1:]:
+    previous_tweet_time = current_tweet_time
+    current_tweet_time = datetime.fromisoformat(tweet["created_at"])
+    gap = max((current_tweet_time - previous_tweet_time).seconds, gap)
+
+  return gap
+
+def get_current_gap(tweets):
+  return (datetime.now() - datetime.fromisoformat(tweets[-1]["created_at"])).seconds
+
 def get_all_calculations(tweets):
   calculations = _get_counts(tweets)
   calculations["time"] = _calculate_time(tweets).seconds
