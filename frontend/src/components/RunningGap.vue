@@ -2,7 +2,7 @@
   <div class="row frame">
     <div class="column big-count tweet-time gap-time">
       <div class="big-count-label">
-        najdaljši premor od Twittra v zadnjih 24 urah
+        najdaljši premor od Twitterja v zadnjih 24 urah
       </div>
       <div class="big-count-number">
         {{ formattedTime.hours }}<span class="time-unit">h</span>
