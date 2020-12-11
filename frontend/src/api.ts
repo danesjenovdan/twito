@@ -12,6 +12,11 @@ type SingleDateResponse = {
   tweets: Tweet[]
 }
 
+type GapResponse = {
+  longest_gap: number,
+  current_gap: number,
+}
+
 export const fetchSingleDate = async (
   date: string
 ): Promise<SingleDateResponse> => {
@@ -29,3 +34,16 @@ export const fetchSingleDate = async (
     tweets: responseData.tweets.map(keysToCamel),
   } as SingleDateResponse
 }
+
+export const fetchGap = async (): Promise<GapResponse> => {
+  const response = await fetch(`${API_URL}running-gap`);
+  if (response.status !== 200) {
+    console.log(
+      `Looks like there was a problem. Status Code: ${response.status}`
+    );
+    return
+  }
+
+  const responseData = await response.json();
+  return responseData;
+};
