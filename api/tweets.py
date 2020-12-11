@@ -1,5 +1,6 @@
 import json
 from datetime import date, datetime, timedelta
+from collections import defaultdict
 
 RETWEET_PREFIX = 'RT '
 MAX_TIME_BETWEEN_TWEETS = timedelta(minutes=5)
@@ -46,6 +47,21 @@ def _get_counts(tweets):
 
   return counts
 
+def _get_hashtags(tweets):
+  hashtags = defaultdict(int)
+  for tweet in tweets:
+    words = map(lambda word: word.lower().replace('-', ''), tweet["text"].split())
+
+    for word in words:
+      if word.startswith("#"):
+        hashtags[word] += 1
+
+  sorted_tuples = sorted(hashtags.items(), key=lambda hashtag: hashtag[1])
+
+  sorted_hashtags = [{"hashtag": hashtag, "number": number} for hashtag, number in list(reversed(sorted_tuples))]
+
+  return sorted_hashtags
+
 def _calculate_time(tweets):
   intervals = _generate_intervals(tweets)
   duration = timedelta()
@@ -57,9 +73,23 @@ def _calculate_time(tweets):
 
   return duration
 
+def get_longest_gap(tweets):
+  gap = 0
+  current_tweet_time = datetime.fromisoformat(tweets[0]["created_at"])
+  previous_tweet_time = None
+  for tweet in tweets[1:]:
+    previous_tweet_time = current_tweet_time
+    current_tweet_time = datetime.fromisoformat(tweet["created_at"])
+    gap = max((current_tweet_time - previous_tweet_time).seconds, gap)
+
+  return gap
+
+
 def get_all_calculations(tweets):
   calculations = _get_counts(tweets)
   calculations["time"] = _calculate_time(tweets).seconds
+  calculations["hashtags"] = _get_hashtags(tweets)
+
   return calculations
 
 def group_by_day(tweets):
