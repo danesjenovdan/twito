@@ -12,6 +12,11 @@ type SingleDateResponse = {
   tweets: Tweet[]
 }
 
+type GapResponse = {
+  longest_gap: number,
+  current_gap: number,
+}
+
 export const fetchSingleDate = async (
   date: string
 ): Promise<SingleDateResponse> => {
@@ -30,7 +35,7 @@ export const fetchSingleDate = async (
   } as SingleDateResponse
 }
 
-export const fetchGap = async (): Promise<Number> => {
+export const fetchGap = async (): Promise<GapResponse> => {
   const response = await fetch(`${API_URL}running-gap`);
   if (response.status !== 200) {
     console.log(
@@ -39,6 +44,6 @@ export const fetchGap = async (): Promise<Number> => {
     return
   }
 
-  const responseData = await response.text();
-  return parseInt(responseData, 10);
+  const responseData = await response.json();
+  return responseData;
 };

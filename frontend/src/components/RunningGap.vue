@@ -2,11 +2,20 @@
   <div class="row frame">
     <div class="column big-count tweet-time gap-time">
       <div class="big-count-label">
-        najdaljši premor od Twitterja v zadnjih 24 urah
+        brez Twitter aktivnosti že
       </div>
       <div class="big-count-number">
-        {{ formattedTime.hours }}<span class="time-unit">h</span>
-        {{ formattedTime.minutes }}<span class="time-unit">min</span>
+        <span v-if="currentGap.hours > 0">{{ currentGap.hours }}<span class="time-unit">h</span></span>
+        {{ currentGap.minutes }}<span class="time-unit">min</span>
+      </div>
+    </div>
+    <div class="column big-count tweet-time gap-time">
+      <div class="big-count-label">
+        najdaljši premor v zadnjih 24 urah
+      </div>
+      <div class="big-count-number">
+        {{ longestGap.hours }}<span class="time-unit">h</span>
+        {{ longestGap.minutes }}<span class="time-unit">min</span>
       </div>
     </div>
   </div>
@@ -19,18 +28,28 @@ import { fetchGap } from '../api';
 export default defineComponent({
   data() {
     return {
-      gap: 24 * 60 * 60,
+      longestGap: {
+        hours: 0,
+        minutes: 0,
+      },
+      currentGap: {
+        hours: 0,
+        minutes: 0,
+      },
     };
   },
   async mounted() {
-    this.gap = await fetchGap();
+    const gaps = await fetchGap();
+    console.log(gaps);
+    this.longestGap = this.formatTime(gaps.longest_gap);
+    this.currentGap = this.formatTime(gaps.current_gap);
   },
-  computed: {
-    formattedTime() {
-      const tweetTimeInMinutes = Math.round(this.gap / 60)
+  methods: {
+    formatTime(time) {
+      const tweetTimeInMinutes = Math.round(time / 60)
 
       const hours = Math.floor(tweetTimeInMinutes / 60)
-      const minutes = String(tweetTimeInMinutes % 60).padStart(2, '0')
+      const minutes = String(tweetTimeInMinutes % 60) //.padStart(2, '0')
 
       return { hours, minutes }
     },
@@ -61,7 +80,7 @@ export default defineComponent({
 }
 
 .big-count-number {
-  font-size: 3rem;
+  font-size: 5rem;
   line-height: 0.725em;
   font-weight: bold;
   height: 0.725em;
