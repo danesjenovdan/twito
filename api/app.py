@@ -49,7 +49,7 @@ def summary():
   return jsonify(calculations_by_day)
 
 @app.route('/running-gap', methods=['GET'])
-@cache.cached(timeout=5 * 60)
+@cache.cached(timeout=1 * 60)
 def running_gap():
   start = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
   end = datetime.now().strftime('%Y-%m-%d')
