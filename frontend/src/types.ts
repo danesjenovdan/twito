@@ -30,8 +30,8 @@ export type SingleDateResponse = {
 }
 
 export type GapResponse = {
-  longest_gap: number
-  current_gap: number
+  longestGap: number
+  currentGap: number
 }
 
 export type SummaryResponse = Record<string, Calculation>

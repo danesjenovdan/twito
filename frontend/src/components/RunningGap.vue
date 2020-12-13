@@ -40,16 +40,15 @@ export default defineComponent({
   },
   async mounted() {
     const gaps = await fetchGap();
-    console.log(gaps);
-    this.longestGap = this.formatTime(gaps.longest_gap);
-    this.currentGap = this.formatTime(gaps.current_gap);
+    this.longestGap = this.formatTime(gaps.longestGap);
+    this.currentGap = this.formatTime(gaps.currentGap);
   },
   methods: {
     formatTime(time) {
       const tweetTimeInMinutes = Math.round(time / 60)
 
       const hours = Math.floor(tweetTimeInMinutes / 60)
-      const minutes = String(tweetTimeInMinutes % 60) //.padStart(2, '0')
+      const minutes = String(tweetTimeInMinutes % 60)
 
       return { hours, minutes }
     },

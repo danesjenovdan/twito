@@ -32,7 +32,7 @@ export const fetchGap = async (): Promise<GapResponse> => {
   }
 
   const responseData = await response.json()
-  return responseData
+  return keysToCamel(responseData) as GapResponse
 }
 
 export const fetchSummary = async (): Promise<SummaryResponse> => {
