@@ -103,8 +103,11 @@ export default defineComponent({
 
       this.chart.data.labels = labels
       this.chart.data.datasets[0].data = tweets
+      this.chart.data.datasets[0].label = 'Izvirnih tvitov'
       this.chart.data.datasets[1].data = retweetsWithComment
+      this.chart.data.datasets[1].label = 'RT s komentarjem'
       this.chart.data.datasets[2].data = retweets
+      this.chart.data.datasets[2].label = 'RT-jev'
       this.chart.update()
     },
   },
