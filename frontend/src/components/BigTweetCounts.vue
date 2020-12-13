@@ -23,6 +23,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import ModalMethodology from './ModalMethodology.vue'
+import { formatSeconds } from '../utils'
 
 export default defineComponent({
   components: {
@@ -37,12 +38,7 @@ export default defineComponent({
   },
   computed: {
     formattedTime() {
-      const tweetTimeInMinutes = Math.round(this.time / 60)
-
-      const hours = Math.floor(tweetTimeInMinutes / 60)
-      const minutes = String(tweetTimeInMinutes % 60).padStart(2, '0')
-
-      return { hours, minutes }
+      return formatSeconds(this.time)
     },
   },
   methods: {

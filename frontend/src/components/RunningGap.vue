@@ -22,6 +22,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { fetchGap } from '../api'
+import { formatSeconds } from '../utils'
 
 export default defineComponent({
   data() {
@@ -38,18 +39,8 @@ export default defineComponent({
   },
   async mounted() {
     const gaps = await fetchGap()
-    this.longestGap = this.formatTime(gaps.longestGap)
-    this.currentGap = this.formatTime(gaps.currentGap)
-  },
-  methods: {
-    formatTime(time) {
-      const tweetTimeInMinutes = Math.round(time / 60)
-
-      const hours = Math.floor(tweetTimeInMinutes / 60)
-      const minutes = String(tweetTimeInMinutes % 60)
-
-      return { hours, minutes }
-    },
+    this.longestGap = formatSeconds(gaps.longestGap)
+    this.currentGap = formatSeconds(gaps.currentGap)
   },
 })
 </script>
