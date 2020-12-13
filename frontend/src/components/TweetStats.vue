@@ -68,7 +68,7 @@ export default defineComponent({
         retweet: 0,
         retweetWithComment: 0,
         time: 0,
-        hashtags: {},
+        hashtags: [],
       },
       tweets: [],
     }

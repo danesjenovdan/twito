@@ -14,14 +14,14 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
-    hashtags: { type: Object, default: () => ({}), required: true },
+    hashtags: { type: Array, default: () => ({}), required: true },
   },
   computed: {
     topHashtags() {
-      return Object.entries(this.hashtags)
+      return this.hashtags
         .slice(0, 5)
         .map(
-          ([hashtag, number], index) =>
+          ({ hashtag, number }, index) =>
             `${index + 1}. ${hashtag}: ${number}-krat`
         )
     },
