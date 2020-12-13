@@ -29,16 +29,6 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
-def calculate_date_cache_key(date):
-  app.logger.debug(f'Calculating cache key for {date}')
-  if datetime.now().date() == datetime.strptime(date, '%Y-%m-%d').date():
-    period = int(int(datetime.strftime(datetime.now(), '%M')) / 15)
-    calculated_cache_key = datetime.strftime(datetime.now(), f'%Y-%m-%d %H {period}')
-  else:
-    calculated_cache_key = date
-  app.logger.debug(f'CALCULATED CACHE KEY: {calculated_cache_key}')
-  return calculated_cache_key
-
 @app.route('/<date>', methods=['GET'])
 @cache.cached(make_cache_key=calculate_date_cache_key)
 def index(date):
