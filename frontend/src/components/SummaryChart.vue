@@ -1,5 +1,8 @@
 <template>
-  <canvas ref="chart" class="chart"></canvas>
+  <div class="box-top">Preteklih 90 dni</div>
+  <div class="frame">
+    <canvas ref="chart" class="chart"></canvas>
+  </div>
 </template>
 
 <script lang="ts">
@@ -111,7 +114,6 @@ export default defineComponent({
 <style scoped>
 .chart {
   background: white;
-  padding: 2rem 2rem 1rem 1rem;
-  margin-top: 5rem;
+  padding: 1rem 1rem 0 0;
 }
 </style>
