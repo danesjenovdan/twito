@@ -10,11 +10,12 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+import { Hashtag } from '../types'
 
 export default defineComponent({
   props: {
-    hashtags: { type: Array, default: () => ({}), required: true },
+    hashtags: { type: Array as PropType<Hashtag>, required: true },
   },
   computed: {
     topHashtags() {
