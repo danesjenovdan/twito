@@ -33,5 +33,5 @@ export type SummaryResponse = Record<string, Calculation>
 
 export type Hashtag = {
   hashtag: string
-  test: number
+  number: number
 }
