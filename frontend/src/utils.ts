@@ -4,19 +4,7 @@ import capitalize from 'lodash-es/capitalize'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { sl } from 'date-fns/locale'
-
-export type Tweet = {
-  createdAt: string
-  id: string
-  quotedStatusId: string
-  text: string
-}
-
-export enum TweetType {
-  TWEET,
-  RETWEET,
-  RETWEET_WITH_COMMENT,
-}
+import { Tweet, TweetType } from './types'
 
 const RETWEET_PREFIX = 'RT '
 
