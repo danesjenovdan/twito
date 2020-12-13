@@ -108,7 +108,7 @@ def group_by_day(tweets):
   return days
 
 def get_date_range(days=90):
-  end_date = date.today()
+  end_date = date.today() - timedelta(days=1) # yesterday
   start_date = end_date - timedelta(days=days)
   date_format = "%Y-%m-%d"
 
