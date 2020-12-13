@@ -15,20 +15,16 @@ import {
   PointElement,
   BarElement,
   Tooltip,
-  LineController,
-  LineElement,
 } from 'chart.js'
 
 import { fetchSummary } from '../api'
 
 Chart.register(
   BarController,
-  LineController,
   CategoryScale,
   LinearScale,
   PointElement,
   BarElement,
-  LineElement,
   Tooltip
 )
 Chart.defaults.font.family = '"Space Grotesk", sans-serif'
@@ -52,37 +48,19 @@ export default defineComponent({
         labels: [],
         datasets: [
           {
-            type: 'bar',
             label: 'Tweets',
             backgroundColor: '#ff4e3a',
             data: [],
-            yAxisID: 'a',
-            order: 2,
           },
           {
-            type: 'bar',
             label: 'Retweets',
             backgroundColor: '#44a58a',
             data: [],
-            yAxisID: 'a',
-            order: 2,
           },
           {
-            type: 'bar',
             label: 'Retweets with comment',
             backgroundColor: '#ffc208',
             data: [],
-            yAxisID: 'a',
-            order: 2,
-          },
-          {
-            type: 'line',
-            label: 'Čas',
-            backgroundColor: '#000000',
-            borderColor: '#000000',
-            data: [],
-            yAxisID: 'b',
-            order: 1,
           },
         ],
       },
@@ -112,21 +90,18 @@ export default defineComponent({
       const tweets = []
       const retweets = []
       const retweetsWithComment = []
-      const time = []
 
       forEach(this.summary, (calculations, date) => {
         labels.push(lightFormat(parseISO(date), 'd. M.'))
         tweets.push(calculations.tweet)
         retweets.push(calculations.retweet)
         retweetsWithComment.push(calculations.retweetWithComment)
-        time.push(calculations.time)
       })
 
       this.chart.data.labels = labels
       this.chart.data.datasets[0].data = tweets
       this.chart.data.datasets[1].data = retweets
       this.chart.data.datasets[2].data = retweetsWithComment
-      this.chart.data.datasets[3].data = time
       this.chart.update()
     },
   },
