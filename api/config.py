@@ -9,5 +9,5 @@ DMI_TCAT_PASSWORD = os.getenv('DMI_TCAT_PASSWORD')
 CACHE_CONFIG = {
     'DEBUG': True,
     'CACHE_TYPE': 'simple',
-    'CACHE_DEFAULT_TIMEOUT': 30 * 24 * 60 * 60 # 30 days
+    'CACHE_DEFAULT_TIMEOUT': 30 * 24 * 60 * 60, # 30 days
 }

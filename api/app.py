@@ -2,9 +2,9 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_caching import Cache
 from config import CACHE_CONFIG
-from datetime import datetime
+from datetime import datetime, timedelta
 
-from tweets import get_date_range, group_by_day, get_all_calculations
+from tweets import get_date_range, group_by_day, get_all_calculations, get_longest_gap
 from dmi_tcat import fetch_tweets_for_date
 
 app = Flask(__name__)
@@ -28,6 +28,7 @@ def calculate_date_cache_key(date):
 def index(date):
   tweets = fetch_tweets_for_date(date)
   calculations = get_all_calculations(tweets)
+
   return jsonify(tweets=tweets, calculations=calculations)
 
 def get_summary_cache_key():
@@ -46,6 +47,16 @@ def summary():
     calculations_by_day[day] = get_all_calculations(tweets)
 
   return jsonify(calculations_by_day)
+
+@app.route('/running-gap', methods=['GET'])
+@cache.cached(timeout=15 * 60)
+def running_gap():
+  start = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
+  end = datetime.now().strftime('%Y-%m-%d')
+
+  tweets = fetch_tweets_for_date(start, end)
+
+  return jsonify(get_longest_gap(tweets))
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', debug=True)

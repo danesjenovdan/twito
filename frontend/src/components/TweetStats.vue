@@ -91,7 +91,7 @@ export default defineComponent({
       if (newVal) this.fetch(newVal)
     },
   },
-  async created() {
+  created() {
     this.fetch(this.date)
   },
   methods: {
