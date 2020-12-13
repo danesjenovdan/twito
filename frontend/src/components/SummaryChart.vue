@@ -53,13 +53,13 @@ export default defineComponent({
             data: [],
           },
           {
-            label: 'Retweets',
-            backgroundColor: '#44a58a',
+            label: 'Retweets with comment',
+            backgroundColor: '#ffc208',
             data: [],
           },
           {
-            label: 'Retweets with comment',
-            backgroundColor: '#ffc208',
+            label: 'Retweets',
+            backgroundColor: '#44a58a',
             data: [],
           },
         ],
@@ -100,8 +100,8 @@ export default defineComponent({
 
       this.chart.data.labels = labels
       this.chart.data.datasets[0].data = tweets
-      this.chart.data.datasets[1].data = retweets
-      this.chart.data.datasets[2].data = retweetsWithComment
+      this.chart.data.datasets[1].data = retweetsWithComment
+      this.chart.data.datasets[2].data = retweets
       this.chart.update()
     },
   },
