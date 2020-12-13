@@ -2,6 +2,9 @@ import json
 from datetime import date, datetime, timedelta
 from collections import defaultdict
 
+from flask import g
+from db import query_db
+
 RETWEET_PREFIX = 'RT '
 MAX_TIME_BETWEEN_TWEETS = timedelta(minutes=5)
 TIME_FOR_ONE_TWEET = timedelta(minutes=5)
@@ -44,6 +47,20 @@ def _get_counts(tweets):
   for tweet in tweets:
     tweet_type = _get_tweet_type(tweet)
     counts[tweet_type] += 1
+
+  # write to db
+  query_db(
+    f'''
+      INSERT INTO daily_stats (metric_date, original_tweets, retweets, quoted_tweets, estimated_seconds)
+      VALUES (
+        "{datetime.fromisoformat(tweets[0]['created_at']).date}",
+        {counts['tweet']},
+        {counts['retweet']},
+        {counts['retweet_with_comment']},
+        0
+      )
+    '''
+  )
 
   return counts
 

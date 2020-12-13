@@ -1,3 +1,15 @@
+# How to initialize the db?
+
+```bash
+# If you want to execute from container
+sudo docker-compose exec flask python
+```
+
+```python
+from app import init_db
+init_db()
+```
+
 # How to run this in dev?
 
 ```bash

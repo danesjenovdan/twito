@@ -8,7 +8,7 @@ from utils import calculate_date_cache_key
 from tweets import get_date_range, group_by_day, get_all_calculations, get_longest_gap, get_current_gap
 from dmi_tcat import fetch_tweets_for_date
 
-from db import get_db, query_db
+from db import get_db
 
 app = Flask(__name__)
 CORS(app)
@@ -22,6 +22,12 @@ def init_db():
         with app.open_resource('schema.sql', mode='r') as f:
             db.cursor().executescript(f.read())
         db.commit()
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
 
 def calculate_date_cache_key(date):
   app.logger.debug(f'Calculating cache key for {date}')
@@ -67,15 +73,6 @@ def running_gap():
     'longest_gap': get_longest_gap(tweets),
     'current_gap': get_current_gap(tweets)
   })
-# query_db(
-#     'INSERT INTO daily_stats (metric_date, original_tweets, retweets, quoted_tweets, estimated_minutes)'
-#     'VALUES (? ? ? ? ?)',
-#     (date, tweet_counts['number_of_original_tweets'], tweet_counts['number_of_retweets'], tweet_counts['number_of_quoted_tweets'], 0))
+
 if __name__ == '__main__':
    app.run(host='0.0.0.0', debug=True)
-
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
