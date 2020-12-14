@@ -11,12 +11,17 @@ export enum TweetType {
   RETWEET_WITH_COMMENT,
 }
 
+export type Hashtag = {
+  hashtag: string
+  number: number
+}
+
 export type Calculation = {
   tweet: number
   retweet: number
   retweetWithComment: number
   time: number
-  hashtags: object
+  hashtags: Hashtag[]
 }
 
 export type SingleDateResponse = {
@@ -25,13 +30,8 @@ export type SingleDateResponse = {
 }
 
 export type GapResponse = {
-  longest_gap: number
-  current_gap: number
+  longestGap: number
+  currentGap: number
 }
 
 export type SummaryResponse = Record<string, Calculation>
-
-export type Hashtag = {
-  hashtag: string
-  number: number
-}

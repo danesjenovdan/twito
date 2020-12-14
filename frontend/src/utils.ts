@@ -28,3 +28,15 @@ export const formatDate = (dateString: string): string =>
 
 export const formatDateMobile = (dateString: string): string =>
   capitalize(format(parseISO(dateString), 'EEEE, d. M. y', { locale: sl }))
+
+// Calculates hours and minutes from seconds
+export const formatSeconds = (
+  seconds: number
+): { hours: number; minutes: number } => {
+  const tweetTimeInMinutes = Math.round(seconds / 60)
+
+  const hours = Math.floor(tweetTimeInMinutes / 60)
+  const minutes = tweetTimeInMinutes % 60
+
+  return { hours, minutes }
+}
