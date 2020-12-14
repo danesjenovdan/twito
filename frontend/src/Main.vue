@@ -29,6 +29,9 @@ export default defineComponent({
     TweetStats,
     RunningGap,
   },
+  provide: {
+    inProduction: window.location.hostname === 'twito.si',
+  },
   props: {
     date: {
       type: String,

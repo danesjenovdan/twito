@@ -29,9 +29,11 @@
       />
     </div>
 
-    <div class="divider" />
+    <template v-if="!inProduction">
+      <div class="divider" />
 
-    <hashtags :hashtags="calculations.hashtags" />
+      <hashtags :hashtags="calculations.hashtags" />
+    </template>
   </div>
 
   <div class="box-bottom button-container">
@@ -58,6 +60,7 @@ export default defineComponent({
     SmallTweetCount,
     Timeline,
   },
+  inject: ['inProduction'],
   props: {
     date: { type: String, required: true },
   },
