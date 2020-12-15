@@ -2,6 +2,16 @@
   <div class="box-top">Preteklih 90 dni</div>
   <div class="frame">
     <canvas ref="chart" class="chart"></canvas>
+    <div class="legend">
+      <div
+        v-for="(style, type) in tweetColorStyle"
+        :key="type"
+        :style="style"
+        class="legend-item"
+      >
+        {{ getWordForm(type, 3) }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -22,7 +32,8 @@ import {
 import 'chartjs-plugin-annotation/src/index'
 
 import { fetchSummary } from '../api'
-import { formatDateMobile } from '../utils'
+import { TweetType } from '../types'
+import { formatDateMobile, tweetColorStyle, getWordForm } from '../utils'
 
 Chart.register(
   BarController,
@@ -41,6 +52,8 @@ export default defineComponent({
     return {
       chart: {},
       summary: {},
+      tweetColorStyle,
+      getWordForm,
     }
   },
   created() {
@@ -77,17 +90,17 @@ export default defineComponent({
           labels,
           datasets: [
             {
-              label: 'Izvirnih tvitov',
+              label: getWordForm(TweetType.TWEET, 5),
               backgroundColor: '#ff4e3a',
               data: tweets,
             },
             {
-              label: 'RT-jev s komentarjem',
+              label: getWordForm(TweetType.RETWEET_WITH_COMMENT, 5),
               backgroundColor: '#ffc208',
               data: retweetsWithComment,
             },
             {
-              label: 'RT-jev',
+              label: getWordForm(TweetType.RETWEET_WITH_COMMENT, 5),
               backgroundColor: '#44a58a',
               data: retweets,
             },
@@ -157,5 +170,40 @@ export default defineComponent({
 .chart {
   background: white;
   padding: 1rem 1rem 0 0;
+}
+
+/* .legend {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+} */
+
+.legend-item {
+  border-width: 0.3125rem;
+  border-style: solid;
+  display: flex;
+  font-size: 1rem;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  margin: 0.75rem 0 0;
+}
+
+@media (min-width: 768px) {
+  .legend {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .legend-item {
+    font-size: 0.8125rem;
+    width: 10.5rem;
+    margin: 0 0.75rem 0 0;
+  }
+
+  .legend-item:last-child {
+    margin: 0;
+  }
 }
 </style>
