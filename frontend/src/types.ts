@@ -6,9 +6,14 @@ export type Tweet = {
 }
 
 export enum TweetType {
-  TWEET,
-  RETWEET,
-  RETWEET_WITH_COMMENT,
+  TWEET = 'tweet',
+  RETWEET = 'retweet',
+  RETWEET_WITH_COMMENT = 'retweetWithComment',
+}
+
+export type TweetStyle = {
+  backgroundColor: string
+  borderColor: string
 }
 
 export type Hashtag = {

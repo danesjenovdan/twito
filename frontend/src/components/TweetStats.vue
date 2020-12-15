@@ -21,10 +21,10 @@
 
     <div class="mobile-row">
       <small-tweet-count
-        v-for="countType in ['tweet', 'retweet', 'retweetWithComment']"
-        :key="countType"
-        :type="countType"
-        :count="calculations[countType]"
+        v-for="type in Object.values(TweetType)"
+        :key="type"
+        :type="type"
+        :count="calculations[type]"
         class="column column-small-gutter"
       />
     </div>
@@ -44,6 +44,7 @@
 <script>
 import { defineComponent } from 'vue'
 
+import { TweetType } from '../types'
 import { formatDate, formatDateMobile } from '../utils'
 import { fetchSingleDate } from '../api'
 import BigTweetCounts from './BigTweetCounts.vue'
@@ -74,6 +75,7 @@ export default defineComponent({
         hashtags: [],
       },
       tweets: [],
+      TweetType,
     }
   },
   computed: {
