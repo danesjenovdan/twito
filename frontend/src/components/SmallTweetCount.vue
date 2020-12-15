@@ -6,29 +6,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+
+import { TweetType } from '../types.ts'
 
 export default defineComponent({
   props: {
-    type: { type: String, required: true },
+    type: { type: String as PropType<TweetType>, required: true },
     count: { type: Number, required: true },
   },
   computed: {
     label() {
       const WORD_FORMS = {
-        tweet: {
+        [TweetType.TWEET]: {
           singular: 'izviren<br>tvit',
           dual: 'izvirna<br>tvita',
           smallPlural: 'izvirni<br>tviti',
           bigPlural: 'izvirnih<br>tvitov',
         },
-        retweet: {
+        [TweetType.RETWEET]: {
           singular: '<br>RT',
           dual: '<br>RT-ja',
           smallPlural: '<br>RT-ji',
           bigPlural: '<br>RT-jev',
         },
-        retweetWithComment: {
+        [TweetType.RETWEET_WITH_COMMENT]: {
           singular: 'RT s<br>komentarjem',
           dual: 'RT-ja s<br>komentarjem',
           smallPlural: 'RT-ji s<br>komentarjem',
