@@ -47,6 +47,40 @@ Chart.register(
 Chart.defaults.font.family = '"Space Grotesk", sans-serif'
 Chart.defaults.font.size = 14
 
+const getAnnotation = (label, value) => ({
+  type: 'line',
+  mode: 'vertical',
+  scaleID: 'x',
+  value,
+  borderColor: 'black',
+  borderWidth: 1,
+  borderDash: [4, 4],
+  label: {
+    backgroundColor: '#ddf7f8',
+    font: {
+      // Font family of text, inherits from global
+      family: 'Space Grotesk',
+
+      // Font size of text, inherits from global
+      size: 14,
+
+      // Font style of text, default below
+      style: 'normal',
+
+      // Font color of text, default below
+      color: 'black',
+    },
+
+    yPadding: 8,
+    xPadding: 8,
+    position: 'top',
+    xAdjust: 0,
+    yAdjust: 15,
+    enabled: true,
+    content: label,
+  },
+})
+
 export default defineComponent({
   data() {
     return {
@@ -110,39 +144,8 @@ export default defineComponent({
           plugins: {
             annotation: {
               annotations: [
-                {
-                  type: 'line',
-                  mode: 'vertical',
-                  scaleID: 'x',
-                  value: '1. 12.',
-                  borderColor: 'black',
-                  borderWidth: 1,
-                  label: {
-                    backgroundColor: 'rgba(255, 255, 255, 0.66)',
-                    font: {
-                      // Font family of text, inherits from global
-                      family: 'Space Grotesk',
-
-                      // Font size of text, inherits from global
-                      size: 14,
-
-                      // Font style of text, default below
-                      style: 'normal',
-
-                      // Font color of text, default below
-                      color: 'black',
-                    },
-
-                    yPadding: 8,
-                    xPadding: 8,
-                    position: 'top',
-                    xAdjust: 15,
-                    yAdjust: 60,
-                    enabled: true,
-                    content: 'Tonin posreduje',
-                    rotation: -90,
-                  },
-                },
+                getAnnotation('Tonin posreduje', '7. 12.'),
+                getAnnotation('2. val COVID-19', '13. 10.'),
               ],
             },
             tooltip: {
