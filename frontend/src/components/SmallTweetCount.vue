@@ -1,8 +1,7 @@
 <template>
   <div class="small-count" :style="colorStyle">
     <div class="small-count-number">{{ count }}</div>
-    <!-- eslint-disable-next-line vue/no-v-html -->
-    <div class="small-count-label" v-html="label" />
+    <div class="small-count-label">{{ label }}</div>
   </div>
 </template>
 
@@ -21,22 +20,22 @@ export default defineComponent({
     label() {
       const WORD_FORMS = {
         [TweetType.TWEET]: {
-          singular: 'izviren<br>tvit',
-          dual: 'izvirna<br>tvita',
-          smallPlural: 'izvirni<br>tviti',
-          bigPlural: 'izvirnih<br>tvitov',
+          singular: 'izviren tvit',
+          dual: 'izvirna tvita',
+          smallPlural: 'izvirni tviti',
+          bigPlural: 'izvirnih tvitov',
         },
         [TweetType.RETWEET]: {
-          singular: '<br>RT',
-          dual: '<br>RT-ja',
-          smallPlural: '<br>RT-ji',
-          bigPlural: '<br>RT-jev',
+          singular: 'RT',
+          dual: 'RT‑ja',
+          smallPlural: 'RT‑ji',
+          bigPlural: 'RT‑jev',
         },
         [TweetType.RETWEET_WITH_COMMENT]: {
-          singular: 'RT s<br>komentarjem',
-          dual: 'RT-ja s<br>komentarjem',
-          smallPlural: 'RT-ji s<br>komentarjem',
-          bigPlural: 'RT-jev s<br>komentarjem',
+          singular: 'RT s komentarjem',
+          dual: 'RT‑ja s komentarjem',
+          smallPlural: 'RT‑ji s komentarjem',
+          bigPlural: 'RT‑jev s komentarjem',
         },
       }
       const getWordForm = (count) => {
@@ -70,7 +69,8 @@ export default defineComponent({
 
 .small-count-label {
   line-height: 1em;
-  margin-left: 0.375rem;
+  max-width: 6.5rem;
+  margin: 0.5rem auto 0;
 }
 
 .small-count-number {
@@ -87,6 +87,10 @@ export default defineComponent({
     justify-content: center;
     padding: 1rem;
     text-align: left;
+  }
+  .small-count-label {
+    flex: 0;
+    margin: 0 0 0 0.375rem;
   }
 }
 </style>
