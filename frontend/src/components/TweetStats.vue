@@ -21,13 +21,19 @@
 
     <div class="mobile-row">
       <small-tweet-count
-        v-for="countType in ['tweet', 'retweet', 'retweetWithComment']"
-        :key="countType"
-        :type="countType"
-        :count="calculations[countType]"
+        v-for="type in Object.values(TweetType)"
+        :key="type"
+        :type="type"
+        :count="calculations[type]"
         class="column column-small-gutter"
       />
     </div>
+
+    <template v-if="!inProduction">
+      <div class="divider" />
+
+      <hashtags :hashtags="calculations.hashtags" />
+    </template>
   </div>
 
   <div class="box-bottom button-container">
@@ -38,9 +44,11 @@
 <script>
 import { defineComponent } from 'vue'
 
+import { TweetType } from '../types'
 import { formatDate, formatDateMobile } from '../utils'
 import { fetchSingleDate } from '../api'
 import BigTweetCounts from './BigTweetCounts.vue'
+import Hashtags from './Hashtags.vue'
 import ShareButtons from './ShareButtons.vue'
 import SmallTweetCount from './SmallTweetCount.vue'
 import Timeline from './Timeline.vue'
@@ -48,10 +56,12 @@ import Timeline from './Timeline.vue'
 export default defineComponent({
   components: {
     BigTweetCounts,
+    Hashtags,
     ShareButtons,
     SmallTweetCount,
     Timeline,
   },
+  inject: ['inProduction'],
   props: {
     date: { type: String, required: true },
   },
@@ -62,8 +72,10 @@ export default defineComponent({
         retweet: 0,
         retweetWithComment: 0,
         time: 0,
+        hashtags: [],
       },
       tweets: [],
+      TweetType,
     }
   },
   computed: {
@@ -84,7 +96,7 @@ export default defineComponent({
       if (newVal) this.fetch(newVal)
     },
   },
-  async created() {
+  created() {
     this.fetch(this.date)
   },
   methods: {
@@ -100,37 +112,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style scoped>
-.box-top {
-  margin: 3.75rem 1.75rem 0;
-  border: 1px solid white;
-  border-bottom: none;
-  padding: 1.8125rem;
-  font-size: 2.5rem;
-  line-height: 1em;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-.box-bottom {
-  margin: 0 1.75rem 2.75rem;
-  padding: 1.625rem;
-  border: 1px solid white;
-  border-top: none;
-  justify-content: center;
-}
-
-.frame {
-  background: white;
-  color: black;
-  padding: 2rem 1.75rem;
-  text-align: left;
-}
-
-.divider {
-  background: black;
-  height: 1px;
-  margin: 2.25rem 0 1.875rem;
-}
-</style>

@@ -46,6 +46,38 @@ a:hover {
   margin-right: 0;
 }
 
+.box-top {
+  margin: 3.75rem 1.75rem 0;
+  border: 1px solid white;
+  border-bottom: none;
+  padding: 1.8125rem;
+  font-size: 2.5rem;
+  line-height: 1em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.box-bottom {
+  margin: 0 1.75rem 2.75rem;
+  padding: 1.625rem;
+  border: 1px solid white;
+  border-top: none;
+  justify-content: center;
+}
+
+.frame {
+  background: white;
+  color: black;
+  padding: 2rem 1.75rem;
+  text-align: left;
+}
+
+.divider {
+  background: black;
+  height: 1px;
+  margin: 2.25rem 0 1.875rem;
+}
+
 @media (min-width: 768px) {
   .hidden-mobile { display: initial; }
   .hidden-desktop { display: none; }

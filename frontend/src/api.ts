@@ -1,21 +1,8 @@
-import { Tweet, keysToCamel } from './utils'
+import mapValues from 'lodash-es/mapValues'
+import { keysToCamel } from './utils'
+import { GapResponse, SingleDateResponse, SummaryResponse } from './types'
 
 const API_URL = import.meta.env.VITE_API_URL
-
-type SingleDateResponse = {
-  calculations: {
-    tweet: number
-    retweet: number
-    retweetWithComment: number
-    time: number
-  }
-  tweets: Tweet[]
-}
-
-type GapResponse = {
-  longest_gap: number,
-  current_gap: number,
-}
 
 export const fetchSingleDate = async (
   date: string
@@ -36,14 +23,27 @@ export const fetchSingleDate = async (
 }
 
 export const fetchGap = async (): Promise<GapResponse> => {
-  const response = await fetch(`${API_URL}running-gap`);
+  const response = await fetch(`${API_URL}running-gap`)
   if (response.status !== 200) {
     console.log(
       `Looks like there was a problem. Status Code: ${response.status}`
-    );
+    )
     return
   }
 
-  const responseData = await response.json();
-  return responseData;
-};
+  const responseData = await response.json()
+  return keysToCamel(responseData) as GapResponse
+}
+
+export const fetchSummary = async (): Promise<SummaryResponse> => {
+  const response = await fetch(API_URL + 'summary')
+  if (response.status !== 200) {
+    console.log(
+      'Looks like there was a problem. Status Code: ' + response.status
+    )
+    return
+  }
+
+  const responseData = await response.json()
+  return mapValues(responseData, keysToCamel) as SummaryResponse
+}

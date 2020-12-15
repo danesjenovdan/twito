@@ -26,7 +26,8 @@ import { defineComponent, PropType } from 'vue'
 import startOfDay from 'date-fns/startOfDay'
 import parseISO from 'date-fns/parseISO'
 import differenceInSeconds from 'date-fns/differenceInSeconds'
-import { TweetType, Tweet, getTweetType } from '../utils'
+import { getTweetType } from '../utils'
+import { TweetType, Tweet } from '../types'
 
 const addDistances = (tweets) => {
   if (tweets.length === 0) return []

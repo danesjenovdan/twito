@@ -1,68 +1,27 @@
 <template>
   <div class="small-count" :style="colorStyle">
     <div class="small-count-number">{{ count }}</div>
-    <div class="small-count-label" v-html="label" />
+    <div class="small-count-label">{{ label }}</div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+
+import { TweetType } from '../types.ts'
+import { tweetColorStyle, getWordForm } from '../utils.ts'
 
 export default defineComponent({
   props: {
-    type: { type: String, required: true },
+    type: { type: String as PropType<TweetType>, required: true },
     count: { type: Number, required: true },
   },
   computed: {
     label() {
-      const WORD_FORMS = {
-        tweet: {
-          singular: 'izviren<br>tvit',
-          dual: 'izvirna<br>tvita',
-          smallPlural: 'izvirni<br>tviti',
-          bigPlural: 'izvirnih<br>tvitov',
-        },
-        retweet: {
-          singular: '<br>RT',
-          dual: '<br>RT-ja',
-          smallPlural: '<br>RT-ji',
-          bigPlural: '<br>RT-jev',
-        },
-        retweetWithComment: {
-          singular: 'RT s<br>komentarjem',
-          dual: 'RT-ja s<br>komentarjem',
-          smallPlural: 'RT-ji s<br>komentarjem',
-          bigPlural: 'RT-jev s<br>komentarjem',
-        },
-      }
-      const getWordForm = (count) => {
-        count = count % 100
-        if (count === 1) {
-          return 'singular'
-        } else if (count === 2) {
-          return 'dual'
-        } else if (count === 3 || count === 4) {
-          return 'smallPlural'
-        }
-        return 'bigPlural'
-      }
-      return WORD_FORMS[this.type][getWordForm(this.count)]
+      return getWordForm(this.type, this.count)
     },
     colorStyle() {
-      return {
-        tweet: {
-          backgroundColor: '#ffedeb',
-          borderColor: '#ff4e3a',
-        },
-        retweet: {
-          backgroundColor: '#ecf6f3',
-          borderColor: '#44a58a',
-        },
-        retweetWithComment: {
-          backgroundColor: '#fff9e6',
-          borderColor: '#ffc208',
-        },
-      }[this.type]
+      return tweetColorStyle[this.type]
     },
   },
 })
@@ -79,7 +38,8 @@ export default defineComponent({
 
 .small-count-label {
   line-height: 1em;
-  margin-left: 0.375rem;
+  max-width: 6.5rem;
+  margin: 0.5rem auto 0;
 }
 
 .small-count-number {
@@ -96,6 +56,10 @@ export default defineComponent({
     justify-content: center;
     padding: 1rem;
     text-align: left;
+  }
+  .small-count-label {
+    flex: 0;
+    margin: 0 0 0 0.375rem;
   }
 }
 </style>

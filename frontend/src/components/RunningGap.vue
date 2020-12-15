@@ -1,18 +1,16 @@
 <template>
   <div class="row frame">
     <div class="column big-count tweet-time gap-time">
-      <div class="big-count-label">
-        brez Twitter aktivnosti že
-      </div>
+      <div class="big-count-label">brez Twitter aktivnosti že</div>
       <div class="big-count-number">
-        <span v-if="currentGap.hours > 0">{{ currentGap.hours }}<span class="time-unit">h</span></span>
+        <span v-if="currentGap.hours > 0"
+          >{{ currentGap.hours }}<span class="time-unit">h</span></span
+        >
         {{ currentGap.minutes }}<span class="time-unit">min</span>
       </div>
     </div>
     <div class="column big-count tweet-time gap-time">
-      <div class="big-count-label">
-        najdaljši premor v zadnjih 24 urah
-      </div>
+      <div class="big-count-label">najdaljši premor v zadnjih 24 urah</div>
       <div class="big-count-number">
         {{ longestGap.hours }}<span class="time-unit">h</span>
         {{ longestGap.minutes }}<span class="time-unit">min</span>
@@ -23,7 +21,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { fetchGap } from '../api';
+import { fetchGap } from '../api'
+import { formatSeconds } from '../utils'
 
 export default defineComponent({
   data() {
@@ -36,23 +35,12 @@ export default defineComponent({
         hours: 0,
         minutes: 0,
       },
-    };
+    }
   },
   async mounted() {
-    const gaps = await fetchGap();
-    console.log(gaps);
-    this.longestGap = this.formatTime(gaps.longest_gap);
-    this.currentGap = this.formatTime(gaps.current_gap);
-  },
-  methods: {
-    formatTime(time) {
-      const tweetTimeInMinutes = Math.round(time / 60)
-
-      const hours = Math.floor(tweetTimeInMinutes / 60)
-      const minutes = String(tweetTimeInMinutes % 60) //.padStart(2, '0')
-
-      return { hours, minutes }
-    },
+    const gaps = await fetchGap()
+    this.longestGap = formatSeconds(gaps.longestGap)
+    this.currentGap = formatSeconds(gaps.currentGap)
   },
 })
 </script>

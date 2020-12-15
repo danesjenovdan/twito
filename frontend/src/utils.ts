@@ -4,21 +4,42 @@ import capitalize from 'lodash-es/capitalize'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { sl } from 'date-fns/locale'
-
-export type Tweet = {
-  createdAt: string
-  id: string
-  quotedStatusId: string
-  text: string
-}
-
-export enum TweetType {
-  TWEET,
-  RETWEET,
-  RETWEET_WITH_COMMENT,
-}
+import { Tweet, TweetType } from './types'
 
 const RETWEET_PREFIX = 'RT '
+
+const WORD_FORMS = {
+  [TweetType.TWEET]: {
+    singular: 'izviren tvit',
+    dual: 'izvirna tvita',
+    smallPlural: 'izvirni tviti',
+    bigPlural: 'izvirnih tvitov',
+  },
+  [TweetType.RETWEET]: {
+    singular: 'RT',
+    dual: 'RT‑ja',
+    smallPlural: 'RT‑ji',
+    bigPlural: 'RT‑jev',
+  },
+  [TweetType.RETWEET_WITH_COMMENT]: {
+    singular: 'RT s komentarjem',
+    dual: 'RT‑ja s komentarjem',
+    smallPlural: 'RT‑ji s komentarjem',
+    bigPlural: 'RT‑jev s komentarjem',
+  },
+}
+
+// Returns Slovenian grammatical number for specified count
+const getNumber = (count) => {
+  if (count === 1) {
+    return 'singular'
+  } else if (count === 2) {
+    return 'dual'
+  } else if (count === 3 || count === 4) {
+    return 'smallPlural'
+  }
+  return 'bigPlural'
+}
 
 // Determines type of tweet
 export const getTweetType = (tweet: Tweet): TweetType => {
@@ -32,7 +53,9 @@ export const getTweetType = (tweet: Tweet): TweetType => {
 }
 
 // Converts object keys to camelCase
-export const keysToCamel = (object) => mapKeys(object, (_, k) => camelCase(k))
+export const keysToCamel = (
+  object: Record<string, unknown>
+): Record<string, unknown> => mapKeys(object, (_, k) => camelCase(k))
 
 // Formats date a specific way used as title and social media share text
 export const formatDate = (dateString: string): string =>
@@ -40,3 +63,37 @@ export const formatDate = (dateString: string): string =>
 
 export const formatDateMobile = (dateString: string): string =>
   capitalize(format(parseISO(dateString), 'EEEE, d. M. y', { locale: sl }))
+
+// Calculates hours and minutes from seconds
+export const formatSeconds = (
+  seconds: number
+): { hours: number; minutes: number } => {
+  const tweetTimeInMinutes = Math.round(seconds / 60)
+
+  const hours = Math.floor(tweetTimeInMinutes / 60)
+  const minutes = tweetTimeInMinutes % 60
+
+  return { hours, minutes }
+}
+
+// Border and background colors for different tweet types
+export const tweetColorStyle = {
+  [TweetType.TWEET]: {
+    backgroundColor: '#ffedeb',
+    borderColor: '#ff4e3a',
+  },
+  [TweetType.RETWEET]: {
+    backgroundColor: '#ecf6f3',
+    borderColor: '#44a58a',
+  },
+  [TweetType.RETWEET_WITH_COMMENT]: {
+    backgroundColor: '#fff9e6',
+    borderColor: '#ffc208',
+  },
+}
+
+// Returns Slovenian word form for specified count and tweet type
+export const getWordForm = (type: TweetType, count: number): string => {
+  const number = getNumber(count % 100)
+  return WORD_FORMS[type][number]
+}
