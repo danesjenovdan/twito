@@ -11,6 +11,11 @@ export enum TweetType {
   RETWEET_WITH_COMMENT = 'retweetWithComment',
 }
 
+export type TweetStyle = {
+  backgroundColor: string
+  borderColor: string
+}
+
 export type Hashtag = {
   hashtag: string
   number: number

@@ -4,7 +4,7 @@ import capitalize from 'lodash-es/capitalize'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { sl } from 'date-fns/locale'
-import { Tweet, TweetType } from './types'
+import { Tweet, TweetType, TweetStyle } from './types'
 
 const RETWEET_PREFIX = 'RT '
 
@@ -41,4 +41,20 @@ export const formatSeconds = (
   const minutes = tweetTimeInMinutes % 60
 
   return { hours, minutes }
+}
+
+// Border and background colors for different tweet types
+export const tweetColorStyle = {
+  [TweetType.TWEET]: {
+    backgroundColor: '#ffedeb',
+    borderColor: '#ff4e3a',
+  },
+  [TweetType.RETWEET]: {
+    backgroundColor: '#ecf6f3',
+    borderColor: '#44a58a',
+  },
+  [TweetType.RETWEET_WITH_COMMENT]: {
+    backgroundColor: '#fff9e6',
+    borderColor: '#ffc208',
+  },
 }

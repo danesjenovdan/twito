@@ -10,6 +10,7 @@
 import { defineComponent, PropType } from 'vue'
 
 import { TweetType } from '../types.ts'
+import { tweetColorStyle } from '../utils.ts'
 
 export default defineComponent({
   props: {
@@ -52,20 +53,7 @@ export default defineComponent({
       return WORD_FORMS[this.type][getWordForm(this.count)]
     },
     colorStyle() {
-      return {
-        tweet: {
-          backgroundColor: '#ffedeb',
-          borderColor: '#ff4e3a',
-        },
-        retweet: {
-          backgroundColor: '#ecf6f3',
-          borderColor: '#44a58a',
-        },
-        retweetWithComment: {
-          backgroundColor: '#fff9e6',
-          borderColor: '#ffc208',
-        },
-      }[this.type]
+      return tweetColorStyle[this.type]
     },
   },
 })
