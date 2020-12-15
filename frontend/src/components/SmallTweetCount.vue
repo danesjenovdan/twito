@@ -1,6 +1,7 @@
 <template>
   <div class="small-count" :style="colorStyle">
     <div class="small-count-number">{{ count }}</div>
+    <!-- eslint-disable-next-line vue/no-v-html -->
     <div class="small-count-label" v-html="label" />
   </div>
 </template>

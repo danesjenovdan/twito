@@ -20,7 +20,9 @@ export const getTweetType = (tweet: Tweet): TweetType => {
 }
 
 // Converts object keys to camelCase
-export const keysToCamel = (object) => mapKeys(object, (_, k) => camelCase(k))
+export const keysToCamel = (
+  object: Record<string, unknown>
+): Record<string, unknown> => mapKeys(object, (_, k) => camelCase(k))
 
 // Formats date a specific way used as title and social media share text
 export const formatDate = (dateString: string): string =>
