@@ -145,7 +145,7 @@ export default defineComponent({
             annotation: {
               annotations: [
                 getAnnotation('Tonin posreduje    ', '9. 12.'),
-                getAnnotation('2. val COVID-19', '13. 10.'),
+                getAnnotation('Razglasitev epidemije', '19. 10.'),
               ],
             },
             tooltip: {
