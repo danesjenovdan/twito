@@ -4,9 +4,42 @@ import capitalize from 'lodash-es/capitalize'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import { sl } from 'date-fns/locale'
-import { Tweet, TweetType, TweetStyle } from './types'
+import { Tweet, TweetType } from './types'
 
 const RETWEET_PREFIX = 'RT '
+
+const WORD_FORMS = {
+  [TweetType.TWEET]: {
+    singular: 'izviren tvit',
+    dual: 'izvirna tvita',
+    smallPlural: 'izvirni tviti',
+    bigPlural: 'izvirnih tvitov',
+  },
+  [TweetType.RETWEET]: {
+    singular: 'RT',
+    dual: 'RT‑ja',
+    smallPlural: 'RT‑ji',
+    bigPlural: 'RT‑jev',
+  },
+  [TweetType.RETWEET_WITH_COMMENT]: {
+    singular: 'RT s komentarjem',
+    dual: 'RT‑ja s komentarjem',
+    smallPlural: 'RT‑ji s komentarjem',
+    bigPlural: 'RT‑jev s komentarjem',
+  },
+}
+
+// Returns Slovenian grammatical number for specified count
+const getNumber = (count) => {
+  if (count === 1) {
+    return 'singular'
+  } else if (count === 2) {
+    return 'dual'
+  } else if (count === 3 || count === 4) {
+    return 'smallPlural'
+  }
+  return 'bigPlural'
+}
 
 // Determines type of tweet
 export const getTweetType = (tweet: Tweet): TweetType => {
@@ -57,4 +90,10 @@ export const tweetColorStyle = {
     backgroundColor: '#fff9e6',
     borderColor: '#ffc208',
   },
+}
+
+// Returns Slovenian word form for specified count and tweet type
+export const getWordForm = (type: TweetType, count: number): string => {
+  const number = getNumber(count % 100)
+  return WORD_FORMS[type][number]
 }

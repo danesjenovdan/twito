@@ -9,7 +9,7 @@
 import { defineComponent, PropType } from 'vue'
 
 import { TweetType } from '../types.ts'
-import { tweetColorStyle } from '../utils.ts'
+import { tweetColorStyle, getWordForm } from '../utils.ts'
 
 export default defineComponent({
   props: {
@@ -18,38 +18,7 @@ export default defineComponent({
   },
   computed: {
     label() {
-      const WORD_FORMS = {
-        [TweetType.TWEET]: {
-          singular: 'izviren tvit',
-          dual: 'izvirna tvita',
-          smallPlural: 'izvirni tviti',
-          bigPlural: 'izvirnih tvitov',
-        },
-        [TweetType.RETWEET]: {
-          singular: 'RT',
-          dual: 'RT‑ja',
-          smallPlural: 'RT‑ji',
-          bigPlural: 'RT‑jev',
-        },
-        [TweetType.RETWEET_WITH_COMMENT]: {
-          singular: 'RT s komentarjem',
-          dual: 'RT‑ja s komentarjem',
-          smallPlural: 'RT‑ji s komentarjem',
-          bigPlural: 'RT‑jev s komentarjem',
-        },
-      }
-      const getWordForm = (count) => {
-        count = count % 100
-        if (count === 1) {
-          return 'singular'
-        } else if (count === 2) {
-          return 'dual'
-        } else if (count === 3 || count === 4) {
-          return 'smallPlural'
-        }
-        return 'bigPlural'
-      }
-      return WORD_FORMS[this.type][getWordForm(this.count)]
+      return getWordForm(this.type, this.count)
     },
     colorStyle() {
       return tweetColorStyle[this.type]
