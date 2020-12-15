@@ -56,6 +56,7 @@ const getAnnotation = (label, value) => ({
   borderWidth: 1,
   borderDash: [4, 4],
   label: {
+    cornerRadius: 0,
     backgroundColor: '#ddf7f8',
     font: {
       // Font family of text, inherits from global
@@ -74,7 +75,6 @@ const getAnnotation = (label, value) => ({
     yPadding: 8,
     xPadding: 8,
     position: 'top',
-    xAdjust: 0,
     yAdjust: 15,
     enabled: true,
     content: label,
@@ -144,7 +144,7 @@ export default defineComponent({
           plugins: {
             annotation: {
               annotations: [
-                getAnnotation('Tonin posreduje', '7. 12.'),
+                getAnnotation('Tonin posreduje    ', '9. 12.'),
                 getAnnotation('2. val COVID-19', '13. 10.'),
               ],
             },
