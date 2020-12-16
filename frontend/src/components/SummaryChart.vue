@@ -134,7 +134,7 @@ export default defineComponent({
               data: retweetsWithComment,
             },
             {
-              label: getWordForm(TweetType.RETWEET_WITH_COMMENT, 5),
+              label: getWordForm(TweetType.RETWEET, 5),
               backgroundColor: '#44a58a',
               data: retweets,
             },
