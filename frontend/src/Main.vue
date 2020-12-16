@@ -35,7 +35,7 @@ export default defineComponent({
   props: {
     date: {
       type: String,
-      default: () => getShortIsoDate(new Date()),
+      default: () => new Date().toISOString().substring(0, 10),
     },
   },
   data() {
