@@ -1,10 +1,10 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, abort
 from flask_cors import CORS
 from flask_caching import Cache
 from config import CACHE_CONFIG
 from datetime import date, datetime, timedelta
 
-from utils import calculate_date_cache_key
+from utils import SummaryCacheInfo, DateCacheInfo
 from tweets import get_date_range, group_by_day, get_all_calculations, get_longest_gap, get_current_gap
 from dmi_tcat import fetch_tweets_for_date
 
@@ -16,7 +16,7 @@ cache = Cache(app)
 
 
 @app.route('/<date>', methods=['GET'])
-@cache.cached(make_cache_key=calculate_date_cache_key)
+@cache.cached(forced_update=DateCacheInfo.should_force_update)
 def index(date):
   tweets = fetch_tweets_for_date(date)
   calculations = get_all_calculations(tweets)
@@ -24,7 +24,7 @@ def index(date):
   return jsonify(tweets=tweets, calculations=calculations)
 
 @app.route('/summary', methods=['GET'])
-@cache.cached(make_cache_key=lambda: date.today().isoformat())
+@cache.cached(forced_update=SummaryCacheInfo.should_force_update)
 def summary():
   start, end = get_date_range()
   tweets = fetch_tweets_for_date(start, end)
