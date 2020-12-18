@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, abort, Response
 from flask_cors import CORS
 from flask_caching import Cache
+
+from url_resolver import get_urls_from_tweets
 from config import CACHE_CONFIG
 
 import os
