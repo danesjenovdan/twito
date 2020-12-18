@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, abort
 from flask_cors import CORS
 from flask_caching import Cache
+
+from url_resolver import get_urls_from_tweets
 from config import CACHE_CONFIG
 from datetime import date, datetime, timedelta
 
@@ -20,6 +22,9 @@ cache = Cache(app)
 def index(date):
   tweets = fetch_tweets_for_date(date)
   calculations = get_all_calculations(tweets)
+
+  # TODO
+  get_urls_from_tweets(tweets)
 
   return jsonify(tweets=tweets, calculations=calculations)
 
