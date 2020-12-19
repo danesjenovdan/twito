@@ -30,8 +30,8 @@ def resolve_url(url):
     print(f'getting {url}')
     r = requests.get(url, allow_redirects=False)
 
-    if r.status_code != 301:
-        raise Exception(f'something went wrong, got response with status code: {r.status_code}')
+    if r.status_code not in [301, 302]:
+        raise Exception(f'short url resolution went wrong, got response with status code: {r.status_code}')
 
     resolved_url = r.headers['Location']
 

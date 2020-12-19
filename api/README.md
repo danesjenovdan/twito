@@ -9,5 +9,10 @@ vi .env
 
 # Start Docker container
 docker-compose up
-```
 
+# Generate migration
+flask db migrate -m "Initial migration."
+
+# Run migrations
+flask db upgrade
+```

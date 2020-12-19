@@ -7,3 +7,5 @@ freezegun
 pytz
 ipdb
 tldextract
+Flask-SQLAlchemy
+Flask-Migrate
