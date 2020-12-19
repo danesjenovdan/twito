@@ -13,4 +13,10 @@ docker-compose up
 # Option B: run on local machine
 pipenv install
 pipenv run bash ./run.sh
+
+# Generate migration
+flask db migrate -m "Initial migration."
+
+# Run migrations
+flask db upgrade
 ```
