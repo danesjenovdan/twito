@@ -21,7 +21,7 @@ from datetime import date, datetime, timedelta
 from utils import SummaryCacheInfo, DateCacheInfo
 from tweets import get_date_range, group_by_day, get_all_calculations, get_longest_gap, get_current_gap
 from dmi_tcat import fetch_tweets_for_date
-from tasks import resolve_urls_for_date
+from tasks import resolve_urls_for_date, resolve_urls_for_all_tweets
 
 app = Flask(__name__)
 CORS(app)
@@ -59,7 +59,7 @@ def index(date):
 
   # resolve urls
   # TODO move to scheduler
-  task = resolve_urls_for_date.delay(date)
+  resolve_urls_for_all_tweets.delay()
 
   return jsonify(tweets=tweets, calculations=calculations)
 

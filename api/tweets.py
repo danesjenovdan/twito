@@ -137,3 +137,11 @@ def get_gap_date_range():
 
 def get_start_of_day(date):
   return slovenian_time.start_of_day(date).astimezone(timezone.utc).isoformat()
+
+
+def is_retweet(tweet):
+    return tweet.get('text').find(RETWEET_PREFIX) != -1
+
+
+def get_tweet_id(tweet):
+    return tweet.get('\ufeffid')
