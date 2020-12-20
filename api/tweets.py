@@ -2,6 +2,8 @@ import json
 from datetime import date, datetime, timedelta
 from collections import defaultdict
 
+import slovenian_time
+
 RETWEET_PREFIX = 'RT '
 MAX_TIME_BETWEEN_TWEETS = timedelta(minutes=5)
 TIME_FOR_ONE_TWEET = timedelta(minutes=5)
@@ -74,7 +76,7 @@ def _calculate_time(tweets):
   return duration
 
 def get_current_gap(tweets):
-  return (datetime.now() - datetime.fromisoformat(tweets[-1]["created_at"])).seconds
+  return (datetime.nowutc() - datetime.fromisoformat(tweets[-1]["created_at"])).seconds
 
 def get_longest_gap(tweets):
   gap = get_current_gap(tweets)
@@ -108,7 +110,7 @@ def group_by_day(tweets):
   return days
 
 def get_date_range(days=90):
-  end_date = date.today() - timedelta(days=1) # yesterday
+  end_date = slovenian_time.now() - timedelta(days=1) # yesterday
   start_date = end_date - timedelta(days=days)
   date_format = "%Y-%m-%d"
 
