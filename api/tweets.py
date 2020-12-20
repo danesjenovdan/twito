@@ -116,3 +116,11 @@ def get_date_range(days=90):
   start =  start_date.strftime(date_format)
 
   return start, end
+
+
+def is_retweet(tweet):
+    return tweet.get('text').find(RETWEET_PREFIX) != -1
+
+
+def get_tweet_id(tweet):
+    return tweet.get('\ufeffid')
