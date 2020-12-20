@@ -80,11 +80,14 @@ def _calculate_time(tweets):
 
   return duration
 
-def get_current_gap(tweets):
-  return (datetime.utcnow() - datetime.fromisoformat(tweets[-1]["created_at"])).seconds
+def _get_current_gap(tweets):
+  utc_now = datetime.now(tz=timezone.utc)
+  last_tweet_time = datetime.fromisoformat(tweets[-1]["created_at"])
 
-def get_longest_gap(tweets):
-  gap = get_current_gap(tweets)
+  return (utc_now - last_tweet_time).seconds
+
+def _get_longest_gap(tweets):
+  gap = _get_current_gap(tweets)
   current_tweet_time = datetime.fromisoformat(tweets[0]["created_at"])
   previous_tweet_time = None
   for tweet in tweets[1:]:
@@ -93,6 +96,12 @@ def get_longest_gap(tweets):
     gap = max((current_tweet_time - previous_tweet_time).seconds, gap)
 
   return gap
+
+def get_gaps(tweets):
+  return {
+    'longest_gap': _get_longest_gap(tweets),
+    'current_gap': _get_current_gap(tweets)
+  }
 
 def get_all_calculations(tweets):
   calculations = _get_counts(tweets)
@@ -114,12 +123,14 @@ def group_by_day(tweets):
 
   return days
 
-def get_date_range(days=90):
+def get_summary_date_range(days=90):
   end_date = slovenian_time.now() - timedelta(days=1) # yesterday
   start_date = end_date - timedelta(days=days)
-  date_format = "%Y-%m-%d"
 
-  end = end_date.strftime(date_format)
-  start =  start_date.strftime(date_format)
+  return _date_to_string(start_date), _date_to_string(end_date)
 
-  return start, end
+def get_gap_date_range():
+  end_date = slovenian_time.now()
+  start_date = end_date - timedelta(days=1) # yesterday
+
+  return _date_to_string(start_date), _date_to_string(end_date)
