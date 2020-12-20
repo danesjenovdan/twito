@@ -4,9 +4,7 @@ from flask_caching import Cache
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand, Manager
 
-from url_resolver import get_urls_from_tweets
 from config import CACHE_CONFIG
-<<<<<<< django-orm
 
 import os
 from django.apps import apps
@@ -19,12 +17,11 @@ from utils import is_valid_date, SummaryCacheInfo, DateCacheInfo
 from tweets import get_summary_date_range, get_gap_date_range, group_by_day, get_all_calculations, get_gaps, get_hashtags, get_start_of_day
 from dmi_tcat import fetch_tweets_for_date_string
 from stats.models import DailySums
-=======
 from datetime import date, datetime, timedelta
 from utils import SummaryCacheInfo, DateCacheInfo
 from tweets import get_date_range, group_by_day, get_all_calculations, get_longest_gap, get_current_gap
 from dmi_tcat import fetch_tweets_for_date
->>>>>>> add sqlalchemy and migrations
+from tasks import resolve_urls_for_date
 
 app = Flask(__name__)
 CORS(app)
@@ -47,6 +44,11 @@ class User(db.Model):
     username = db.Column(db.String, unique=True, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
 
+# example model
+# class User(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     username = db.Column(db.String, unique=True, nullable=False)
+#     email = db.Column(db.String, unique=True, nullable=False)
 
 
 @app.route('/<date>', methods=['GET'])
@@ -55,8 +57,9 @@ def index(date):
   tweets = fetch_tweets_for_date(date)
   calculations = get_all_calculations(tweets)
 
-  # TODO
-  # get_urls_from_tweets(tweets)
+  # resolve urls
+  # TODO move to scheduler
+  task = resolve_urls_for_date.delay(date)
 
   return jsonify(tweets=tweets, calculations=calculations)
 

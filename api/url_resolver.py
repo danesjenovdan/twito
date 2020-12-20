@@ -2,24 +2,24 @@ import requests
 import re
 import tldextract
 
+url_shortener_domains = ['bit.ly']
 
-def get_urls_from_tweets(tweets):
-    for tweet in tweets:
-        urls = parse_urls(tweet.get('text'))
 
-        for url in urls:
-            try:
-                resolved_url = resolve_url(url)
+def get_urls_from_tweet(tweet):
+    urls = parse_urls(tweet.get('text'))
 
-                # some urls might be shortened before sharing to twitter
-                if resolved_url.find('bit.ly') != -1:
-                    resolved_url = resolve_url(resolved_url)
+    resolved_urls = []
+    for url in urls:
+        resolved_url = resolve_url(url)
 
-                domain = get_domain_from_url(resolved_url)
-                print(domain)
+        if any(x in url for x in url_shortener_domains):
+            print(f'{url} has been shortened before sharing, resolving again')
+            resolved_url = resolve_url(resolved_url)
 
-            except Exception:
-                print('welp...')
+        domain = get_domain_from_url(resolved_url)
+        resolved_urls.append({'url': resolved_url, 'domain': domain})
+
+    return resolved_urls
 
 
 def parse_urls(string):
@@ -42,5 +42,7 @@ def resolve_url(url):
 
 def get_domain_from_url(url):
     ext = tldextract.extract(url)
+    domain = f'{ext.domain}.{ext.suffix}'
+    print(f'domain {domain} extracted for {url}')
 
-    return f'{ext.domain}.{ext.suffix}'
+    return domain

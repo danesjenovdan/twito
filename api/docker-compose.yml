@@ -2,6 +2,7 @@ version: '3'
 services:
   flask:
     build: .
+    restart: always
     ports:
       - 5000:5000
     volumes:
@@ -10,3 +11,17 @@ services:
       - DMI_TCAT_USERNAME
       - DMI_TCAT_PASSWORD
       - APP_ENV
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    restart: always
+    volumes:
+      - .:/code
+
+  redis:
+    image: redis:6-alpine
+    restart: always
+    ports:
+      - 6379:6379
