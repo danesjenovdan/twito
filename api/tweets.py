@@ -1,5 +1,5 @@
 import json
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from collections import defaultdict
 
 import slovenian_time
@@ -99,7 +99,8 @@ def group_by_day(tweets):
   days = {}
 
   for tweet in tweets:
-    date = tweet["created_at"].split(" ", 1)[0]
+    tweet_time = datetime.fromisoformat(tweet["created_at"]).replace(tzinfo=timezone.utc).astimezone(slovenian_time.TIMEZONE)
+    date = tweet_time.strftime("%Y-%m-%d")
 
     if date not in days:
       days[date] = []
