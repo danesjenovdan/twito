@@ -2,7 +2,26 @@ version: '3'
 services:
   flask:
     build: .
+    restart: always
     ports:
       - 5000:5000
     volumes:
       - .:/code
+    links:
+        - redis
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    restart: always
+    volumes:
+      - .:/code
+    links:
+        - redis
+
+  redis:
+    image: redis:6-alpine
+    restart: always
+    ports:
+      - 6379:6379

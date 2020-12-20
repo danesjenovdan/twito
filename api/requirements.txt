@@ -9,3 +9,5 @@ ipdb
 tldextract
 Flask-SQLAlchemy
 Flask-Migrate
+celery
+redis
