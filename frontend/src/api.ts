@@ -20,6 +20,7 @@ export const fetchSingleDate = async (
     calculations: keysToCamel(responseData.calculations),
     tweets: responseData.tweets.map(keysToCamel),
     hashtags: responseData.hashtags,
+    startOfDay: responseData.start_of_day,
   } as SingleDateResponse
 }
 

@@ -17,7 +17,7 @@
 
     <div class="divider" />
 
-    <timeline :tweets="tweets" />
+    <timeline :tweets="tweets" :start-of-day="startOfDay" />
 
     <div class="mobile-row">
       <small-tweet-count
@@ -75,6 +75,7 @@ export default defineComponent({
       },
       hashtags: [],
       tweets: [],
+      startOfDay: '',
       TweetType,
     }
   },
@@ -106,6 +107,7 @@ export default defineComponent({
         this.calculations = response.calculations
         this.tweets = response.tweets
         this.hashtags = response.hashtags
+        this.startOfDay = response.startOfDay
       } catch (error) {
         console.error(error)
       }

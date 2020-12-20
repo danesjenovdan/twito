@@ -32,6 +32,7 @@ export type SingleDateResponse = {
   calculations: Calculation
   tweets: Tweet[]
   hashtags: Hashtag[]
+  startOfDay: string
 }
 
 export type GapResponse = {

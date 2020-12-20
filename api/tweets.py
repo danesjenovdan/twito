@@ -134,3 +134,6 @@ def get_gap_date_range():
   start_date = end_date - timedelta(days=1) # yesterday
 
   return _date_to_string(start_date), _date_to_string(end_date)
+
+def get_start_of_day(date):
+  return slovenian_time.start_of_day(date).astimezone(timezone.utc).isoformat()
