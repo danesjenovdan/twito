@@ -15,6 +15,11 @@ app.config.from_mapping(CACHE_CONFIG)
 cache = Cache(app)
 
 
+@app.route('/favicon.ico', methods=['GET'])
+@cache.cached()
+def favicon():
+  abort(404)
+
 @app.route('/<date>', methods=['GET'])
 @cache.cached(forced_update=DateCacheInfo.should_force_update)
 def index(date):
