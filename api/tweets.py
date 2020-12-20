@@ -67,7 +67,7 @@ def get_hashtags(tweets):
 
   sorted_hashtags = [{"hashtag": hashtag, "number": number} for hashtag, number in list(reversed(sorted_tuples))]
 
-  return sorted_hashtags
+  return sorted_hashtags[0:5]
 
 def _calculate_time(tweets):
   intervals = _generate_intervals(tweets)
