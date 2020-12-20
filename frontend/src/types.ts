@@ -26,12 +26,12 @@ export type Calculation = {
   retweet: number
   retweetWithComment: number
   time: number
-  hashtags: Hashtag[]
 }
 
 export type SingleDateResponse = {
   calculations: Calculation
   tweets: Tweet[]
+  hashtags: Hashtag[]
 }
 
 export type GapResponse = {

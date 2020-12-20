@@ -5,7 +5,7 @@ from config import CACHE_CONFIG
 from datetime import date, datetime, timedelta
 
 from utils import SummaryCacheInfo, DateCacheInfo
-from tweets import get_date_range, group_by_day, get_all_calculations, get_longest_gap, get_current_gap
+from tweets import get_date_range, group_by_day, get_all_calculations, get_longest_gap, get_current_gap, get_hashtags
 from dmi_tcat import fetch_tweets_for_date
 
 app = Flask(__name__)
@@ -25,8 +25,9 @@ def favicon():
 def index(date):
   tweets = fetch_tweets_for_date(date)
   calculations = get_all_calculations(tweets)
+  hashtags = get_hashtags(tweets)
 
-  return jsonify(tweets=tweets, calculations=calculations)
+  return jsonify(tweets=tweets, calculations=calculations, hashtags=hashtags)
 
 @app.route('/summary', methods=['GET'])
 @cache.cached(forced_update=SummaryCacheInfo.should_force_update)

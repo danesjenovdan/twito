@@ -49,7 +49,7 @@ def _get_counts(tweets):
 
   return counts
 
-def _get_hashtags(tweets):
+def get_hashtags(tweets):
   hashtags = defaultdict(int)
   for tweet in tweets:
     words = map(lambda word: word.lower().replace('-', ''), tweet["text"].split())
@@ -76,7 +76,7 @@ def _calculate_time(tweets):
   return duration
 
 def get_current_gap(tweets):
-  return (datetime.nowutc() - datetime.fromisoformat(tweets[-1]["created_at"])).seconds
+  return (datetime.utcnow() - datetime.fromisoformat(tweets[-1]["created_at"])).seconds
 
 def get_longest_gap(tweets):
   gap = get_current_gap(tweets)
@@ -92,7 +92,6 @@ def get_longest_gap(tweets):
 def get_all_calculations(tweets):
   calculations = _get_counts(tweets)
   calculations["time"] = _calculate_time(tweets).seconds
-  calculations["hashtags"] = _get_hashtags(tweets)
 
   return calculations
 

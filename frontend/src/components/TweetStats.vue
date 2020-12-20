@@ -32,7 +32,7 @@
     <template v-if="!inProduction">
       <div class="divider" />
 
-      <hashtags :hashtags="calculations.hashtags" />
+      <hashtags :hashtags="hashtags" />
     </template>
   </div>
 
@@ -72,8 +72,8 @@ export default defineComponent({
         retweet: 0,
         retweetWithComment: 0,
         time: 0,
-        hashtags: [],
       },
+      hashtags: [],
       tweets: [],
       TweetType,
     }
@@ -105,6 +105,7 @@ export default defineComponent({
         const response = await fetchSingleDate(date)
         this.calculations = response.calculations
         this.tweets = response.tweets
+        this.hashtags = response.hashtags
       } catch (error) {
         console.error(error)
       }
