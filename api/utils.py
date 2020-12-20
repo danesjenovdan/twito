@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, tzinfo
-from pytz import timezone, country_timezones
+from pytz import timezone
 import logging
 
 logger = logging.getLogger(__name__)
