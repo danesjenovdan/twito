@@ -2,7 +2,7 @@
   <div class="container">
     <a href="/"><header class="header-image"></header></a>
     <running-gap />
-    <summary-chart />
+    <summary-chart v-if="!dateInUrl" />
     <tweet-stats v-for="d in dates" :key="d" :date="d" />
     <div ref="bottom" />
     <footer-links />
@@ -44,8 +44,13 @@ export default defineComponent({
       isIntersecting: false,
     }
   },
+  computed: {
+    dateInUrl() {
+      return Boolean(this.$route.params.date)
+    },
+  },
   mounted() {
-    if (!this.$route.params.date) {
+    if (!this.dateInUrl) {
       this.initInfiniteLoading()
     }
   },

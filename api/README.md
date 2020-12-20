@@ -7,7 +7,10 @@ cp .env.EXAMPLE .env
 # Edit it and provide credentials
 vi .env
 
-# Start Docker container
+# Option A: run in container
 docker-compose up
-```
 
+# Option B: run on local machine
+pipenv install
+pipenv run python app.py
+```

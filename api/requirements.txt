@@ -1,8 +1,0 @@
-flask
-flask_cors
-requests
-python-dotenv
-Flask-Caching
-freezegun
-pytz
-ipdb

@@ -23,15 +23,14 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import startOfDay from 'date-fns/startOfDay'
 import parseISO from 'date-fns/parseISO'
 import differenceInSeconds from 'date-fns/differenceInSeconds'
 import { getTweetType } from '../utils'
 import { TweetType, Tweet } from '../types'
 
-const addDistances = (tweets) => {
+const addDistances = (tweets, startOfDay) => {
   if (tweets.length === 0) return []
-  const start = startOfDay(parseISO(tweets[0].createdAt))
+  const start = parseISO(startOfDay)
   const secondsInDay = 24 * 60 * 60
   const colorMap = {
     [TweetType.TWEET]: '#ff4e3a',
@@ -54,11 +53,12 @@ const addDistances = (tweets) => {
 
 export default defineComponent({
   props: {
-    tweets: { type: Array as PropType<Tweet[]>, default: () => [] },
+    tweets: { type: Array as PropType<Tweet[]>, required: true },
+    startOfDay: { type: String, required: true },
   },
   computed: {
     tweetsWithTime() {
-      return addDistances(this.tweets)
+      return addDistances(this.tweets, this.startOfDay)
     },
   },
 })
