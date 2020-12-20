@@ -30,7 +30,10 @@ def fetch_tweets_for_date(start, end=None):
     )
     tweets = []
     for row in csv_reader:
-      tweet_time = datetime.fromisoformat(row["created_at"]).replace(tzinfo=timezone.utc)
+      # The date returned from DMI-TCAT doesn't include any timezone info, but
+      # we know for a fact it's in UTC, so let's specify that explicitly
+      row["created_at"] = "T".join(row["created_at"].split(" ")) + "+00:00"
+      tweet_time = datetime.fromisoformat(row["created_at"])
       if slo_start < tweet_time < slo_end:
         tweets.append(row)
 

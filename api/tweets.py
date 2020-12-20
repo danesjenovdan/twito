@@ -7,6 +7,11 @@ import slovenian_time
 RETWEET_PREFIX = 'RT '
 MAX_TIME_BETWEEN_TWEETS = timedelta(minutes=5)
 TIME_FOR_ONE_TWEET = timedelta(minutes=5)
+DATE_FORMAT = "%Y-%m-%d"
+
+
+def _date_to_string(date):
+  return date.strftime(DATE_FORMAT)
 
 def _generate_intervals(tweets):
   all_sessions = []
@@ -99,13 +104,13 @@ def group_by_day(tweets):
   days = {}
 
   for tweet in tweets:
-    tweet_time = datetime.fromisoformat(tweet["created_at"]).replace(tzinfo=timezone.utc).astimezone(slovenian_time.TIMEZONE)
-    date = tweet_time.strftime("%Y-%m-%d")
+    tweet_time = datetime.fromisoformat(tweet["created_at"])
+    date_string = _date_to_string(tweet_time.astimezone(slovenian_time.TIMEZONE))
 
-    if date not in days:
-      days[date] = []
+    if date_string not in days:
+      days[date_string] = []
 
-    days[date].append(tweet)
+    days[date_string].append(tweet)
 
   return days
 
