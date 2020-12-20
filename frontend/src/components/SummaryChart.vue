@@ -144,7 +144,7 @@ export default defineComponent({
           plugins: {
             annotation: {
               annotations: [
-                getAnnotation('Tonin posreduje    ', '9. 12.'),
+                getAnnotation('Tonin posreduje', '9. 12.'),
                 getAnnotation('Razglasitev epidemije', '19. 10.'),
               ],
             },
