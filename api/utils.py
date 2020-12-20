@@ -58,3 +58,14 @@ class SummaryCacheInfo:
       return True
 
     return False
+
+
+def string_to_int(input, default=0):
+    try:
+        result = int(input)
+    except TypeError:
+        result = default
+    except ValueError:
+        result = default
+
+    return result
