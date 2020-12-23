@@ -1,6 +1,13 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 import slovenian_time
+
+def is_valid_date(string):
+  try:
+    datetime.strptime(string, "%Y-%m-%d")
+    return True
+  except:
+    return False
 
 class DateCacheInfo:
   TODAYS_CACHE_PERIOD = timedelta(minutes=15)
@@ -12,6 +19,9 @@ class DateCacheInfo:
 
   @classmethod
   def should_force_update(self, date):
+    if not is_valid_date(date):
+      return False
+
     date_passed_in_slo = self.date_passed_in_slovenia(date)
     last_updated_after_date = self.get_last_update(date) > slovenian_time.end_of_day(date)
 

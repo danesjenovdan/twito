@@ -12,5 +12,5 @@ docker-compose up
 
 # Option B: run on local machine
 pipenv install
-pipenv run python app.py
+pipenv run bash ./run.sh
 ```
