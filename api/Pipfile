@@ -5,11 +5,11 @@ name = "pypi"
 
 [packages]
 requests = "*"
-python-dotenv = "*"
 pytz = "*"
 Flask = "*"
 Flask-Cors = "*"
 Flask-Caching = "*"
+uwsgi = "*"
 
 [dev-packages]
 freezegun = "*"
