@@ -7,4 +7,6 @@ services:
     volumes:
       - .:/code
     environment:
+      - DMI_TCAT_USERNAME
+      - DMI_TCAT_PASSWORD
       - APP_ENV
