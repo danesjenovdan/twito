@@ -75,7 +75,7 @@ const getAnnotation = (label, value) => ({
     yPadding: 8,
     xPadding: 8,
     position: 'top',
-    yAdjust: 15,
+    yAdjust: -8,
     enabled: true,
     content: label,
   },
