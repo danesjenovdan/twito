@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, abort
+from flask import Flask, jsonify, abort, Response
 from flask_cors import CORS
 from flask_caching import Cache
 from config import CACHE_CONFIG
@@ -13,6 +13,10 @@ CORS(app)
 app.config.from_mapping(CACHE_CONFIG)
 cache = Cache(app)
 
+@app.route('/robots.txt', methods=['GET'])
+@cache.cached()
+def robots():
+  return Response('User-agent: *\nDisallow: /', mimetype="text/plain")
 
 @app.route('/summary', methods=['GET'])
 @cache.cached(forced_update=SummaryCacheInfo.should_force_update)
