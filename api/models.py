@@ -1,25 +1,9 @@
-from sqlalchemy import Column, event, DateTime, func, TypeDecorator
-from flask_sqlalchemy import SQLAlchemy
-from collections import OrderedDict
-
-db = SQLAlchemy()
+from sqlalchemy import Column, DateTime
+from sqla_wrapper import SQLAlchemy
+from config import DB_URL
 
 
-# class TimeStampMixin(object):
-#     created_at = Column(DateTime(timezone=True), server_default=func.utcnow)
-#     updated_at = Column(DateTime(timezone=True), onupdate=func.utcnow)
-#
-# class MixinAsDict:
-#     def as_dict(self):
-#         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-#
-#
-# class DictSerializableMixin(object):
-#     def _asdict(self):
-#         result = OrderedDict()
-#         for key in self.__mapper__.c.keys():
-#             result[key] = getattr(self, key)
-#         return result
+db = SQLAlchemy(url=DB_URL)
 
 
 class Tweet(db.Model):
@@ -64,6 +48,7 @@ class Tweet(db.Model):
     # created_at = Column(DateTime(timezone=True), server_default=func.utcnow)
     # updated_at = Column(DateTime(timezone=True), onupdate=func.utcnow)
 
+
 class Url(db.Model):
     __tablename__ = 'urls'
 
@@ -73,6 +58,7 @@ class Url(db.Model):
     domain = Column(db.String, nullable=True)
     # created_at = Column(DateTime(timezone=True), server_default=func.utcnow)
     # updated_at = Column(DateTime(timezone=True), onupdate=func.utcnow)
+
 
 class TweetUrl(db.Model):
     __tablename__ = 'tweets_urls'
