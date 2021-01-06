@@ -13,9 +13,12 @@ CACHE_CONFIG = {
     'CACHE_DEFAULT_TIMEOUT': 30 * 24 * 60 * 60,  # 30 days
 }
 
+DB_URL = os.getenv('DB_URL')
+REDIS_URL = os.getenv('REDIS_URL')
+
 CELERY_CONFIG = {
-    'BROKER_URL': 'redis://redis',
-    'RESULT_BACKEND': 'redis://redis',
+    'BROKER_URL': REDIS_URL,
+    'RESULT_BACKEND': REDIS_URL,
 }
 
 dictConfig({

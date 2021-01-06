@@ -1,8 +1,8 @@
 """initial migration
 
-Revision ID: 55281cba0c6c
+Revision ID: c733acaef5fb
 Revises: 
-Create Date: 2020-12-20 23:37:11.317298
+Create Date: 2021-01-06 19:44:37.738071
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '55281cba0c6c'
+revision = 'c733acaef5fb'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -55,7 +55,8 @@ def upgrade():
     sa.Column('truncated', sa.String(), nullable=True),
     sa.Column('withheld_copyright', sa.String(), nullable=True),
     sa.Column('withheld_scope', sa.String(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('twitter_id')
     )
     op.create_table('urls',
     sa.Column('id', sa.Integer(), nullable=False),
