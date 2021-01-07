@@ -26,13 +26,13 @@ def summary():
   start, end = get_summary_date_range()
   tweets = fetch_tweets_for_date(start, end)
 
-    tweets_by_day = group_by_day(tweets)
-    calculations_by_day = {}
+  tweets_by_day = group_by_day(tweets)
+  calculations_by_day = {}
 
-    for day, tweets in tweets_by_day.items():
-        calculations_by_day[day] = get_all_calculations(tweets)
+  for day, tweets in tweets_by_day.items():
+      calculations_by_day[day] = get_all_calculations(tweets)
 
-    return jsonify(calculations_by_day)
+  return jsonify(calculations_by_day)
 
 
 @app.route('/running-gap', methods=['GET'])
