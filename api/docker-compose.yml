@@ -7,6 +7,10 @@ services:
       - 5000:5000
     volumes:
       - .:/code
+    environment:
+      - DMI_TCAT_USERNAME
+      - DMI_TCAT_PASSWORD
+      - APP_ENV
     links:
         - redis
 

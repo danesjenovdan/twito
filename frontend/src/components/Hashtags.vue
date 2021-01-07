@@ -19,12 +19,10 @@ export default defineComponent({
   },
   computed: {
     topHashtags() {
-      return this.hashtags
-        .slice(0, 5)
-        .map(
-          ({ hashtag, number }, index) =>
-            `${index + 1}. ${hashtag}: ${number}-krat`
-        )
+      return this.hashtags.map(
+        ({ hashtag, number }, index) =>
+          `${index + 1}. ${hashtag}: ${number}-krat`
+      )
     },
   },
 })

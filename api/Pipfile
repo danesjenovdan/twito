@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+requests = "*"
+pytz = "*"
+Flask = "*"
+Flask-Cors = "*"
+Flask-Caching = "*"
+uwsgi = "*"
+
+[dev-packages]
+freezegun = "*"
+ipdb = "*"
+
+[requires]
+python_version = "3.9"

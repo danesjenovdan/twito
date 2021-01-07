@@ -75,7 +75,7 @@ const getAnnotation = (label, value) => ({
     yPadding: 8,
     xPadding: 8,
     position: 'top',
-    yAdjust: 15,
+    yAdjust: -8,
     enabled: true,
     content: label,
   },
@@ -144,7 +144,7 @@ export default defineComponent({
           plugins: {
             annotation: {
               annotations: [
-                getAnnotation('Tonin posreduje    ', '9. 12.'),
+                getAnnotation('Tonin posreduje', '9. 12.'),
                 getAnnotation('Razglasitev epidemije', '19. 10.'),
               ],
             },

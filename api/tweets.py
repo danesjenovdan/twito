@@ -1,12 +1,19 @@
 import json
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from collections import defaultdict
 from utils import string_to_int
+
+import slovenian_time
 
 RETWEET_PREFIX = 'RT '
 MAX_TIME_BETWEEN_TWEETS = timedelta(minutes=5)
 TIME_FOR_ONE_TWEET = timedelta(minutes=5)
 TWEET_ID = '\ufeffid'
+DATE_FORMAT = "%Y-%m-%d"
+
+
+def _date_to_string(date):
+  return date.strftime(DATE_FORMAT)
 
 def _generate_intervals(tweets):
   all_sessions = []
@@ -49,7 +56,7 @@ def _get_counts(tweets):
 
   return counts
 
-def _get_hashtags(tweets):
+def get_hashtags(tweets):
   hashtags = defaultdict(int)
   for tweet in tweets:
     words = map(lambda word: word.lower().replace('-', ''), tweet["text"].split())
@@ -62,7 +69,7 @@ def _get_hashtags(tweets):
 
   sorted_hashtags = [{"hashtag": hashtag, "number": number} for hashtag, number in list(reversed(sorted_tuples))]
 
-  return sorted_hashtags
+  return sorted_hashtags[0:5]
 
 def _calculate_time(tweets):
   intervals = _generate_intervals(tweets)
@@ -75,11 +82,14 @@ def _calculate_time(tweets):
 
   return duration
 
-def get_current_gap(tweets):
-  return (datetime.now() - datetime.fromisoformat(tweets[-1]["created_at"])).seconds
+def _get_current_gap(tweets):
+  utc_now = datetime.now(tz=timezone.utc)
+  last_tweet_time = datetime.fromisoformat(tweets[-1]["created_at"])
 
-def get_longest_gap(tweets):
-  gap = get_current_gap(tweets)
+  return (utc_now - last_tweet_time).seconds
+
+def _get_longest_gap(tweets):
+  gap = _get_current_gap(tweets)
   current_tweet_time = datetime.fromisoformat(tweets[0]["created_at"])
   previous_tweet_time = None
   for tweet in tweets[1:]:
@@ -89,10 +99,15 @@ def get_longest_gap(tweets):
 
   return gap
 
+def get_gaps(tweets):
+  return {
+    'longest_gap': _get_longest_gap(tweets),
+    'current_gap': _get_current_gap(tweets)
+  }
+
 def get_all_calculations(tweets):
   calculations = _get_counts(tweets)
   calculations["time"] = _calculate_time(tweets).seconds
-  calculations["hashtags"] = _get_hashtags(tweets)
 
   return calculations
 
@@ -100,34 +115,27 @@ def group_by_day(tweets):
   days = {}
 
   for tweet in tweets:
-    date = tweet["created_at"].split(" ", 1)[0]
+    tweet_time = datetime.fromisoformat(tweet["created_at"])
+    date_string = _date_to_string(tweet_time.astimezone(slovenian_time.TIMEZONE))
 
-    if date not in days:
-      days[date] = []
+    if date_string not in days:
+      days[date_string] = []
 
-    days[date].append(tweet)
+    days[date_string].append(tweet)
 
   return days
 
-def get_date_range(days=90):
-  end_date = date.today() - timedelta(days=1) # yesterday
+def get_summary_date_range(days=90):
+  end_date = slovenian_time.now() - timedelta(days=1) # yesterday
   start_date = end_date - timedelta(days=days)
-  date_format = "%Y-%m-%d"
 
-  end = end_date.strftime(date_format)
-  start =  start_date.strftime(date_format)
+  return _date_to_string(start_date), _date_to_string(end_date)
 
-  return start, end
+def get_gap_date_range():
+  end_date = slovenian_time.now()
+  start_date = end_date - timedelta(days=1) # yesterday
 
+  return _date_to_string(start_date), _date_to_string(end_date)
 
-def is_retweet(tweet):
-    return tweet.get('text').find(RETWEET_PREFIX) != -1
-
-
-def get_tweet_id(tweet):
-    return tweet.get(TWEET_ID)
-
-
-
-
-
+def get_start_of_day(date):
+  return slovenian_time.start_of_day(date).astimezone(timezone.utc).isoformat()
