@@ -3,9 +3,17 @@ from flask_cors import CORS
 from flask_caching import Cache
 from config import CACHE_CONFIG
 
+import os
+from django.apps import apps
+from django.conf import settings
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
+apps.populate(settings.INSTALLED_APPS)
+
 from utils import is_valid_date, SummaryCacheInfo, DateCacheInfo
 from tweets import get_summary_date_range, get_gap_date_range, group_by_day, get_all_calculations, get_gaps, get_hashtags, get_start_of_day
-from dmi_tcat import fetch_tweets_for_date
+from dmi_tcat import fetch_tweets_for_date_string
+from stats.models import DailySums
 
 app = Flask(__name__)
 CORS(app)
@@ -22,7 +30,7 @@ def robots():
 @cache.cached(forced_update=SummaryCacheInfo.should_force_update)
 def summary():
   start, end = get_summary_date_range()
-  tweets = fetch_tweets_for_date(start, end)
+  tweets = fetch_tweets_for_date_string(start, end)
 
   tweets_by_day = group_by_day(tweets)
   calculations_by_day = {}
@@ -36,7 +44,7 @@ def summary():
 @cache.cached(timeout=1 * 60)
 def running_gap():
   start, end = get_gap_date_range()
-  tweets = fetch_tweets_for_date(start, end)
+  tweets = fetch_tweets_for_date_string(start, end)
   gaps = get_gaps(tweets)
 
   return jsonify(gaps)
@@ -48,7 +56,7 @@ def index(date):
   if not is_valid_date(date):
     abort(404)
 
-  tweets = fetch_tweets_for_date(date)
+  tweets = fetch_tweets_for_date_string(date)
   calculations = get_all_calculations(tweets)
   hashtags = get_hashtags(tweets)
   start_of_day = get_start_of_day(date)

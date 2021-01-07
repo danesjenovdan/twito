@@ -10,6 +10,7 @@ Flask = "*"
 Flask-Cors = "*"
 Flask-Caching = "*"
 uwsgi = "*"
+django = "*"
 
 [dev-packages]
 freezegun = "*"

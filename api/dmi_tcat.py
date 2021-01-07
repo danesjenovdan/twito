@@ -10,16 +10,16 @@ from config import DMI_TCAT_USERNAME, DMI_TCAT_PASSWORD
 import slovenian_time
 
 
-def fetch_tweets_for_date(start, end=None):
-  if not end:
-    end = start
+def fetch_tweets_for_date_string(start_date_string, end_date_string=None):
+  if not end_date_string:
+    end_date_string = start_date_string
 
-  slo_start = slovenian_time.start_of_day(start)
-  slo_end = slovenian_time.end_of_day(end)
+  slo_start = slovenian_time.start_of_day(start_date_string)
+  slo_end = slovenian_time.end_of_day(end_date_string)
 
   # DMI-TCAT query params are UTC, so we need to fetch an additional day as last
   # one/two hours of the same day in UTC are already in the next day in CET.
-  day_before_start = datetime.fromisoformat(start) - timedelta(days=1)
+  day_before_start = datetime.fromisoformat(start_date_string) - timedelta(days=1)
   start_query = day_before_start.strftime('%Y-%m-%d')
   end_query = end
 
