@@ -4,7 +4,7 @@ import sys
 
 from freezegun import freeze_time
 
-from tweets import _calculate_time
+from tweets.utilities import _calculate_time
 from utils import DateCacheInfo, SummaryCacheInfo
 from datetime import datetime
 

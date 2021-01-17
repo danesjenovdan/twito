@@ -2,16 +2,6 @@ from flask import Flask, jsonify, abort, Response
 from flask_cors import CORS
 from flask_migrate import Migrate
 
-from config import CACHE_CONFIG
-from dmi_tcat import fetch_tweets_for_date
-from models import db
-from tasks import store_all_tweets
-
-from models import db
-from flask_migrate import Migrate, MigrateCommand, Manager
-
-from config import CACHE_CONFIG
-
 import os
 from django.apps import apps
 from django.conf import settings
@@ -19,20 +9,21 @@ from django.conf import settings
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 apps.populate(settings.INSTALLED_APPS)
 
+from settings import CACHE_CONFIG
+
 from utils import is_valid_date, SummaryCacheInfo, DateCacheInfo
-from tweets import get_summary_date_range, get_gap_date_range, group_by_day, get_all_calculations, get_gaps, get_hashtags, get_start_of_day
+from tweets.utilities import get_summary_date_range, get_gap_date_range, group_by_day, get_all_calculations, get_gaps, get_hashtags, get_start_of_day
 from dmi_tcat import fetch_tweets_for_date_string
-from stats.models import DailySums
 from datetime import date, datetime, timedelta
 from utils import SummaryCacheInfo, DateCacheInfo
-from tweets import get_date_range, group_by_day, get_all_calculations, get_longest_gap, get_current_gap
+from tweets.utilities import get_date_range, group_by_day, get_all_calculations, get_longest_gap, get_current_gap
 from utils import SummaryCacheInfo
+from tasks import store_tweets
 
 app = Flask(__name__)
 CORS(app)
 
 app.config.from_mapping(CACHE_CONFIG)
-migrate = Migrate(app, db)
 cache = Cache(app)
 
 
@@ -50,7 +41,7 @@ def index(date):
 
     # TODO move to scheduler
     # resolve_urls_for_all_tweets.delay()
-    store_all_tweets()
+    store_tweets(tweets)
 
     return jsonify(tweets=tweets, calculations=calculations)
 
