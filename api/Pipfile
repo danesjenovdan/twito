@@ -13,6 +13,7 @@ uwsgi = "*"
 django = "*"
 tldextract = "*"
 celery = "*"
+redis = "*"
 
 [dev-packages]
 freezegun = "*"

@@ -11,16 +11,29 @@ services:
       - DMI_TCAT_USERNAME
       - DMI_TCAT_PASSWORD
       - APP_ENV
+      - REDIS_URL
+      - DB_URL
+    entrypoint: /code/run.sh
 
   worker:
     build: .
     restart: always
     volumes:
       - .:/code
-    command: ['celery', '-A', 'tasks', 'worker', '--loglevel=INFO']
+    environment:
+      - REDIS_URL
+    command: ['celery', '-A', 'tasks', 'worker', '--loglevel=DEBUG']
 
   redis:
     image: redis:6-alpine
     restart: always
     ports:
       - 6379:6379
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    ports:
+      - 8081:8081

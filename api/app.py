@@ -65,7 +65,7 @@ def index(date):
   hashtags = get_hashtags(tweets)
   start_of_day = get_start_of_day(date)
 
-  # store tweets here
-  store_tweets(tweets)
+  # store tweets with a celery worker
+  store_tweets.delay(tweets)
 
   return jsonify(tweets=tweets, calculations=calculations, hashtags=hashtags, start_of_day=start_of_day)

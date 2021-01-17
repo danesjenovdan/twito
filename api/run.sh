@@ -1,3 +1,5 @@
+#!/bin/bash
+
 python manage.py migrate
 
 if [ "$APP_ENV" = "development" ]; then

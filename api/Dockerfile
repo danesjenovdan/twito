@@ -8,4 +8,5 @@ RUN pipenv install --system --deploy --ignore-pipfile
 
 COPY . /code
 WORKDIR /code
-ENTRYPOINT ./run.sh
+
+CMD ['FLASK_ENV=development', 'flask', 'run', '--host=0.0.0.0']

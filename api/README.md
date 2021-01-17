@@ -1,22 +1,19 @@
 # How to run this in dev?
 
-```bash
-# Create .env file from template
+## Create .env file from template
 cp .env.EXAMPLE .env
 
-# Edit it and provide credentials
-vi .env
-
-# Option A: run in container
+## Option A: run in container
 docker-compose up
 
-# Option B: run on local machine
+## Option B: run on local machine
 pipenv install
 pipenv run bash ./run.sh
 
-# Generate migration
-flask db migrate -m "Initial migration."
+## Migrations
 
-# Run migrations
-flask db upgrade
-```
+### Generate migrations
+`[docker-compose exec flask] python manage.py makemigrations`
+
+### Run migrations
+`[docker-compose exec flask] python manage.py migrate`

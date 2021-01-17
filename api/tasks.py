@@ -1,8 +1,12 @@
-from datetime import date
+import os
+from datetime import date, datetime
 
-from celery import Celery
+from celery import Celery, shared_task
 
-from datetime import datetime
+from django.apps import apps
+from django.conf import settings
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
+apps.populate(settings.INSTALLED_APPS)
 
 from tweets.utilities import get_tweet_id, get_summary_date_range
 from tweets.models import Tweet
@@ -16,8 +20,7 @@ logger = logging.getLogger(__name__)
 
 celery = Celery('tasks', broker=CELERY_CONFIG.get('BROKER_URL'), backend=CELERY_CONFIG.get('RESULT_BACKEND'))
 
-
-@celery.task
+@shared_task
 def resolve_urls_for_date(date):
     tweets = fetch_tweets_for_date_string(date)
 
@@ -26,7 +29,7 @@ def resolve_urls_for_date(date):
         resolve_url_for_tweet.delay(tweet)
 
 
-@celery.task(autoretry_for=(Exception,), retry_kwargs={'max_retries': 5}, retry_backoff=True)
+@shared_task(autoretry_for=(Exception,), retry_kwargs={'max_retries': 5}, retry_backoff=True)
 def resolve_url_for_tweet(tweet):
 
     logger.info(f'resolving tweet <{get_tweet_id(tweet)}>')
@@ -36,6 +39,7 @@ def resolve_url_for_tweet(tweet):
     if result:
         logger.info(result)
 
+@shared_task
 def store_tweets(tweets):
     for tweet in tweets:
         Tweet.create_from_tweet(tweet)
@@ -52,4 +56,4 @@ def store_all_tweets():
     start, end = get_summary_date_range(days=delta.days)
     tweets = fetch_tweets_for_date_string(start, end)
 
-    store_tweets(tweets)
+    store_tweets(tweets).delay()
