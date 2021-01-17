@@ -1,7 +1,6 @@
 import json
 from datetime import date, datetime, timedelta, timezone
 from collections import defaultdict
-from utils import string_to_int
 
 import slovenian_time
 
@@ -147,8 +146,3 @@ def is_retweet(tweet):
 
 def get_tweet_id(tweet):
     return tweet.get(TWEET_ID)
-
-
-
-
-
