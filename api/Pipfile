@@ -11,6 +11,8 @@ Flask-Cors = "*"
 Flask-Caching = "*"
 uwsgi = "*"
 django = "*"
+tldextract = "*"
+celery = "*"
 
 [dev-packages]
 freezegun = "*"

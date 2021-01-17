@@ -1,5 +1,5 @@
 import os
-from logging import config as log_config
+from logging.config import dictConfig
 
 DMI_TCAT_USERNAME = os.getenv('DMI_TCAT_USERNAME')
 DMI_TCAT_PASSWORD = os.getenv('DMI_TCAT_PASSWORD')
@@ -30,7 +30,7 @@ CELERY_CONFIG = {
 SECRET_KEY = os.getenv('SECRET_KEY', 'THIS_SHOULD_BE_SECRET')
 
 # set logging configuration
-log_config.dictConfig({
+dictConfig({
     'version': 1,
     'formatters': {'default': {
         'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
