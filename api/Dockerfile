@@ -9,4 +9,4 @@ RUN pipenv install --system --deploy --ignore-pipfile
 COPY . /code
 WORKDIR /code
 
-CMD ['FLASK_ENV=development', 'flask', 'run', '--host=0.0.0.0']
+CMD ['uwsgi', '--http', '0.0.0.0:5000', '--module', 'app:app', '--enable-threads']
