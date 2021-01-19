@@ -15,7 +15,7 @@ from settings import CACHE_CONFIG
 from utils import is_valid_date, SummaryCacheInfo, DateCacheInfo
 from tweets.utilities import get_summary_date_range, get_gap_date_range, group_by_day, get_all_calculations, get_gaps, get_hashtags, get_start_of_day
 from dmi_tcat import fetch_tweets_for_date_string
-from tasks import store_tweets
+# from tasks import store_tweets
 
 app = Flask(__name__)
 CORS(app)
@@ -66,6 +66,6 @@ def index(date):
   start_of_day = get_start_of_day(date)
 
   # store tweets with a celery worker
-  store_tweets.delay(tweets)
+  # store_tweets.delay(tweets)
 
   return jsonify(tweets=tweets, calculations=calculations, hashtags=hashtags, start_of_day=start_of_day)
