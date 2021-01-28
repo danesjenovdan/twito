@@ -19,9 +19,14 @@ spec:
         image: rg.fr-par.scw.cloud/djnd/twito:latest
         ports:
         - containerPort: 5000
+        volumeMounts:
+        - name: twito-persistent-storage
+          mountPath: /db
         env:
           - name: APP_ENV
             value: development
+          - name: DB_URL
+            value: /db/twito.sqlite3
           - name: DMI_TCAT_USERNAME
             valueFrom:
               secretKeyRef:
@@ -32,3 +37,7 @@ spec:
               secretKeyRef:
                 name: dmi-tcat-credentials
                 key: password
+      volumes:
+      - name: twito-persistent-storage
+        persistentVolumeClaim:
+          claimName: twito-db-pv-claim
