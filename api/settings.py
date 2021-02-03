@@ -10,10 +10,17 @@ CACHE_CONFIG = {
 }
 
 DATABASES = {
-    'default': {
+    'default': ({
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('SECRET_DB_NAME', ''),
+        'USER': os.getenv('SECRET_DB_USERNAME', ''),
+        'PASSWORD': os.getenv('SECRET_DB_PASSWORD', ''),
+        'HOST': os.getenv('POSTGRESQL_SERVICE_HOST', ''),
+        'PORT': '5432',
+    } if os.getenv('APP_ENV', 'development') == 'production' else {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.getenv('DB_URL', 'twito.sqlite3'),
-    }
+    })
 }
 
 USE_TZ=True
