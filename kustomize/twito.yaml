@@ -54,3 +54,10 @@ spec:
               secretKeyRef:
                 name: redis-credentials
                 key: password
+      - name: twito-frontend
+        image: twito-frontend
+        ports:
+        - containerPort: 80
+        env:
+          - name: APP_ENV
+            value: production

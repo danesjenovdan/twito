@@ -11,3 +11,6 @@ images:
 - name: twito
   newName: rg.fr-par.scw.cloud/djnd/twito
   newTag: '0cb97cdb61b919ca2c601d1ff1322b3f37f58ece'
+- name: twito-frontend
+  newName: rg.fr-par.scw.cloud/djnd/twito-frontend
+  newTag: 'latest'

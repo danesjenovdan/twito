@@ -29,7 +29,6 @@ import {
   BarElement,
   Tooltip,
 } from 'chart.js'
-import 'chartjs-plugin-annotation/src/index'
 
 import { fetchSummary } from '../api'
 import { TweetType } from '../types'
@@ -46,40 +45,6 @@ Chart.register(
 
 Chart.defaults.font.family = '"Space Grotesk", sans-serif'
 Chart.defaults.font.size = 14
-
-const getAnnotation = (label, value) => ({
-  type: 'line',
-  mode: 'vertical',
-  scaleID: 'x',
-  value,
-  borderColor: 'black',
-  borderWidth: 1,
-  borderDash: [4, 4],
-  label: {
-    cornerRadius: 0,
-    backgroundColor: '#ddf7f8',
-    font: {
-      // Font family of text, inherits from global
-      family: 'Space Grotesk',
-
-      // Font size of text, inherits from global
-      size: 14,
-
-      // Font style of text, default below
-      style: 'normal',
-
-      // Font color of text, default below
-      color: 'black',
-    },
-
-    yPadding: 8,
-    xPadding: 8,
-    position: 'top',
-    yAdjust: -8,
-    enabled: true,
-    content: label,
-  },
-})
 
 export default defineComponent({
   data() {
@@ -141,19 +106,6 @@ export default defineComponent({
           ],
         },
         options: {
-          plugins: {
-            annotation: {
-              annotations: [
-                getAnnotation('Tonin posreduje', '9. 12.'),
-                getAnnotation('Razglasitev epidemije', '19. 10.'),
-              ],
-            },
-            tooltip: {
-              callbacks: {
-                title: (context) => tooltipTitles[context[0].dataIndex],
-              },
-            },
-          },
           scales: {
             x: {
               stacked: true,

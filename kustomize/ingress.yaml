@@ -8,8 +8,32 @@ metadata:
 spec:
   tls:
   - hosts:
-    - twito.k8s.djnd.si
+    - api.twito.k8s.djnd.si
     secretName: twito-tls
+  rules:
+  - host: api.twito.k8s.djnd.si
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: twito
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: twito-frontend-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+spec:
+  tls:
+  - hosts:
+    - twito.k8s.djnd.si
+    secretName: twito-frontend-tls
   rules:
   - host: twito.k8s.djnd.si
     http:
@@ -18,6 +42,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: twito
+            name: twito-frontend
             port:
               number: 80

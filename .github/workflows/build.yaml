@@ -29,6 +29,13 @@ jobs:
           push: true
           tags: rg.fr-par.scw.cloud/djnd/twito:${{ github.sha }}
       -
+        name: Build and push API
+        uses: docker/build-push-action@v2
+        with:
+          context: ./frontend
+          push: true
+          tags: rg.fr-par.scw.cloud/djnd/twito-frontend:${{ github.sha }}
+      -
         name: Update image versions in kustomize/kustomization.yaml
         run: |
           sed -i "s/newTag: .*\+/newTag\: '${{ github.sha }}'/" kustomize/kustomization.yaml
