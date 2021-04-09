@@ -15,7 +15,7 @@ DATABASES = {
         'NAME': os.getenv('SECRET_DB_NAME', ''),
         'USER': os.getenv('SECRET_DB_USERNAME', ''),
         'PASSWORD': os.getenv('SECRET_DB_PASSWORD', ''),
-        'HOST': os.getenv('POSTGRESQL_SERVICE_HOST', ''),
+        'HOST': os.getenv('POSTGRESQL_SERVICE_HOST', ''), # this relies on postgresql being names properly on the cluster
         'PORT': '5432',
     } if os.getenv('APP_ENV', 'development') == 'production' else {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -29,9 +29,12 @@ INSTALLED_APPS = (
     'tweets',
 )
 
+redis_password = os.getenv('REDIS_PASSWORD', '')
+redis_host = os.getenv('REDIS_MASTER_SERVICE_HOST', 'redis')
+
 CELERY_CONFIG = {
-    'BROKER_URL': os.getenv('REDIS_URL', 'redis://redis'),
-    'RESULT_BACKEND': os.getenv('REDIS_URL', 'redis://redis'),
+    'BROKER_URL': f"redis://default:{redis_password}@{redis_host}",
+    'RESULT_BACKEND': f"redis://default:{redis_password}@{redis_host}",
 }
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'THIS_SHOULD_BE_SECRET')

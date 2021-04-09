@@ -1,7 +1,7 @@
 import requests
 import re
 import tldextract
-from tweets.utilities import is_retweet, get_tweet_id
+from api.tweets.utilities import is_retweet, get_tweet_id
 import logging
 logger = logging.getLogger(__name__)
 

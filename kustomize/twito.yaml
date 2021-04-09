@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: twito-deployment
+  name: twito
   labels:
     app: twito
 spec:
@@ -16,15 +16,12 @@ spec:
     spec:
       containers:
       - name: twito
-        image: rg.fr-par.scw.cloud/djnd/twito:latest
+        image: twito
         ports:
         - containerPort: 5000
-        volumeMounts:
-        - name: twito-persistent-storage
-          mountPath: /db
         env:
           - name: APP_ENV
-            value: development
+            value: production
           - name: DB_URL
             value: /db/twito.sqlite3
           - name: DMI_TCAT_USERNAME
@@ -37,7 +34,23 @@ spec:
               secretKeyRef:
                 name: dmi-tcat-credentials
                 key: password
-      volumes:
-      - name: twito-persistent-storage
-        persistentVolumeClaim:
-          claimName: twito-db-pv-claim
+          - name: SECRET_DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: name
+          - name: SECRET_DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: username
+          - name: SECRET_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: password
+          - name: REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: redis-credentials
+                key: password

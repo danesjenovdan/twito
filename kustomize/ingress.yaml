@@ -4,9 +4,14 @@ metadata:
   name: twito-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
 spec:
+  tls:
+  - hosts:
+    - twito.k8s.djnd.si
+    secretName: twito-tls
   rules:
-  - host: muki.k8s.djnd.si
+  - host: twito.k8s.djnd.si
     http:
       paths:
       - path: /

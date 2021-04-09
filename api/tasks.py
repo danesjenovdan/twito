@@ -47,6 +47,7 @@ def store_tweets(tweets):
         # logger.info(f'resolving tweet <{get_tweet_id(tweet)}>')
         # resolve_url_for_tweet.delay(tweet)
 
+@shared_task
 def store_all_tweets():
     # no data exists before 2020-08-24
     tweets_start_date = date(2020, 8, 24)
