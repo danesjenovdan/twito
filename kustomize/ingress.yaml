@@ -9,7 +9,7 @@ spec:
   tls:
   - hosts:
     - api.skoraj.twito.si
-    secretName: twito-tls
+    secretName: twito-staging-tls
   rules:
   - host: api.skoraj.twito.si
     http:
@@ -33,7 +33,7 @@ spec:
   tls:
   - hosts:
     - skoraj.twito.si
-    secretName: twito-frontend-tls
+    secretName: twito-staging-frontend-tls
   rules:
   - host: skoraj.twito.si
     http:
