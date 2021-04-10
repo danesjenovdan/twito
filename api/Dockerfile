@@ -1,13 +1,12 @@
 FROM python:3.9
 
-COPY ./Pipfile /code/
-WORKDIR /code
+COPY ./Pipfile /api/
+WORKDIR /api/
 RUN pip install pipenv
 RUN pipenv lock
 RUN pipenv install --system --deploy --ignore-pipfile
 
-COPY . /code
-WORKDIR /code
+COPY . /api/
 
 # CMD ['uwsgi', '--http', '0.0.0.0:5000', '--module', 'app:app', '--enable-threads']
 ENTRYPOINT ./run.sh

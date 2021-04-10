@@ -1,32 +1,30 @@
 version: '3'
 services:
   flask:
-    build: .
-    restart: always
+    build: ./api
     ports:
       - 5000:5000
     volumes:
-      - .:/code
+      - ./api:/api
     environment:
-      - DMI_TCAT_USERNAME
-      - DMI_TCAT_PASSWORD
-      - APP_ENV
-      - REDIS_URL
-      - DB_URL
-    entrypoint: /code/run.sh
+      DMI_TCAT_USERNAME: admin
+      DMI_TCAT_PASSWORD: boterjekul
+      APP_ENV: development
+      REDIS_URL: redis://redis
+      DB_URL: sqlite:///twito.sqlite3
+      DJANGO_SETTINGS_MODULE: settings
+    entrypoint: ./run.sh
 
   worker:
-    build: .
-    restart: always
+    build: ./api
     volumes:
-      - .:/code
+      - ./api:/api
     environment:
       - REDIS_URL
     command: ['celery', '-A', 'tasks', 'worker', '--loglevel=DEBUG']
 
   redis:
     image: redis:6-alpine
-    restart: always
     ports:
       - 6379:6379
 
@@ -37,3 +35,8 @@ services:
       REDIS_PORT: 6379
     ports:
       - 8081:8081
+
+  frontend:
+    build: ./frontend
+    ports:
+      - 8080:80

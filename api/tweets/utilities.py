@@ -2,7 +2,7 @@ import json
 from datetime import date, datetime, timedelta, timezone
 from collections import defaultdict
 
-import api.slovenian_time
+import slovenian_time
 
 RETWEET_PREFIX = 'RT '
 MAX_TIME_BETWEEN_TWEETS = timedelta(minutes=5)
