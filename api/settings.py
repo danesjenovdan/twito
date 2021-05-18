@@ -19,7 +19,7 @@ DATABASES = {
         'PORT': '5432',
     } if os.getenv('APP_ENV', 'development') == 'production' else {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.getenv('DB_URL', 'twito.sqlite3'),
+        'NAME': os.getenv('DB_NAME', 'twito.sqlite3'),
     })
 }
 

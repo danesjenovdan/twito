@@ -11,7 +11,7 @@ services:
       DMI_TCAT_PASSWORD: boterjekul
       APP_ENV: development
       REDIS_URL: redis://redis
-      DB_URL: sqlite:///twito.sqlite3
+      DB_NAME: twito.sqlite3
       DJANGO_SETTINGS_MODULE: settings
     entrypoint: ./run.sh
 
