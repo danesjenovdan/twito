@@ -4,6 +4,8 @@ from collections import defaultdict
 
 import slovenian_time
 
+from tweets.models import Tweet
+
 RETWEET_PREFIX = 'RT '
 MAX_TIME_BETWEEN_TWEETS = timedelta(minutes=5)
 TIME_FOR_ONE_TWEET = timedelta(minutes=5)
@@ -23,8 +25,8 @@ def _generate_intervals(tweets):
       current_session.append(tweet)
       continue
 
-    current_tweet_time = datetime.fromisoformat(tweet["created_at"])
-    previous_tweet_time = datetime.fromisoformat(current_session[-1]["created_at"])
+    current_tweet_time = tweet.timestamp
+    previous_tweet_time = current_session[-1].timestamp
     time_difference = current_tweet_time - previous_tweet_time
 
     if time_difference > MAX_TIME_BETWEEN_TWEETS:
@@ -39,9 +41,9 @@ def _generate_intervals(tweets):
   return all_sessions
 
 def _get_tweet_type(tweet):
-  if tweet["text"].startswith(RETWEET_PREFIX):
+  if tweet.retweet:
     return "retweet"
-  elif tweet["quoted_status_id"] != "":
+  elif tweet.quote:
     return "retweet_with_comment"
   else:
     return "tweet"
@@ -58,7 +60,7 @@ def _get_counts(tweets):
 def get_hashtags(tweets):
   hashtags = defaultdict(int)
   for tweet in tweets:
-    words = map(lambda word: word.lower().replace('-', ''), tweet["text"].split())
+    words = map(lambda word: word.lower().replace('-', ''), tweet.text.split())
 
     for word in words:
       if word.startswith("#"):
@@ -75,33 +77,29 @@ def _calculate_time(tweets):
   duration = timedelta()
 
   for interval in intervals:
-    start = datetime.fromisoformat(interval[0]["created_at"])
-    end = datetime.fromisoformat(interval[-1]["created_at"])
+    start = interval[0].timestamp
+    end = interval[-1].timestamp
     duration += max(end - start, TIME_FOR_ONE_TWEET)
 
   return duration
 
-def _get_current_gap(tweets):
-  utc_now = datetime.now(tz=timezone.utc)
-  last_tweet_time = datetime.fromisoformat(tweets[-1]["created_at"])
-
-  return (utc_now - last_tweet_time).seconds
-
-def _get_longest_gap(tweets):
-  gap = _get_current_gap(tweets)
-  current_tweet_time = datetime.fromisoformat(tweets[0]["created_at"])
-  previous_tweet_time = None
-  for tweet in tweets[1:]:
-    previous_tweet_time = current_tweet_time
-    current_tweet_time = datetime.fromisoformat(tweet["created_at"])
-    gap = max((current_tweet_time - previous_tweet_time).seconds, gap)
-
-  return gap
-
 def get_gaps(tweets):
+  now = slovenian_time.now()
+  last_tweet_time = tweets.order_by('-timestamp').first().timestamp
+
+  current_gap = (now - last_tweet_time).seconds
+
+  longest_gap = 0
+  current_tweet_time = last_tweet_time
+  previous_tweet_time = None
+  for tweet in tweets.order_by('-timestamp')[1:]:
+    previous_tweet_time = current_tweet_time
+    current_tweet_time = tweet.timestamp
+    longest_gap = max((current_tweet_time - previous_tweet_time).seconds, longest_gap)
+
   return {
-    'longest_gap': _get_longest_gap(tweets),
-    'current_gap': _get_current_gap(tweets)
+    'longest_gap': longest_gap,
+    'current_gap': current_gap,
   }
 
 def get_all_calculations(tweets):
@@ -114,10 +112,10 @@ def group_by_day(tweets):
   days = {}
 
   for tweet in tweets:
-    tweet_time = datetime.fromisoformat(tweet["created_at"])
+    tweet_time = tweet.timestamp
     date_string = _date_to_string(tweet_time.astimezone(slovenian_time.TIMEZONE))
 
-    if date_string not in days:
+    if date_string not in days.keys():
       days[date_string] = []
 
     days[date_string].append(tweet)
@@ -130,15 +128,17 @@ def get_summary_date_range(days=90):
 
   return _date_to_string(start_date), _date_to_string(end_date)
 
+def get_summary_dates(days=90):
+  end_date = slovenian_time.end_of_date(slovenian_time.now()) - timedelta(days=1)
+  start_date = slovenian_time.start_of_date(end_date) - timedelta(days=days)
+
+  return start_date, end_date
+
 def get_gap_date_range():
   end_date = slovenian_time.now()
   start_date = end_date - timedelta(days=1) # yesterday
 
-  return _date_to_string(start_date), _date_to_string(end_date)
-
-def get_start_of_day(date):
-  return slovenian_time.start_of_day(date).astimezone(timezone.utc).isoformat()
-
+  return start_date, end_date
 
 def is_retweet(tweet):
     return tweet.get('text').find(RETWEET_PREFIX) != -1

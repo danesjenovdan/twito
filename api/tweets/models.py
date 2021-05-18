@@ -8,40 +8,24 @@ from django.db.utils import IntegrityError
 
 from behaviors.models import Timestampable
 
-from tweets.utilities import get_tweet_id
-
 class Tweet(Timestampable):
     twitter_id = models.TextField(null=False, unique=True)
-    favorite_count = models.IntegerField(null=True)
-    user_handle = models.TextField(null=False)
-    user_name = models.TextField(null=True)
-    text = models.TextField(null=False)
-    truncated = models.BooleanField(default=False)
     timestamp = models.DateTimeField(null=True)
+    text = models.TextField(null=False)
 
-    @staticmethod
-    def create_from_tweet(tweet):
-        twitter_id = get_tweet_id(tweet)
-        favorite_count = int(tweet.get('favourite_count', 0))
-        user_handle = tweet.get('from_user_name', 'HANDLE MISSING')
-        user_name = tweet.get('from_user_realname', 'REAL NAME NOT SET')
-        text = tweet.get('text', 'TWEET MISSING')
-        truncated = not (tweet.get('truncated', '') == '')
-        timestamp = datetime.fromisoformat(tweet.get('created_at'))
+    retweet = models.BooleanField(default=False)
+    retweet_timestamp = models.DateTimeField(null=True)
+    retweet_id = models.TextField(null=True)
+    retweet_quote = models.BooleanField(default=False)
+    retweet_quote_url = models.URLField(null=True)
 
-        try:
-            Tweet(
-                twitter_id=twitter_id,
-                favorite_count=favorite_count,
-                user_handle=user_handle,
-                user_name=user_name,
-                text=text,
-                truncated=truncated,
-                timestamp=timestamp
-            ).save()
-        except IntegrityError as error:
-            logger.info(f'Tweet with id {twitter_id} already exists. Here is the error:\t{error}')
+    quote = models.BooleanField(default=False)
+    quote_url = models.URLField(null=True)
 
+    favorite_count = models.IntegerField(null=True)
+    retweet_count = models.IntegerField(null=True)
+
+    user_handle = models.TextField(null=False)
 
 
 class Url(Timestampable):
