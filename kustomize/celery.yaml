@@ -17,14 +17,33 @@ spec:
       containers:
       - name: twito-celery
         image: twito
+        command:
+          - celery
+          - -A
+          - tasks
+          - worker
+          - --loglevel=INFO
         env:
           - name: APP_ENV
             value: celery
-          - name: REDIS_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: redis-credentials
-                key: password
         envFrom:
           - secretRef:
               name: db-credentials
+          - secretRef:
+              name: redis-credentials
+      - name: twito-celery-beat
+        image: twito
+        command:
+          - celery
+          - -A
+          - tasks
+          - beat
+          - --loglevel=INFO
+        env:
+          - name: APP_ENV
+            value: celery
+        envFrom:
+          - secretRef:
+              name: db-credentials
+          - secretRef:
+              name: redis-credentials

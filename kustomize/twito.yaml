@@ -30,19 +30,21 @@ spec:
       containers:
       - name: twito
         image: twito
+        command:
+          - uwsgi
+          - --http 0.0.0.0:5000
+          - --module app:app
+          - --enable-threads
         ports:
         - containerPort: 5000
         env:
           - name: APP_ENV
             value: production
-          - name: REDIS_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: redis-credentials
-                key: password
         envFrom:
           - secretRef:
               name: db-credentials
+          - secretRef:
+              name: redis-credentials
       - name: twito-frontend
         image: twito-frontend
         ports:

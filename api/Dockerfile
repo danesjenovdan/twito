@@ -12,6 +12,3 @@ RUN pipenv install --system --deploy --ignore-pipfile
 RUN pip install git+https://github.com/twintproject/twint.git#egg=twint
 
 COPY . /api/
-
-# CMD ['uwsgi', '--http', '0.0.0.0:5000', '--module', 'app:app', '--enable-threads']
-ENTRYPOINT ./run.sh

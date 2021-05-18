@@ -30,7 +30,7 @@ INSTALLED_APPS = (
 )
 
 redis_password = os.getenv('REDIS_PASSWORD', '')
-redis_host = os.getenv('REDIS_MASTER_SERVICE_HOST', 'redis')
+redis_host = os.getenv('REDIS_HOST', 'redis')
 
 CELERY_CONFIG = {
     'BROKER_URL': f"redis://default:{redis_password}@{redis_host}",
