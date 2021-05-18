@@ -8,21 +8,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - api.twito.k8s.djnd.si
-    - api.twito.si
-    secretName: twito-tls
+    - api.skoraj.twito.si
+    secretName: twito-staging-tls
   rules:
-  - host: api.twito.k8s.djnd.si
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: twito
-            port:
-              number: 80
-  - host: api.twito.si
+  - host: api.skoraj.twito.si
     http:
       paths:
       - path: /
@@ -43,21 +32,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - twito.k8s.djnd.si
-    - twito.si
-    secretName: twito-frontend-tls
+    - skoraj.twito.si
+    secretName: twito-staging-frontend-tls
   rules:
-  - host: twito.k8s.djnd.si
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: twito-frontend
-            port:
-              number: 80
-  - host: twito.si
+  - host: skoraj.twito.si
     http:
       paths:
       - path: /
