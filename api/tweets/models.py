@@ -15,7 +15,7 @@ class Tweet(Timestampable):
 
     retweet = models.BooleanField(default=False)
     retweet_timestamp = models.DateTimeField(null=True)
-    retweet_id = models.IntegerField(null=True)
+    retweet_id = models.TextField(null=True)
     retweet_quote = models.BooleanField(default=False)
     retweet_quote_url = models.URLField(null=True)
 

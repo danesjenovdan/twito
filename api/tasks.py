@@ -84,7 +84,7 @@ def refresh_tweets_on_date(date):
     twint.run.Profile(twint_config)
     
     for tweet in tweets:
-        db_tweet, created = Tweet.objects.get_or_create(twitter_id=int(tweet.id_str))
+        db_tweet, created = Tweet.objects.get_or_create(twitter_id=tweet.id_str)
 
         db_tweet.user_handle = tweet.username
         db_tweet.timestamp = get_cet_time_from_twint_datestring(tweet.datetime)
@@ -93,7 +93,7 @@ def refresh_tweets_on_date(date):
         db_tweet.retweet = bool(tweet.retweet)
         if db_tweet.retweet:
             db_tweet.retweet_timestamp = get_cet_time_from_twint_datestring(tweet.retweet_date)
-            db_tweet.retweet_id = int(tweet.retweet_id)
+            db_tweet.retweet_id = tweet.retweet_id
             db_tweet.retweet_quote = bool(tweet.quote_url)
             if bool(tweet.quote_url):
                 db_tweet.retweet_quote_url = tweet.quote_url
