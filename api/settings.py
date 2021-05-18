@@ -12,10 +12,10 @@ CACHE_CONFIG = {
 DATABASES = {
     'default': ({
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('SECRET_DB_NAME', ''),
-        'USER': os.getenv('SECRET_DB_USERNAME', ''),
-        'PASSWORD': os.getenv('SECRET_DB_PASSWORD', ''),
-        'HOST': os.getenv('POSTGRESQL_SERVICE_HOST', ''), # this relies on postgresql being names properly on the cluster
+        'NAME': os.getenv('DB_NAME', ''),
+        'USER': os.getenv('DB_USERNAME', ''),
+        'PASSWORD': os.getenv('DB_PASSWORD', ''),
+        'HOST': os.getenv('DB_HOST', ''), # this relies on postgresql being names properly on the cluster
         'PORT': '5432',
     } if os.getenv('APP_ENV', 'development') == 'production' else {
         'ENGINE': 'django.db.backends.sqlite3',
