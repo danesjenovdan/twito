@@ -14,6 +14,19 @@ spec:
       labels:
         app: twito
     spec:
+      initContainers:
+      - name: migrate
+        image: twito
+        command:
+          - python
+          - manage.py
+          - migrate
+        env:
+          - name: APP_ENV
+            value: production
+        envFrom:
+          - secretRef:
+              name: db-credentials
       containers:
       - name: twito
         image: twito
@@ -22,43 +35,14 @@ spec:
         env:
           - name: APP_ENV
             value: production
-          - name: DB_URL
-            value: /db/twito.sqlite3
-          - name: DMI_TCAT_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: dmi-tcat-credentials
-                key: username
-          - name: DMI_TCAT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: dmi-tcat-credentials
-                key: password
-          - name: DB_NAME
-            valueFrom:
-              secretKeyRef:
-                name: db-credentials
-                key: name
-          - name: DB_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: db-credentials
-                key: username
-          - name: DB_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: db-credentials
-                key: password
-          - name: DB_HOST
-            valueFrom:
-              secretKeyRef:
-                name: db-credentials
-                key: host
           - name: REDIS_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: redis-credentials
                 key: password
+        envFrom:
+          - secretRef:
+              name: db-credentials
       - name: twito-frontend
         image: twito-frontend
         ports:
