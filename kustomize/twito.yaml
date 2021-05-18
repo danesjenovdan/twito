@@ -32,8 +32,10 @@ spec:
         image: twito
         command:
           - uwsgi
-          - --http 0.0.0.0:5000
-          - --module app:app
+          - --http
+          - 0.0.0.0:5000
+          - --module
+          - app:app
           - --enable-threads
         ports:
         - containerPort: 5000
