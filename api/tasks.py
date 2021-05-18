@@ -17,11 +17,19 @@ import logging
 
 import twint
 from utils import is_valid_date_string, tomorrow, full_tweet_text
-from slovenian_time import get_cet_time_from_twint_datestring
+from slovenian_time import get_cet_time_from_twint_datestring, now
 
 logger = logging.getLogger(__name__)
 
 celery = Celery('tasks', broker=CELERY_CONFIG.get('BROKER_URL'), backend=CELERY_CONFIG.get('RESULT_BACKEND'))
+
+celery.conf.beat_schedule = {
+    'refresh-tweets-every-15-minutes': {
+        'task': 'tasks.refresh_tweets',
+        'schedule': 60.0 * 15.0
+    },
+}
+celery.conf.timezone = 'CET'
 
 # TODO remove dmi_tcat dependency
 # and instead take tweets from the DB
@@ -106,3 +114,10 @@ def refresh_tweets_on_date(date):
         db_tweet.retweet_count = int(tweet.retweets_count)
 
         db_tweet.save()
+
+@shared_task
+def refresh_tweets():
+    now_string = now().strftime('%Y-%m-%d')
+    logger.info(f'START Fetching tweets for {now_string} ...')
+    refresh_tweets_on_date(now_string)
+    logger.info(f'END Fetching tweets for {now_string} ...')

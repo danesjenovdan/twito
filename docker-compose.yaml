@@ -23,6 +23,14 @@ services:
       - REDIS_URL
     command: ['celery', '-A', 'tasks', 'worker', '--loglevel=DEBUG']
 
+  beat:
+    build: ./api
+    volumes:
+      - ./api:/api
+    environment:
+      - REDIS_URL
+    command: ['celery', '-A', 'tasks', 'beat', '--loglevel=DEBUG']
+
   redis:
     image: redis:6-alpine
     ports:
