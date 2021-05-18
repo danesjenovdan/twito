@@ -19,7 +19,7 @@ from utils import is_valid_date_string, SummaryCacheInfo, DateCacheInfo, tomorro
 from tweets.utilities import get_summary_date_range, get_summary_dates, get_gap_date_range, group_by_day, get_all_calculations, get_gaps, get_hashtags
 
 from datetime import datetime, timedelta
-from slovenian_time import get_cet_time_from_twint_datestring, TIMEZONE, start_of_date, end_of_date, now
+from slovenian_time import get_cet_time_from_twint_datestring, TIMEZONE, start_of_date, end_of_date, now, start_of_date_string, end_of_date_string
 
 from tweets.models import Tweet
 
@@ -66,8 +66,8 @@ def index(date_string):
   if not is_valid_date_string(date_string):
     abort(404)
 
-  start = start_of_date(now())
-  end = end_of_date(now())
+  start = start_of_date_string(date_string)
+  end = end_of_date_string(date_string)
 
   tweets = Tweet.objects.filter(timestamp__gte=start, timestamp__lte=end)
   calculations = get_all_calculations(tweets)
