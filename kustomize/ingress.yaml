@@ -8,10 +8,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - api.skoraj.twito.si
-    secretName: twito-staging-tls
+    - api.twito.si
+    secretName: twito-tls
   rules:
-  - host: api.skoraj.twito.si
+  - host: api.twito.si
     http:
       paths:
       - path: /
@@ -32,10 +32,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - skoraj.twito.si
-    secretName: twito-staging-frontend-tls
+    - twito.si
+    secretName: twito-frontend-tls
   rules:
-  - host: skoraj.twito.si
+  - host: twito.si
     http:
       paths:
       - path: /
