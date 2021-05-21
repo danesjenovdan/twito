@@ -38,7 +38,7 @@ const addDistances = (tweets, startOfDay) => {
     [TweetType.RETWEET_WITH_COMMENT]: '#ffc208',
   }
   return tweets.map((tweet) => {
-    const tweetTime = parseISO(tweet.createdAt)
+    const tweetTime = parseISO(tweet.timestamp)
     const diff = differenceInSeconds(tweetTime, start)
 
     return {

@@ -1,5 +1,5 @@
 export type Tweet = {
-  createdAt: string
+  timestamp: string
   id: string
   quotedStatusId: string
   text: string
