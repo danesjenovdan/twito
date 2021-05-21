@@ -92,7 +92,7 @@ def get_gaps(tweets):
   longest_gap = 0
   current_tweet_time = last_tweet_time
   previous_tweet_time = None
-  for tweet in tweets.order_by('-timestamp')[1:]:
+  for tweet in tweets.order_by('timestamp')[1:]:
     previous_tweet_time = current_tweet_time
     current_tweet_time = tweet.timestamp
     longest_gap = max((current_tweet_time - previous_tweet_time).seconds, longest_gap)
