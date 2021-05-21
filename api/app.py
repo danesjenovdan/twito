@@ -73,9 +73,23 @@ def index(date_string):
   calculations = get_all_calculations(tweets)
   hashtags = get_hashtags(tweets)
 
-  jsonable_tweets = [model_to_dict(tweet) for tweet in tweets]
+  jsonable_tweets = [{
+    'id': tweet.id,
+    'retweet_id': tweet.retweet_id,
+    'twitter_id': tweet.twitter_id,
+    'quote': tweet.quote,
+    'quote_url': tweet.quote_url,
+    'retweet': tweet.retweet,
+    'retweet_count': tweet.retweet_count,
+    'retweet_quote': tweet.retweet_quote,
+    'retweet_quote_url': tweet.retweet_quote_url,
+    'retweet_timestamp': tweet.retweet_timestamp.isoformat() if tweet.retweet_timestamp else None,
+    'timestamp': tweet.timestamp.isoformat(),
+    'favorite_count': tweet.favorite_count,
+    'text': tweet.text,
+  } for tweet in tweets]
 
-  return jsonify(tweets=jsonable_tweets, calculations=calculations, hashtags=hashtags, start_of_day=start)
+  return jsonify(tweets=jsonable_tweets, calculations=calculations, hashtags=hashtags, start_of_day=start.isoformat())
 
 @app.route('/twint-test', defaults={'date_string': ''})
 @app.route('/twint-test/<date_string>', methods=['GET'])

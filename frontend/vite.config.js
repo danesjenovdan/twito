@@ -1,7 +1,12 @@
 import _ from 'lodash'
-import templateStrings from './templateStrings.json'
+import vue from '@vitejs/plugin-vue'
+
+// import templateStrings from './templateStrings.json'
 
 export default {
+  plugins: [
+    vue(),
+  ],
   optimizeDeps: {
     include: [
       'lodash-es/camelCase',
