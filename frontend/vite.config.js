@@ -1,12 +1,7 @@
-import _ from 'lodash'
 import vue from '@vitejs/plugin-vue'
 
-// import templateStrings from './templateStrings.json'
-
 export default {
-  plugins: [
-    vue(),
-  ],
+  plugins: [vue()],
   optimizeDeps: {
     include: [
       'lodash-es/camelCase',
@@ -16,5 +11,4 @@ export default {
       'lodash-es/mapValues',
     ],
   },
-  indexHtmlTransforms: [({ code }) => _.template(code)(templateStrings)],
 }
