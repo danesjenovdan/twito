@@ -31,9 +31,10 @@ export default defineComponent({
 .small-count {
   border-width: 0.3125rem;
   border-style: solid;
-  flex: 1;
+  flex: inherit;
   padding: 1rem 0;
   text-align: center;
+  min-width: 20%;
 }
 
 .small-count-label {

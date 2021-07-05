@@ -16,8 +16,8 @@ export type TweetStyle = {
   borderColor: string
 }
 
-export type Hashtag = {
-  hashtag: string
+export type TweetTop = {
+  tag: string
   number: number
 }
 
@@ -31,7 +31,9 @@ export type Calculation = {
 export type SingleDateResponse = {
   calculations: Calculation
   tweets: Tweet[]
-  hashtags: Hashtag[]
+  hashtags: TweetTop[]
+  domains: TweetTop[]
+  retweets: TweetTop[]
   startOfDay: string
 }
 
