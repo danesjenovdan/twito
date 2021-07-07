@@ -1,5 +1,5 @@
 <template>
-  <div class="box-top">Preteklih 90 dni</div>
+  <div class="box-top">{{ $t('summary.title') }}</div>
   <div class="frame">
     <canvas ref="chart" class="chart"></canvas>
     <div class="legend">
@@ -9,7 +9,7 @@
         :style="style"
         class="legend-item"
       >
-        {{ getWordForm(type, 3) }}
+        {{ getWordForm(type, 3, $i18n.locale) }}
       </div>
     </div>
   </div>
@@ -89,17 +89,17 @@ export default defineComponent({
           labels,
           datasets: [
             {
-              label: getWordForm(TweetType.TWEET, 5),
+              label: getWordForm(TweetType.TWEET, 5, this.$i18n.locale),
               backgroundColor: '#ff4e3a',
               data: tweets,
             },
             {
-              label: getWordForm(TweetType.RETWEET_WITH_COMMENT, 5),
+              label: getWordForm(TweetType.RETWEET_WITH_COMMENT, 5, this.$i18n.locale),
               backgroundColor: '#ffc208',
               data: retweetsWithComment,
             },
             {
-              label: getWordForm(TweetType.RETWEET, 5),
+              label: getWordForm(TweetType.RETWEET, 5, this.$i18n.locale),
               backgroundColor: '#44a58a',
               data: retweets,
             },

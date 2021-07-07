@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <a :href="shareUrls.link" class="button">Deli</a>
-    <a :href="shareUrls.facebook" class="button">Deli na FB</a>
-    <a :href="shareUrls.twitter" class="button">Deli na TW</a>
+    <a :href="shareUrls.link" class="button">{{ $t('daily.share.shareLink') }}</a>
+    <a :href="shareUrls.facebook" class="button">{{ $t('daily.share.shareFB') }}</a>
+    <a :href="shareUrls.twitter" class="button">{{ $t('daily.share.shareTW') }}</a>
   </div>
 </template>
 

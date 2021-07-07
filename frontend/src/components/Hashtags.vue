@@ -2,8 +2,11 @@
   <div class="wrapper">
     <div class="top-stats">
       <div class="label">
-        <img src="public/icons/hashtag.png" alt="arrow down icon" />
-        <span>top kljucniki</span>
+        <img
+          src="public/icons/hashtag.png"
+          alt="{{ $t('daily.topStats.hashtagsIconAlt') }}"
+        />
+        <span>{{ $t('daily.topStats.hashtags') }}</span>
       </div>
       <div class="divider" />
       <div class="top-stats-list">
@@ -19,8 +22,11 @@
     </div>
     <div class="top-stats">
       <div class="label">
-        <img src="public/icons/website.png" alt="arrow down icon" />
-        <span>top domene</span>
+        <img
+          src="public/icons/website.png"
+          alt="{{ $t('daily.topStats.domainsIconAlt') }}"
+        />
+        <span>{{ $t('daily.topStats.domains') }}</span>
       </div>
       <div class="divider" />
       <div class="top-stats-list">
@@ -36,8 +42,11 @@
     </div>
     <div class="top-stats">
       <div class="label">
-        <img src="public/icons/retweet.png" alt="arrow down icon" />
-        <span>top RTJi</span>
+        <img
+          src="public/icons/retweet.png"
+          alt="{{ $t('daily.topStats.retweetsIconAlt') }}"
+        />
+        <span>{{ $t('daily.topStats.retweets') }}</span>
       </div>
       <div class="divider" />
       <div class="top-stats-list">

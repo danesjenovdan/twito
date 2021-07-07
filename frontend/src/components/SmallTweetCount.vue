@@ -18,7 +18,7 @@ export default defineComponent({
   },
   computed: {
     label() {
-      return getWordForm(this.type, this.count)
+      return getWordForm(this.type, this.count, this.$i18n.locale)
     },
     colorStyle() {
       return tweetColorStyle[this.type]

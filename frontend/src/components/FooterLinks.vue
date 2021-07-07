@@ -1,15 +1,27 @@
 <template>
   <div class="link-container">
     <div class="link" @click="toggleMethodologyModal(true)">
-      Kako računamo čas?
+      {{ $t('modalMethodology.title') }}
     </div>
-    <div class="link" @click="toggleAboutModal(true)">O projektu</div>
+    <div class="link" @click="toggleAboutModal(true)">
+      {{ $t('modalAbout.title') }}
+    </div>
     <a class="link" href="https://twitter.com/twitosledilnik" target="_blank">
       @twitosledilnik
     </a>
     <a class="link" href="https://danesjenovdan.si/" target="_blank">
-      Danes je nov dan
+      {{ $t('djnd') }}
     </a>
+    <div class="locale-changer">
+      <span
+        v-for="locale in $i18n.availableLocales"
+        :key="`locale-${locale}`"
+        @click="$i18n.locale = locale"
+        :class="{ active: $i18n.locale === locale }"
+      >
+        {{ locale }}
+      </span>
+    </div>
   </div>
   <teleport to="body">
     <modal-methodology
@@ -49,6 +61,23 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.locale-changer {
+  text-transform: uppercase;
+  text-align: right;
+  color: #ffeacc;
+}
+.locale-changer span {
+  cursor: pointer;
+  padding-left: 1rem;
+}
+.locale-changer span.active {
+  text-decoration: underline;
+}
+.locale-changer span:not(:last-child):after {
+  content: '/';
+  position: absolute;
+  padding-left: 0.25rem;
+}
 .link-container {
   width: 100%;
   display: flex;

@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="column big-count tweet-count">
-      <div class="big-count-label">število tvitov</div>
+      <div class="big-count-label">{{ $t('daily.numberOfTweets') }}</div>
       <div class="big-count-stats">
         <div class="big-count-number">{{ count }}</div>
         <div class="tweet-trend">
@@ -13,12 +13,12 @@
           <img
             v-if="trendTweetsNo < 0"
             src="public/icons/trend-negative.png"
-            alt="icon with an arrow showing trend going down"
+            alt="{{ $t('daily.negativeTrendIconAlt') }}"
           />
           <img
             v-if="trendTweetsNo > 0"
             src="public/icons/trend-positive.png"
-            alt="icon with an arrow showing trend going up"
+            alt="{{ $t('daily.positiveTrendIconAlt') }}"
           />
         </div>
       </div>
@@ -26,7 +26,7 @@
     <div class="column big-count tweet-time">
       <div class="big-count-label">
         <div class="help-icon" @click="toggleModal(true)">?</div>
-        ocena preživetega časa na Twitterju
+        {{ $t('daily.timeEstimation') }}
       </div>
       <div class="big-count-stats">
         <div class="big-count-number">

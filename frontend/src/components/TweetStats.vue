@@ -98,10 +98,10 @@ export default defineComponent({
       return tweet + retweet + retweetWithComment
     },
     formattedDateDesktop() {
-      return formatDate(this.date)
+      return formatDate(this.date, this.$i18n.locale)
     },
     formattedDateMobile() {
-      const [day, remainder] = formatDateMobile(this.date).split(', ')
+      const [day, remainder] = formatDateMobile(this.date, this.$i18n.locale).split(', ')
       return { day, remainder }
     },
   },
