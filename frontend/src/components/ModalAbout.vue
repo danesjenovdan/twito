@@ -1,55 +1,31 @@
 <template>
-  <modal title="O projektu">
+  <modal :title="$t('modalAbout.title')">
+    <i18n-t keypath="modalAbout.desc1" tag="p">
+      <i>{{ $t('projectName') }}</i>
+    </i18n-t>
     <p>
-      Premier Janez Janša veliko tvita. Projekt
-      <i>Maršal Twito – Sledilnik</i> beleži in analizira njegovo aktivnost na
-      Twitterju.
+      {{ $t('modalAbout.desc2') }}
     </p>
     <p>
-      Twitter je eden Janševih osrednjih političnih instrumentov. Z njim kot
-      predsednik vlade državljanom in medijem sporoča pomembne odločitve, ukrepe
-      in poteze vlade v času epidemije. Obenem pa ga že vrsto let uporablja tudi
-      za osebne napade na posameznike, ideološka obračunavanja z institucijami
-      in mediji, promocijo lastnega medijskega podjetja Nova24, mobilizacijo
-      skrajne desnice in podpihovanje sovražnega govora, lažnih novic in teorij
-      zarote. Profil Janeza Janše je gotovo najbolj vpliven Twitter profil v
-      državi in menimo, da je pomembno, da smo nanj pozorni.
+      {{ $t('modalAbout.desc3') }}
     </p>
     <p>
-      Namen projekta je opozoriti na zaskrbljujočo odvisnost predsednika vlade
-      od družbenih omrežij, raziskovalce, medije in civilno družbo pa
-      opolnomočiti z informacijami, ki jim lahko pomagajo pri pozivanju k
-      odgovornosti tistih, ki so na položajih moči. Sekundarni cilj je
-      zavarovati in ohraniti omrežje Twitter kot svoboden javni prostor
-      političnega diskurza in opozoriti na problematiko propagandističnih
-      aktivnosti vladajoče stranke.
-    </p>
-    <p>
-      Metodo sledilnika smo izbrali po vzoru projekta Sledilnik COVID-19, ki ga
-      vidimo kot eno od boljših zgodb učinkovitega in pomembnega angažiranja
-      digitalne civilne družbe, h kateremu smo zavezani tudi sami. Maršal Twito
-      - Sledilnik z njim ni povezan v nobeni meri.
+      {{ $t('modalAbout.desc4') }}
     </p>
 
-    <div class="subtitle">Pridruži se</div>
-    <p>
-      Sledilnik nameravamo razvijati tudi v prihodnosti in redno dodajati nove
-      analize. Če imaš znanja in veščine z analiziranjem in vizualizacijo
-      podatkov, pa tudi s področja front-end programiranja, nam piši na
-      <a href="mailto:vsi@danesjenovdan.si">vsi@danesjenovdan.si</a>.
-    </p>
+    <div class="subtitle">{{ $t('modalAbout.subtitle1') }}</div>
+    <i18n-t keypath="modalAbout.desc5" tag="p">
+      <a href="mailto:vsi@danesjenovdan.si">vsi@danesjenovdan.si</a>
+    </i18n-t>
 
-    <div class="subtitle">Avtorji</div>
-    <p>
-      Za spletno mesto skrbi ekipa
-      <a href="https://danesjenovdan.si/">Danes je nov dan</a>. Če želiš
-      podpreti naše delo, lahko
-      <a href="https://danesjenovdan.si/doniraj">doniraš</a>.
-    </p>
-    <p>
-      Naslovno ilustracijo je ustvaril
-      <a href="https://www.stokto.com/">Stokto</a>.
-    </p>
+    <div class="subtitle">{{ $t('modalAbout.subtitle2') }}</div>
+    <i18n-t keypath="modalAbout.desc6" tag="p">
+      <a href="https://danesjenovdan.si/">{{ $t('djnd') }}</a>
+      <a href="https://danesjenovdan.si/doniraj">{{ $t('modalAbout.donate') }}</a>
+    </i18n-t>
+    <i18n-t keypath="modalAbout.desc7" tag="p">
+      <a href="https://www.stokto.com/">Stokto</a>
+    </i18n-t>
   </modal>
 </template>
 

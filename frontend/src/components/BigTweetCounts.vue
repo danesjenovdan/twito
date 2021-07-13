@@ -1,17 +1,56 @@
 <template>
   <div class="row">
     <div class="column big-count tweet-count">
-      <div class="big-count-label">število tvitov</div>
-      <div class="big-count-number">{{ count }}</div>
+      <div class="big-count-label">{{ $t('daily.numberOfTweets') }}</div>
+      <div class="big-count-stats">
+        <div class="big-count-number">{{ count }}</div>
+        <div class="tweet-trend">
+          <span>
+            <span v-if="trendTweetsNo > 0">+</span>
+            <span v-if="trendTweetsNo < 0">-</span>
+            {{ Math.abs(trendTweetsNo) }} ({{ trendTweetsPercentage }} %)
+          </span>
+          <img
+            v-if="trendTweetsNo < 0"
+            src="public/icons/trend-negative.png"
+            alt="{{ $t('daily.negativeTrendIconAlt') }}"
+          />
+          <img
+            v-if="trendTweetsNo > 0"
+            src="public/icons/trend-positive.png"
+            alt="{{ $t('daily.positiveTrendIconAlt') }}"
+          />
+        </div>
+      </div>
     </div>
     <div class="column big-count tweet-time">
       <div class="big-count-label">
         <div class="help-icon" @click="toggleModal(true)">?</div>
-        ocena preživetega časa na Twitterju
+        {{ $t('daily.timeEstimation') }}
       </div>
-      <div class="big-count-number">
-        {{ formattedTime.hours }}<span class="time-unit">h</span>
-        {{ formattedTime.minutes }}<span class="time-unit">min</span>
+      <div class="big-count-stats">
+        <div class="big-count-number">
+          {{ formattedTime.hours }}<span class="time-unit">h</span>
+          {{ formattedTime.minutes }}<span class="time-unit">min</span>
+        </div>
+        <div class="tweet-trend">
+          <span>
+            <span v-if="trendTime > 0">+</span>
+            <span v-if="trendTime < 0">-</span>
+            {{ formattedTrendTime.hours }}h {{ formattedTrendTime.minutes }}min
+            ({{ trendTimePercentage }} %)
+          </span>
+          <img
+            v-if="trendTime < 0"
+            src="public/icons/trend-negative.png"
+            alt="icon with an arrow showing trend going down"
+          />
+          <img
+            v-if="trendTime > 0"
+            src="public/icons/trend-positive.png"
+            alt="icon with an arrow showing trend going up"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -32,6 +71,10 @@ export default defineComponent({
   props: {
     count: { type: Number, required: true },
     time: { type: Number, required: true },
+    trendTweetsNo: { type: Number, required: true },
+    trendTweetsPercentage: { type: Number, required: true },
+    trendTime: { type: Number, required: true },
+    trendTimePercentage: { type: Number, required: true },
   },
   data() {
     return { modalOpen: false }
@@ -39,6 +82,9 @@ export default defineComponent({
   computed: {
     formattedTime() {
       return formatSeconds(this.time)
+    },
+    formattedTrendTime() {
+      return formatSeconds(Math.abs(this.trendTime))
     },
   },
   methods: {
@@ -64,11 +110,36 @@ export default defineComponent({
   font-weight: bold;
 }
 
+.big-count-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .big-count-number {
   font-size: 5rem;
-  line-height: 0.725em;
+  line-height: 0.75;
   font-weight: bold;
-  height: 0.725em;
+}
+
+.tweet-trend {
+  background-color: #ffffff;
+  border-radius: 1.25em;
+  padding: 0.75em;
+  display: flex;
+  align-items: center;
+  max-height: 5rem;
+}
+
+.tweet-trend > span {
+  font-size: 1.125em;
+  padding-right: 0.75em;
+  font-weight: 500;
+}
+
+.tweet-trend img {
+  width: 2em;
+  height: 2em;
 }
 
 .time-unit {

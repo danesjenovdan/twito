@@ -1,7 +1,7 @@
 <template>
   <div class="row frame">
     <div class="column big-count tweet-time gap-time">
-      <div class="big-count-label">brez Twitter aktivnosti že</div>
+      <div class="big-count-label">{{ $t('header.noActivity') }}</div>
       <div class="big-count-number">
         <span v-if="currentGap.hours > 0"
           >{{ currentGap.hours }}<span class="time-unit">h</span></span
@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="column big-count tweet-time gap-time">
-      <div class="big-count-label">najdaljši premor v zadnjih 24 urah</div>
+      <div class="big-count-label">{{ $t('header.longestBreak') }}</div>
       <div class="big-count-number">
         {{ longestGap.hours }}<span class="time-unit">h</span>
         {{ longestGap.minutes }}<span class="time-unit">min</span>

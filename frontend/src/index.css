@@ -52,6 +52,7 @@ a:hover {
 
 .mobile-row {
   display: flex;
+  justify-content: center;
 }
 
 .column-small-gutter {

@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="label">razporeditev tvitov čez dan</div>
+    <div class="label">{{ $t('daily.timeline.label') }}</div>
     <div class="timeline">
       <div
         v-for="tweet in tweetsWithTime"
