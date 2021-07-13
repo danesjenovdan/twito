@@ -10,7 +10,7 @@ resources:
 images:
 - name: twito
   newName: rg.fr-par.scw.cloud/djnd/twito
-  newTag: '05726dc9a572741c94cbe8b5e15ec90419de8b63'
+  newTag: 'fdaefc9e32eb9d41cf12545752933091453ae62a'
 - name: twito-frontend
   newName: rg.fr-par.scw.cloud/djnd/twito-frontend
-  newTag: '05726dc9a572741c94cbe8b5e15ec90419de8b63'
+  newTag: 'fdaefc9e32eb9d41cf12545752933091453ae62a'
