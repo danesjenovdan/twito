@@ -1,5 +1,5 @@
 # start with the nodejs image, calling it 'build'
-FROM node:14-alpine as build
+FROM node:alpine as build
 
 # install node modules
 COPY package.json yarn.lock /

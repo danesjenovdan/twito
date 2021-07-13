@@ -12,12 +12,12 @@
           </span>
           <img
             v-if="trendTweetsNo < 0"
-            src="public/icons/trend-negative.png"
+            src="/icons/trend-negative.png"
             alt="{{ $t('daily.negativeTrendIconAlt') }}"
           />
           <img
             v-if="trendTweetsNo > 0"
-            src="public/icons/trend-positive.png"
+            src="/icons/trend-positive.png"
             alt="{{ $t('daily.positiveTrendIconAlt') }}"
           />
         </div>
@@ -42,12 +42,12 @@
           </span>
           <img
             v-if="trendTime < 0"
-            src="public/icons/trend-negative.png"
+            src="/icons/trend-negative.png"
             alt="icon with an arrow showing trend going down"
           />
           <img
             v-if="trendTime > 0"
-            src="public/icons/trend-positive.png"
+            src="/icons/trend-positive.png"
             alt="icon with an arrow showing trend going up"
           />
         </div>

@@ -3,7 +3,7 @@
     <div class="top-stats">
       <div class="label">
         <img
-          src="public/icons/hashtag.png"
+          src="/icons/hashtag.png"
           alt="{{ $t('daily.topStats.hashtagsIconAlt') }}"
         />
         <span>{{ $t('daily.topStats.hashtags') }}</span>
@@ -23,7 +23,7 @@
     <div class="top-stats">
       <div class="label">
         <img
-          src="public/icons/website.png"
+          src="/icons/website.png"
           alt="{{ $t('daily.topStats.domainsIconAlt') }}"
         />
         <span>{{ $t('daily.topStats.domains') }}</span>
@@ -43,7 +43,7 @@
     <div class="top-stats">
       <div class="label">
         <img
-          src="public/icons/retweet.png"
+          src="/icons/retweet.png"
           alt="{{ $t('daily.topStats.retweetsIconAlt') }}"
         />
         <span>{{ $t('daily.topStats.retweets') }}</span>
