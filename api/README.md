@@ -17,3 +17,11 @@ pipenv run bash ./run.sh
 
 ### Run migrations
 `[docker-compose exec flask] python manage.py migrate`
+
+### post tweet
+
+Set twitter environment variables in .env.EXAMPLE and DJANGO_SETTINGS_MODULE.
+
+```bash
+python post_tweet.py
+```
