@@ -27,6 +27,13 @@ spec:
         envFrom:
           - secretRef:
               name: db-credentials
+        resources:
+          requests:
+            memory: 1Gi
+            cpu: 500m
+          limits:
+            memory: 1Gi
+            cpu: 500m
       containers:
       - name: twito
         image: twito
@@ -47,6 +54,13 @@ spec:
               name: db-credentials
           - secretRef:
               name: redis-credentials
+        resources:
+          requests:
+            memory: 1Gi
+            cpu: 500m
+          limits:
+            memory: 1Gi
+            cpu: 500m
       - name: twito-frontend
         image: twito-frontend
         ports:
@@ -54,3 +68,10 @@ spec:
         env:
           - name: APP_ENV
             value: production
+        resources:
+          requests:
+            memory: 1Gi
+            cpu: 500m
+          limits:
+            memory: 1Gi
+            cpu: 500m
