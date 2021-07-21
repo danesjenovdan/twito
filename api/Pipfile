@@ -15,6 +15,7 @@ tldextract = "*"
 celery = "*"
 redis = "*"
 psycopg2 = "*"
+twitterapi = "*"
 
 [dev-packages]
 freezegun = "*"
