@@ -1,9 +1,12 @@
 <template>
   <div class="container">
+    <ViewButtons></ViewButtons>
     <a href="/"><header class="header-image"></header></a>
     <running-gap />
     <summary-chart v-if="!dateInUrl" />
-    <tweet-stats v-for="d in dates" :key="d" :date="d" />
+    <div v-if="dateInUrl">
+      <tweet-stats v-for="d in dates" :key="d" :date="d" />
+    </div>
     <div ref="bottom" />
     <footer-links />
   </div>
@@ -11,14 +14,13 @@
 
 <script>
 import { defineComponent } from 'vue'
-import subDays from 'date-fns/subDays'
 import formatISO from 'date-fns/formatISO'
-import parseISO from 'date-fns/parseISO'
 
 import FooterLinks from './components/FooterLinks.vue'
 import SummaryChart from './components/SummaryChart.vue'
 import TweetStats from './components/TweetStats.vue'
 import RunningGap from './components/RunningGap.vue'
+import ViewButtons from './components/ViewButtons.vue'
 
 const getShortIsoDate = (date) => formatISO(date, { representation: 'date' })
 
@@ -28,6 +30,7 @@ export default defineComponent({
     SummaryChart,
     TweetStats,
     RunningGap,
+    ViewButtons,
   },
   provide: {
     inProduction: window.location.hostname === 'twito.si',
@@ -49,39 +52,6 @@ export default defineComponent({
       return Boolean(this.$route.params.date)
     },
   },
-  mounted() {
-    if (!this.dateInUrl) {
-      this.initInfiniteLoading()
-    }
-  },
-  methods: {
-    addDay() {
-      const lastDay = parseISO(this.dates[this.dates.length - 1])
-      const dayToAdd = getShortIsoDate(subDays(lastDay, 1))
-      this.dates = [...this.dates, dayToAdd]
-    },
-    initInfiniteLoading() {
-      const options = {
-        root: null,
-        rootMargin: '0px 0px 10% 0px',
-        threshold: 0,
-      }
-
-      const callback = (entries) => {
-        entries.forEach((entry) => {
-          if (!this.isIntersecting && entry.isIntersecting) {
-            this.addDay()
-            this.$nextTick(() => {
-              this.isIntersecting = false
-            })
-          }
-        })
-      }
-
-      const observer = new IntersectionObserver(callback, options)
-      observer.observe(this.$refs.bottom)
-    },
-  },
 })
 </script>
 
@@ -89,6 +59,7 @@ export default defineComponent({
 .container {
   max-width: 978px;
   margin: 0 auto;
+  margin-bottom: 60px;
 }
 
 .header-image {
