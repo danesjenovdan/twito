@@ -5,6 +5,10 @@
     "noActivity": "without Twitter activity already",
     "longestBreak": "longest break in the last 24 hours"
   },
+  "viewButtons": {
+    "summarised": "Summarised analysis",
+    "daily": "Daily analysis"
+  },
   "summary": {
     "title": "Last 90 days"
   },

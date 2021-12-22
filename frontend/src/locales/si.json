@@ -5,6 +5,10 @@
     "noActivity": "brez Twitter aktivnosti že",
     "longestBreak": "najdaljši premor v zadnjih 24 urah"
   },
+  "viewButtons": {
+    "summarised": "Skupna analiza",
+    "daily": "Dnevne analize"
+  },
   "summary": {
     "title": "Preteklih 90 dni"
   },
