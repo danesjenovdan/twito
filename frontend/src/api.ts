@@ -1,6 +1,6 @@
 import mapValues from 'lodash-es/mapValues'
 import { keysToCamel } from './utils'
-import { GapResponse, SingleDateResponse, SummaryResponse } from './types'
+import { GapResponse, SingleDateResponse, SummaryResponse, AnalysisResponse } from './types'
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -21,6 +21,26 @@ export const fetchSingleDate = async (
     tweets: responseData.tweets.map(keysToCamel),
     hashtags: responseData.hashtags,
     startOfDay: responseData.start_of_day,
+    // TODO: change according to API data
+    trendTweetsNo: 5,
+    trendTweetsPercentage: 10,
+    trendTime: -3876,
+    trendTimePercentage: -5,
+    domains: [
+      { tag: 'Blabla', number: 10 },
+      { tag: 'Blabla', number: 10 },
+      { tag: 'Blabla', number: 10 },
+      { tag: 'Blabla', number: 10 },
+      { tag: 'Blabla', number: 10 },
+    ],
+    retweets: [
+      { tag: 'Blabla', number: 10 },
+      { tag: 'Blabla', number: 10 },
+      { tag: 'Blabla', number: 10 },
+      { tag: 'Blabla', number: 10 },
+      { tag: 'Blabla', number: 10 },
+    ]
+    // ---------------------------------
   } as SingleDateResponse
 }
 
@@ -49,3 +69,21 @@ export const fetchSummary = async (): Promise<SummaryResponse> => {
   const responseData = await response.json()
   return mapValues(responseData, keysToCamel) as SummaryResponse
 }
+
+export const fetchAnalysis = async (): Promise<AnalysisResponse> => {
+  // TODO: add API call
+  return {
+    averageDailyTweetCount: 45,
+    averageDailyTweetCountDifference: 5,
+    averageDailyTweetCountDifferencePercentage: 5,
+    averageDailyTweetTime: 10576,
+    averageDailyTweetTimeDifference: -1000,
+    averageDailyTweetTimeDifferencePercentage: -5,
+    averageDailyTweetCountSincePandemic: 45,
+    averageDailyTweetCountDifferenceSincePandemic: 5,
+    averageDailyTweetCountDifferencePercentageSincePandemic: 5,
+    averageDailyTweetTimeSincePandemic: 10576,
+    averageDailyTweetTimeDifferenceSincePandemic: -1000,
+    averageDailyTweetTimeDifferencePercentageSincePandemic: -5,
+  } as AnalysisResponse;
+} 

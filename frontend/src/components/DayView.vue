@@ -1,9 +1,7 @@
 <template>
   <div class="container">
-    <ViewButtons></ViewButtons>
     <tweet-stats v-for="d in dates" :key="d" :date="d" />
     <div ref="bottom" />
-    <footer-links />
   </div>
 </template>
 
@@ -13,7 +11,6 @@ import subDays from 'date-fns/subDays'
 import formatISO from 'date-fns/formatISO'
 import parseISO from 'date-fns/parseISO'
 
-import FooterLinks from './FooterLinks.vue'
 import TweetStats from './TweetStats.vue'
 import ViewButtons from './ViewButtons.vue'
 
@@ -21,7 +18,6 @@ const getShortIsoDate = (date) => formatISO(date, { representation: 'date' })
 
 export default defineComponent({
   components: {
-    FooterLinks,
     TweetStats,
     ViewButtons,
   },

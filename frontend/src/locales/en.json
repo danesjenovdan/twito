@@ -5,12 +5,17 @@
     "noActivity": "without Twitter activity already",
     "longestBreak": "longest break in the last 24 hours"
   },
-  "viewButtons": {
+  "analysis": {
+    "title": "Analysis",
     "summarised": "Summarised analysis",
     "daily": "Daily analysis"
   },
   "summary": {
-    "title": "Last 90 days"
+    "title": "Last 90 days",
+    "averageNumberOfTweets": "average daily number of tweets",
+    "averageTimeEstimation": "average daily estimation of time spent on Twitter",
+    "averageNumberOfTweetsPandemic": "number of tweets since the beginning of the pandemic",
+    "averageTimeEstimationPandemic": "estimation of time spent on Twitter since the beginning of the pandemic"
   },
   "daily": {
     "numberOfTweets": "number of tweets",
@@ -34,14 +39,14 @@
       "shareTW": "Share on TW"
     }
   },
-  "modalMethodology": {
+  "methodology": {
     "title": "How do we calculate the time?",
     "desc1": "Based on the activity of the Twitter profile {0}, we use the tracker to estimate the time spent on Twitter. We start recording the length of the activity interval when the profile posts a tweet or a retweet, and measure it until there is no new post after the tweet or retweet for more than 5 minutes. That’s when we conclude that Twitter activity is complete. As long as Marshal posts at least one tweet every 5 minutes, then we assume his attention is focused solely on Twitter.",
     "desc2": "Durations of the individual intervals in the day are then added up to get an overall estimate of the daily time spent on Twitter.",
     "desc3": "Intervals don't include Prime Minister's other activities, such as liking tweets, because they are more difficult to record. If you would like to help up solve this issue, {0}.",
     "mailLink": "write to us"
   },
-  "modalAbout": {
+  "about": {
     "title": "About the project",
     "desc1": "Prime Minister Janez Janša tweets a lot. Project {0} records and analyzes his activity on Twitter.",
     "desc2": "Twitter is one of Janša's most important political instruments. As Prime Minister he uses it to communicate important decisions, measures and moves of the government during the epidemic to citizens and the media. At the same time, he has been using it for many years for personal attacks on individuals, ideological confrontations with institutions and the media, promotion of his own media company Nova24, mobilization of the far right and incitement of hate speech, false news and conspiracy theories. Janez Janša's profile is certainly the most influential Twitter profile in the country and we believe that it is important that we pay attention to it.",

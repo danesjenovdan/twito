@@ -14,12 +14,14 @@
 
   <div class="frame">
     <big-tweet-counts
+      :title-count="$t('daily.numberOfTweets')"
+      :title-time="$t('daily.timeEstimation')"
       :count="allTweets"
       :time="calculations.time"
-      :trend-tweets-no="calculations.trendTweetsNo"
-      :trend-tweets-percentage="calculations.trendTweetsPercentage"
-      :trend-time="calculations.trendTime"
-      :trend-time-percentage="calculations.trendTimePercentage"
+      :trend-tweets-no="trendTweetsNo"
+      :trend-tweets-percentage="trendTweetsPercentage"
+      :trend-time="trendTime"
+      :trend-time-percentage="trendTimePercentage"
     />
 
     <div class="divider" />
@@ -79,11 +81,11 @@ export default defineComponent({
         retweet: 0,
         retweetWithComment: 0,
         time: 0,
-        trendTweetsNo: 0,
-        trendTweetsPercentage: 0,
-        trendTime: 0,
-        trendTimePercentage: 0,
       },
+      trendTweetsNo: 0,
+      trendTweetsPercentage: 0,
+      trendTime: 0,
+      trendTimePercentage: 0,
       hashtags: [],
       domains: [],
       retweets: [],
@@ -118,33 +120,14 @@ export default defineComponent({
       try {
         const response = await fetchSingleDate(date)
         this.calculations = response.calculations
-        // TO DO: BRISI TA DEL VEN, KO BODO TE PODATKI V CALCULATIONS
-        this.calculations.trendTweetsNo = 5
-        this.calculations.trendTweetsPercentage = 10
-        this.calculations.trendTime = -3876
-        this.calculations.trendTimePercentage = -5
-        // ---------------------------------------------
+        this.trendTweetsNo = response.trendTweetsNo
+        this.trendTweetsPercentage = response.trendTweetsPercentage
+        this.trendTime = response.trendTime
+        this.trendTimePercentage = response.trendTimePercentage
         this.tweets = response.tweets
-        // TO DO: v hashtags spremenit "hashtag" v "tag"
         this.hashtags = response.hashtags
-        // TO DO: SPREMENI
-        // this.domains = response.domains
-        this.domains = [
-          { tag: 'Blabla', number: 10 },
-          { tag: 'Blabla', number: 10 },
-          { tag: 'Blabla', number: 10 },
-          { tag: 'Blabla', number: 10 },
-          { tag: 'Blabla', number: 10 },
-        ]
-        // TO DO: SPREMENI
-        // this.retweets = response.retweets
-        this.retweets = [
-          { tag: 'Blabla', number: 10 },
-          { tag: 'Blabla', number: 10 },
-          { tag: 'Blabla', number: 10 },
-          { tag: 'Blabla', number: 10 },
-          { tag: 'Blabla', number: 10 },
-        ]
+        this.domains = response.domains
+        this.retweets = response.retweets
         this.startOfDay = response.startOfDay
       } catch (error) {
         console.error(error)
