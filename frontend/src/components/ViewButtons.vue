@@ -2,11 +2,11 @@
   <div class="container">
     <div class="mx-3">
       <!--      TODO: fix the href so that the page doesn't reload on navigation -->
-      <router-link to="/" class="button">{{
-        $t('viewButtons.summarised')
+      <router-link to="/analize/skupne" class="button">{{
+        $t('analysis.summarised')
       }}</router-link>
-      <router-link to="/d" class="button">{{
-        $t('viewButtons.daily')
+      <router-link to="/analize/dnevne" class="button">{{
+        $t('analysis.daily')
       }}</router-link>
     </div>
   </div>
@@ -26,9 +26,11 @@ export default defineComponent({
 
 <style scoped>
 .mx-3 {
-  margin: 3rem auto;
+  margin-top: 3rem;
   display: flex;
+  justify-content: center;
 }
+
 .button {
   color: inherit;
   display: block;
@@ -40,17 +42,21 @@ export default defineComponent({
   font-size: 1.25rem;
   font-weight: bold;
   cursor: pointer;
+  padding: 0 1rem;
 }
+
 .button:not(:last-child) {
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
+  margin-right: 1rem;
 }
+
 .button:hover {
   background: white;
   color: black;
 }
 
 .button.router-link-active {
-  background-color: #44a58a;
+  background-color: #57d9dc;
   border: none;
   color: black;
 }
@@ -63,8 +69,14 @@ export default defineComponent({
   }
 
   .button {
-    width: 11.625rem;
+    width: 200px;
     margin: 0 0.666rem !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .button {
+    width: 240px;
   }
 }
 </style>

@@ -5,12 +5,17 @@
     "noActivity": "brez Twitter aktivnosti že",
     "longestBreak": "najdaljši premor v zadnjih 24 urah"
   },
-  "viewButtons": {
-    "summarised": "Skupna analiza",
+  "analysis": {
+    "title": "Analize",
+    "summarised": "Skupne analize",
     "daily": "Dnevne analize"
   },
   "summary": {
-    "title": "Preteklih 90 dni"
+    "title": "Preteklih 90 dni",
+    "averageNumberOfTweets": "povprečno število dnevnih tvitov",
+    "averageTimeEstimation": "povprečna ocena dnevno preživetega časa na Twitterju",
+    "averageNumberOfTweetsPandemic": "število tvitov od začetka pandemije",
+    "averageTimeEstimationPandemic": "povprečna ocena dnevno preživetega časa na Twitterju od začetka pandemije"
   },
   "daily": {
     "numberOfTweets": "število tvitov",
@@ -34,14 +39,14 @@
       "shareTW": "Deli na TW"
     }
   },
-  "modalMethodology": {
+  "methodology": {
     "title": "Kako računamo čas?",
     "desc1": "S sledilnikom na podlagi aktivnosti Twitter profila {0} računamo oceno preživetega časa na Twitterju. Dolžino intervala aktivnosti začnemo beležiti, ko profil objavi tvit ali ritvit, in jo merimo do trenutka, ko po tvitu ali ritvitu več kot 5 minut ni nove objave. Takrat sklepamo, da je Twitter aktivnost zaključena. Dokler Maršal objavi vsaj en tvit na 5 minut, potem domnevamo, da je njegova pozornost osredotočena zgolj na Twitter.",
     "desc2": "Trajanje posameznih intervalov v dnevu nato seštejemo, da dobimo skupno oceno dnevno preživetega časa na Twitterju.",
     "desc3": "V intervalih ne upoštevamo premierjevih drugih aktivnosti, kot so všečkanje tvitov, saj jih je težje beležiti. Če bi nam rad/-a pomagal/-a rešiti to težavo, {0}.",
     "mailLink": "nam piši"
   },
-  "modalAbout": {
+  "about": {
     "title": "O projektu",
     "desc1": "Premier Janez Janša veliko tvita. Projekt {0} beleži in analizira njegovo aktivnost na Twitterju.",
     "desc2": "Twitter je eden Janševih osrednjih političnih instrumentov. Z njim kot predsednik vlade državljanom in medijem sporoča pomembne odločitve, ukrepe in poteze vlade v času epidemije. Obenem pa ga že vrsto let uporablja tudi za osebne napade na posameznike, ideološka obračunavanja z institucijami in mediji, promocijo lastnega medijskega podjetja Nova24, mobilizacijo skrajne desnice in podpihovanje sovražnega govora, lažnih novic in teorij zarote. Profil Janeza Janše je gotovo najbolj vpliven Twitter profil v državi in menimo, da je pomembno, da smo nanj pozorni.",
@@ -53,7 +58,5 @@
     "desc6": "Za spletno mesto skrbi ekipa {0}. Če želiš podpreti naše delo, lahko {1}.",
     "donate": "doniraš",
     "desc7": "Naslovno ilustracijo je ustvaril {0}."
-  },
-  "footerLinks": {
   }
 }

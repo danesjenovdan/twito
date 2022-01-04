@@ -35,6 +35,10 @@ export type SingleDateResponse = {
   domains: TweetTop[]
   retweets: TweetTop[]
   startOfDay: string
+  trendTweetsNo: number
+  trendTweetsPercentage: number
+  trendTime: number
+  trendTimePercentage: number
 }
 
 export type GapResponse = {
@@ -43,3 +47,18 @@ export type GapResponse = {
 }
 
 export type SummaryResponse = Record<string, Calculation>
+
+export type AnalysisResponse = {
+  averageDailyTweetCount: number
+  averageDailyTweetCountDifference: number
+  averageDailyTweetCountDifferencePercentage: number
+  averageDailyTweetTime: number
+  averageDailyTweetTimeDifference: number
+  averageDailyTweetTimeDifferencePercentage: number
+  averageDailyTweetCountSincePandemic: number
+  averageDailyTweetCountDifferenceSincePandemic: number
+  averageDailyTweetCountDifferencePercentageSincePandemic: number
+  averageDailyTweetTimeSincePandemic: number
+  averageDailyTweetTimeDifferenceSincePandemic: number
+  averageDailyTweetTimeDifferencePercentageSincePandemic: number
+}

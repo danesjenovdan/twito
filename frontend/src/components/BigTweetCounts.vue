@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="column big-count tweet-count">
-      <div class="big-count-label">{{ $t('daily.numberOfTweets') }}</div>
+      <div class="big-count-label">{{ titleCount }}</div>
       <div class="big-count-stats">
         <div class="big-count-number">{{ count }}</div>
         <div class="tweet-trend">
@@ -26,7 +26,7 @@
     <div class="column big-count tweet-time">
       <div class="big-count-label">
         <div class="help-icon" @click="toggleModal(true)">?</div>
-        {{ $t('daily.timeEstimation') }}
+        {{ titleTime }}
       </div>
       <div class="big-count-stats">
         <div class="big-count-number">
@@ -69,6 +69,8 @@ export default defineComponent({
     ModalMethodology,
   },
   props: {
+    titleCount: {type: String, required: true},
+    titleTime: {type: String, required: true},
     count: { type: Number, required: true },
     time: { type: Number, required: true },
     trendTweetsNo: { type: Number, required: true },
@@ -99,6 +101,8 @@ export default defineComponent({
 .big-count {
   padding: 1.25rem;
   margin-bottom: 1rem;
+  color: #000;
+  text-align: left;
 }
 
 .big-count-label {
@@ -170,7 +174,7 @@ export default defineComponent({
   user-select: none;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .big-count {
     margin-bottom: 0;
   }
