@@ -42,6 +42,12 @@
     font-size: 1.5rem;
 }
 
+@media (max-width: 767.98px) {
+  .body {
+    padding: 30px 20px;
+  }
+}
+
 .title {
   font-size: 2.5rem;
   font-weight: bold;

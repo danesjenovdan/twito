@@ -174,7 +174,7 @@ export default defineComponent({
   user-select: none;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .big-count {
     margin-bottom: 0;
   }

@@ -52,11 +52,17 @@
 }
 
 .body {
-    background-color: white;
-    color: black;
-    text-align: left;
-    padding: 60px 75px;
-    font-size: 1.5rem;
+  background-color: white;
+  color: black;
+  text-align: left;
+  padding: 60px 75px;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 767.98px) {
+  .body {
+    padding: 30px 20px;
+  }
 }
 
 .title {

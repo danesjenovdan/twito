@@ -1,22 +1,23 @@
 <template>
   <div class="wrapper">
-    <div class="sidebar">
+    <div class="sidebar" :class="{'hidden': !showNavigationMenu }">
       <div class="navigation">
         <router-link to="/analize" class="navigation-link uppercase">{{ $t('analysis.title') }}</router-link>
         <router-link to="/o-projektu" class="navigation-link uppercase">{{ $t('about.title') }}</router-link>
         <router-link to="/kako-racunamo" class="navigation-link uppercase">{{ $t('methodology.title') }}</router-link>
         <a href="https://twitter.com/twitosledilnik" target="_blank" class="navigation-link">@twitosledilnik</a>
         <a href="https://danesjenovdan.si/" target="_blank" class="navigation-link">{{ $t('djnd') }}</a>
+        <div class="mobile-close-navigation" @click="showNavigationMenu = false">×</div>
         <div class="locale-changer">
-        <span
-          v-for="locale in $i18n.availableLocales"
-          :key="`locale-${locale}`"
-          @click="$i18n.locale = locale"
-          :class="{ active: $i18n.locale === locale }"
-        >
-          {{ locale }}
-        </span>
-      </div>
+          <span
+            v-for="locale in $i18n.availableLocales"
+            :key="`locale-${locale}`"
+            @click="$i18n.locale = locale"
+            :class="{ active: $i18n.locale === locale }"
+          >
+            {{ locale }}
+          </span>
+        </div>
       </div>
       <div class="twito">
         <div class="twito-title-img">
@@ -28,19 +29,72 @@
       </div>
     </div>
     <div class="content">
-      <router-view></router-view>
+      <div>
+        <div class="mobile-navigation-button" @click="togglenNavigationMenu">
+          <img src="/public/icons/open-menu.svg" />
+        </div>
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
 
+<script>
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  data() {
+    return {
+      showNavigationMenu: false
+    }
+  },
+  watch: {
+    $route() {
+      this.showNavigationMenu = false;
+    }
+  },
+  methods: {
+    togglenNavigationMenu() {
+      this.showNavigationMenu = !this.showNavigationMenu;
+    }
+  }
+})
+</script>
+
+
 <style scoped>
 
 .wrapper {
-  display: flex;
+  overflow-x: hidden;
 }
 
 .navigation {
   padding: 30px;
+}
+
+.mobile-navigation-button {
+  display: none;
+  text-align: right;
+  font-weight: 300;
+  font-size: 20px;
+  text-decoration: none;
+  border-bottom: 1px solid white;
+  margin: 20px 0;
+  padding-bottom: 10px;
+}
+
+.mobile-navigation-button img {
+  height: 20px;
+}
+
+.mobile-close-navigation {
+  display: none;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 32px;
+  line-height: 28px;
+  font-weight: 300;
 }
 
 .navigation-link {
@@ -68,11 +122,13 @@
 .sidebar {
   background-color: #151515;
   width: 300px;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: fixed;
+  transition: all 0.5s ease-in-out;
+  z-index: 1;
 }
 
 .twito-title-img {
@@ -91,9 +147,40 @@
 }
 
 .content {
-  flex-grow: 1;
   margin-left: 300px;
   padding: 0 50px;
+}
+
+@media (max-width: 767.98px) {
+  
+  .sidebar.hidden {
+    left: -100%;
+  }
+  .sidebar {
+    left: 0;
+  }
+
+  .mobile-navigation-button {
+    display: block;
+  }
+
+  .mobile-close-navigation {
+    display: block;
+  }
+
+  .content {
+    margin-left: 0;
+    width: 100%;
+    padding: 0 20px;
+  }
+  
+}
+
+@media (max-width: 575.98px) {
+  .sidebar {
+    width: 100%;
+  }
+  
 }
 
 .locale-changer {

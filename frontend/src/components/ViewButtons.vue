@@ -26,9 +26,11 @@ export default defineComponent({
 
 <style scoped>
 .mx-3 {
-  margin: 3rem auto 0 auto;
+  margin-top: 3rem;
   display: flex;
+  justify-content: center;
 }
+
 .button {
   color: inherit;
   display: block;
@@ -40,10 +42,14 @@ export default defineComponent({
   font-size: 1.25rem;
   font-weight: bold;
   cursor: pointer;
+  padding: 0 1rem;
 }
+
 .button:not(:last-child) {
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
+  margin-right: 1rem;
 }
+
 .button:hover {
   background: white;
   color: black;
@@ -63,8 +69,14 @@ export default defineComponent({
   }
 
   .button {
-    width: 220px;
+    width: 200px;
     margin: 0 0.666rem !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .button {
+    width: 240px;
   }
 }
 </style>
