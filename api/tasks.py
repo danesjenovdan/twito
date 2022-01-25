@@ -31,16 +31,6 @@ celery.conf.beat_schedule = {
 }
 celery.conf.timezone = 'CET'
 
-# TODO remove dmi_tcat dependency
-# and instead take tweets from the DB
-# @shared_task
-# def resolve_urls_for_date(date):
-#     tweets = fetch_tweets_for_date_string(date)
-
-#     for tweet in tweets:
-#         logger.info(f'resolving tweet <{get_tweet_id(tweet)}>')
-#         resolve_url_for_tweet.delay(tweet)
-
 
 @shared_task(autoretry_for=(Exception,), retry_kwargs={'max_retries': 5}, retry_backoff=True)
 def resolve_url_for_tweet(tweet):
@@ -61,21 +51,9 @@ def store_tweets(tweets):
         # resolve_url_for_tweet.delay(tweet)
 
 @shared_task
-def store_all_tweets():
-    # no data exists before 2020-08-24
-    tweets_start_date = date(2020, 8, 24)
-    today = date.today()
-    delta = today - tweets_start_date
-
-    start, end = get_summary_date_range(days=delta.days)
-    tweets = fetch_tweets_for_date_string(start, end)
-
-    store_tweets(tweets).delay()
-
-@shared_task
-def refresh_tweets_on_date(date):
-    if not is_valid_date_string(date):
-        raise ValueError(f'The provided date ({date}) could not be parsed.')
+def refresh_tweets_on_date_string(date_string):
+    if not is_valid_date_string(date_string):
+        raise ValueError(f'The provided date ({date_string}) could not be parsed.')
 
     tweets = []
 
@@ -84,8 +62,8 @@ def refresh_tweets_on_date(date):
     twint_config.Store_object = True
     twint_config.Store_object_tweets_list = tweets
     twint_config.Username = "jjansasds"
-    twint_config.Since = date
-    twint_config.Until = tomorrow(date)
+    twint_config.Since = date_string
+    twint_config.Until = tomorrow(date_string)
 
     # Run
     # twint.run.Profile(twint_config)
@@ -119,5 +97,5 @@ def refresh_tweets_on_date(date):
 def refresh_tweets():
     now_string = now().strftime('%Y-%m-%d')
     logger.info(f'START Fetching tweets for {now_string} ...')
-    refresh_tweets_on_date(now_string)
+    refresh_tweets_on_date_string(now_string)
     logger.info(f'END Fetching tweets for {now_string} ...')
