@@ -8,7 +8,9 @@ from django.apps import apps
 from django.conf import settings
 from django.forms.models import model_to_dict
 
-import twint
+# import tweepy
+# from pytz import timezone
+
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 apps.populate(settings.INSTALLED_APPS)
@@ -84,56 +86,56 @@ def index(date_string):
     'retweet_quote': tweet.retweet_quote,
     'retweet_quote_url': tweet.retweet_quote_url,
     'retweet_timestamp': tweet.retweet_timestamp.isoformat() if tweet.retweet_timestamp else None,
-    'timestamp': tweet.timestamp.isoformat(),
+    'timestamp': tweet.timestamp.isoformat(), # tweet.timestamp.astimezone(timezone('CET')).isoformat(),
     'favorite_count': tweet.favorite_count,
     'text': tweet.text,
   } for tweet in tweets]
 
   return jsonify(tweets=jsonable_tweets, calculations=calculations, hashtags=hashtags, start_of_day=start.isoformat())
 
-@app.route('/twint-test', defaults={'date_string': ''})
-@app.route('/twint-test/<date_string>', methods=['GET'])
-def twint_test(date_string):
-  if not is_valid_date_string(date_string):
-    abort(404)
+# @app.route('/twint-test', defaults={'date_string': ''})
+# @app.route('/twint-test/<date_string>', methods=['GET'])
+# def twint_test(date_string):
+#   if not is_valid_date_string(date_string):
+#     abort(404)
 
-  tweets = []
+#   tweets = []
 
-  twint_config = twint.Config()
-  twint_config.Hide_output = True
-  twint_config.Store_object = True
-  twint_config.Store_object_tweets_list = tweets
-  twint_config.Username = "jjansasds"
-  twint_config.Since = date_string
-  twint_config.Until = tomorrow(date_string)
+#   twint_config = twint.Config()
+#   twint_config.Hide_output = True
+#   twint_config.Store_object = True
+#   twint_config.Store_object_tweets_list = tweets
+#   twint_config.Username = "jjansasds"
+#   twint_config.Since = date_string
+#   twint_config.Until = tomorrow(date_string)
 
-  # Run
-  # twint.run.Profile(twint_config)
-  twint.run.Profile(twint_config)
+#   # Run
+#   # twint.run.Profile(twint_config)
+#   twint.run.Profile(twint_config)
   
-  tweets_jsonable = [{
-    # common info
-    'twitter_id': tweet.id_str,
-    'timestamp': get_cet_time_from_twint_datestring(tweet.datetime),
-    'text': full_tweet_text(tweet),
+#   tweets_jsonable = [{
+#     # common info
+#     'twitter_id': tweet.id_str,
+#     'timestamp': get_cet_time_from_twint_datestring(tweet.datetime),
+#     'text': full_tweet_text(tweet),
 
-    # retweet info
-    'retweet': tweet.retweet,
-    'retweet_timestamp': get_cet_time_from_twint_datestring(tweet.retweet_date) if tweet.retweet else None,
-    'retweet_id': tweet.retweet_id if tweet.retweet else None,
-    'retweet_quote': bool(tweet.quote_url) and tweet.retweet,
-    'retweet_quote_url': tweet.quote_url if bool(tweet.quote_url) and tweet.retweet else None,
+#     # retweet info
+#     'retweet': tweet.retweet,
+#     'retweet_timestamp': get_cet_time_from_twint_datestring(tweet.retweet_date) if tweet.retweet else None,
+#     'retweet_id': tweet.retweet_id if tweet.retweet else None,
+#     'retweet_quote': bool(tweet.quote_url) and tweet.retweet,
+#     'retweet_quote_url': tweet.quote_url if bool(tweet.quote_url) and tweet.retweet else None,
 
-    # quote info
-    'quote': bool(tweet.quote_url) and not tweet.retweet,
-    'quote_url': tweet.quote_url if bool(tweet.quote_url) and not tweet.retweet else None,
+#     # quote info
+#     'quote': bool(tweet.quote_url) and not tweet.retweet,
+#     'quote_url': tweet.quote_url if bool(tweet.quote_url) and not tweet.retweet else None,
 
-    # likes and retweets counts
-    'likes': tweet.likes_count,
-    'retweets': tweet.retweets_count,
+#     # likes and retweets counts
+#     'likes': tweet.likes_count,
+#     'retweets': tweet.retweets_count,
 
-    # debug info
-    # 'vars': vars(tweet),
-  } for tweet in tweets]
+#     # debug info
+#     # 'vars': vars(tweet),
+#   } for tweet in tweets]
 
-  return jsonify(tweets_jsonable)
+#   return jsonify(tweets_jsonable)
