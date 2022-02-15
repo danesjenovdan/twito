@@ -32,11 +32,10 @@ celery.conf.beat_schedule = {
 }
 celery.conf.timezone = 'CET'
 
-client = tweepy.Client(os.getenv('CLIENT_TOKEN', ''))
-
-def get_tweets(start_time, end_time, next_token=None):
+def get_tweets(client, start_time, end_time, next_token=None):
     return client.get_users_tweets(
         id='258856900', # JJansaSDS user ID
+        max_results=100, # get 100 tweets at once
         pagination_token=next_token,
         start_time=start_time, # must be format YYYY-MM-DDTHH:mm:ssZ
         end_time=end_time,
@@ -67,10 +66,12 @@ def refresh_tweets_on_date_string(date_string):
     if not is_valid_date_string(date_string):
         raise ValueError(f'The provided date ({date_string}) could not be parsed.')
 
+    client = tweepy.Client(os.getenv('CLIENT_TOKEN', ''))
+
     start_time = start_in_iso_utc_format(date_string)
     end_time = end_in_iso_utc_format(date_string)
     
-    result = get_tweets(start_time, end_time)
+    result = get_tweets(client, start_time, end_time)
     
     while result:
         tweets = result.data
@@ -114,9 +115,10 @@ def refresh_tweets_on_date_string(date_string):
                         ot.retweet_quote_url = urls[len(urls)-1]['url']
                 ot.save()
 
+        # next page of results
         next_token = result.meta.get('next_token', None)
         if next_token:
-            result = get_tweets(start_time, end_time, next_token=next_token)
+            result = get_tweets(client, start_time, end_time, next_token=next_token)
         else:
             result = None
 

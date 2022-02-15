@@ -5,5 +5,6 @@ WORKDIR /api/
 RUN pip install pipenv
 RUN pipenv lock
 RUN pipenv install --system --deploy --ignore-pipfile
+RUN pip install tweepy
 
 COPY . /api/
