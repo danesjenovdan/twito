@@ -8,10 +8,11 @@ from django.conf import settings
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 apps.populate(settings.INSTALLED_APPS)
 
-from tweets.utilities import get_tweet_id, get_summary_date_range
-from tweets.models import Tweet
+from tweets.utilities import get_tweet_id, get_summary_date_range, daily_time
+from tweets.models import Tweet, Url
 
-from url_resolver import get_urls_from_tweet
+from url_resolver import get_urls_from_tweet, get_domain_from_url
+from urllib.parse import urlparse
 from settings import CELERY_CONFIG
 import logging
 
@@ -79,6 +80,9 @@ def refresh_tweets_on_date_string(date_string):
         for tweet in tweets:
             db_tweet, created = Tweet.objects.get_or_create(twitter_id=tweet.id)
 
+            # delete related urls
+            Url.objects.filter(tweet=db_tweet).delete()
+
             db_tweet.user_handle = 'JJansaSDS'
             db_tweet.timestamp = tweet.created_at
             db_tweet.text = tweet.text
@@ -93,6 +97,12 @@ def refresh_tweets_on_date_string(date_string):
                     db_tweet.quote = True
                     urls = tweet.entities['urls']
                     db_tweet.quote_url = urls[len(urls)-1]['url'] # get the last url because this is the url of quoted tweet
+            else:
+                if tweet.entities and 'urls' in tweet.entities:
+                    for url in tweet.entities['urls']:
+                        if not url['display_url'].startswith('pic.twitter'):
+                            db_url = Url(short_url=url['url'], domain=get_domain_from_url(url['expanded_url']), tweet=db_tweet)
+                            db_url.save()
 
             db_tweet.favorite_count = tweet.public_metrics['like_count']
             db_tweet.retweet_count = tweet.public_metrics['retweet_count']
@@ -121,6 +131,9 @@ def refresh_tweets_on_date_string(date_string):
             result = get_tweets(client, start_time, end_time, next_token=next_token)
         else:
             result = None
+
+        # calculate daily summary
+        daily_time(date_string)
 
 
 @shared_task

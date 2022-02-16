@@ -12,10 +12,10 @@
       <div class="top-stats-list">
         <div
           v-for="hashtag in hashtags"
-          :key="hashtag.tag"
+          :key="hashtag.hashtag"
           class="top-stats-list-element"
         >
-          <span>{{ hashtag.tag }}</span>
+          <span>{{ hashtag.hashtag }}</span>
           <span>{{ hashtag.number }}</span>
         </div>
       </div>
@@ -35,8 +35,8 @@
           :key="domain.tag"
           class="top-stats-list-element"
         >
-          <span>{{ domain.tag }}</span>
-          <span>{{ domain.number }}</span>
+          <span>{{ domain.domain }}</span>
+          <span>{{ domain.domain_num }}</span>
         </div>
       </div>
     </div>
