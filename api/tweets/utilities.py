@@ -1,5 +1,4 @@
-import json
-from datetime import date, datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from collections import defaultdict
 from django.db.models import Count, Avg
 
@@ -87,7 +86,7 @@ def get_retweets(tweets):
         break
 
   sorted_tuples = sorted(retweets.items(), key=lambda retweet: retweet[1])
-  sorted_retweets = [{"tag": retweet, "number": number} for retweet, number in list(reversed(sorted_tuples))]
+  sorted_retweets = [{"tag": retweet[:-1], "number": number} for retweet, number in list(reversed(sorted_tuples))]
   return sorted_retweets[0:5]
 
 def _calculate_time(tweets):

@@ -3,6 +3,9 @@ import os
 from flask import Flask, jsonify, abort, Response
 from flask_cors import CORS
 from flask_caching import Cache
+from flask.cli import with_appcontext
+import click
+
 
 from django.apps import apps
 from django.conf import settings
@@ -45,7 +48,7 @@ from tweets.utilities import (
 
 from datetime import datetime, timedelta
 from slovenian_time import get_cet_time_from_twint_datestring, TIMEZONE, start_of_date, end_of_date, now, start_of_date_string, end_of_date_string, get_yesterday
-
+from utils import is_valid_date_string
 from tasks import refresh_tweets_on_date_string
 
 from tweets.models import Tweet
@@ -176,6 +179,52 @@ def index(date_string):
 #   return jsonify(
 #     message="success"
 #   )
+
+# command to calculate daily summaries from start_date to end_date
+# both start_date and end_date are included!
+@click.command(name='calculate_daily_summaries')
+@click.argument('start_date_string')
+@click.argument('end_date_string')
+@with_appcontext
+def calculate_daily_summaries(start_date_string, end_date_string):
+  if not is_valid_date_string(start_date_string):
+    raise ValueError(f'The provided date ({start_date_string}) could not be parsed.')
+  if not is_valid_date_string(end_date_string):
+    raise ValueError(f'The provided date ({end_date_string}) could not be parsed.')
+
+  delta = timedelta(days=1)
+  start_date = datetime.strptime(start_date_string, "%Y-%m-%d").date()
+  end_date = datetime.strptime(end_date_string, "%Y-%m-%d").date()
+
+  while start_date <= end_date:
+    time = daily_time(start_date.strftime("%Y-%m-%d"))
+    print(start_date.strftime("%Y-%m-%d"), ':', time)
+    start_date += delta
+ 
+# command to get tweets from start_date to end_date
+# both start_date and end_date are included!
+@click.command(name='get_tweets')
+@click.argument('start_date_string')
+@click.argument('end_date_string')
+@with_appcontext
+def get_tweets(start_date_string, end_date_string):
+  if not is_valid_date_string(start_date_string):
+    raise ValueError(f'The provided date ({start_date_string}) could not be parsed.')
+  if not is_valid_date_string(end_date_string):
+    raise ValueError(f'The provided date ({end_date_string}) could not be parsed.')
+
+  delta = timedelta(days=1)
+  start_date = datetime.strptime(start_date_string, "%Y-%m-%d").date()
+  end_date = datetime.strptime(end_date_string, "%Y-%m-%d").date()
+
+  while start_date <= end_date:
+    print(start_date.strftime("%Y-%m-%d"), 'start')
+    refresh_tweets_on_date_string(start_date.strftime("%Y-%m-%d"))
+    print(start_date.strftime("%Y-%m-%d"), 'done')
+    start_date += delta
+
+app.cli.add_command(calculate_daily_summaries)
+app.cli.add_command(get_tweets)
 
 # @app.route('/twint-test', defaults={'date_string': ''})
 # @app.route('/twint-test/<date_string>', methods=['GET'])

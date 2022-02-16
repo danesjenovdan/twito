@@ -63,6 +63,6 @@ def resolve_url(url):
 def get_domain_from_url(url):
     ext = tldextract.extract(url)
     domain = f'{ext.domain}.{ext.suffix}'
-    logger.info(f'domain <{domain}> extracted for <{url}>')
+    # logger.info(f'domain <{domain}> extracted for <{url}>')
 
     return domain
