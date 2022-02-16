@@ -8,6 +8,8 @@ from django.apps import apps
 from django.conf import settings
 from django.forms.models import model_to_dict
 
+from datetime import date, timedelta
+
 # import tweepy
 # from pytz import timezone
 
@@ -18,10 +20,33 @@ apps.populate(settings.INSTALLED_APPS)
 from settings import CACHE_CONFIG
 
 from utils import is_valid_date_string, SummaryCacheInfo, DateCacheInfo, tomorrow, full_tweet_text
-from tweets.utilities import get_summary_date_range, get_summary_dates, get_gap_date_range, group_by_day, get_all_calculations, get_gaps, get_hashtags
+from tweets.utilities import (
+  get_summary_date_range, 
+  get_summary_dates, 
+  get_gap_date_range, 
+  group_by_day, 
+  get_all_calculations, 
+  get_gaps, 
+  get_hashtags,
+  get_domains,
+  get_avg_time_summary,
+  get_avg_tweet_summary,
+  get_avg_time_summary_since_pandemic,
+  get_avg_tweet_summary_since_pandemic,
+  get_avg_tweets_trend,
+  get_retweets,
+  tweet_per_day_trend,
+  time_per_day_trend,
+  get_avg_tweets_trend_since_pandemic,
+  get_avg_time_summary_trend,
+  get_avg_time_summary_trend_since_pandemic,
+  daily_time
+)
 
 from datetime import datetime, timedelta
-from slovenian_time import get_cet_time_from_twint_datestring, TIMEZONE, start_of_date, end_of_date, now, start_of_date_string, end_of_date_string
+from slovenian_time import get_cet_time_from_twint_datestring, TIMEZONE, start_of_date, end_of_date, now, start_of_date_string, end_of_date_string, get_yesterday
+
+from tasks import refresh_tweets_on_date_string
 
 from tweets.models import Tweet
 
@@ -61,6 +86,33 @@ def running_gap():
 
   return jsonify(gaps)
 
+@app.route('/fetch-analysis', methods=['GET'])
+# @cache.cached(timeout=1 * 60)
+def get_analysis():
+  avg_tweet_summary = get_avg_tweet_summary()
+  avg_tweets_trend, avg_tweets_trend_percentage = get_avg_tweets_trend()
+  avg_tweet_summary_pandemic = get_avg_tweet_summary_since_pandemic()
+  avg_tweets_trend_since_pandemic, avg_tweets_trend_since_pandemic_percentage = get_avg_tweets_trend_since_pandemic()
+  avg_time_summary = get_avg_time_summary()
+  avg_time_summary_trend, avg_time_summary_trend_percentage = get_avg_time_summary_trend()
+  avg_time_summary_pandemic = get_avg_time_summary_since_pandemic()
+  avg_time_trend_since_pandemic, avg_time_trend_since_pandemic_percentage = get_avg_time_summary_trend_since_pandemic()
+
+  return jsonify(
+    avg_tweet_summary=avg_tweet_summary,
+    avg_time_summary=avg_time_summary, 
+    avg_tweet_summary_pandemic=avg_tweet_summary_pandemic,
+    avg_time_summary_pandemic=avg_time_summary_pandemic,
+    avg_tweets_trend=avg_tweets_trend,
+    avg_tweets_trend_percentage=avg_tweets_trend_percentage,
+    avg_tweets_trend_since_pandemic=avg_tweets_trend_since_pandemic,
+    avg_tweets_trend_since_pandemic_percentage=avg_tweets_trend_since_pandemic_percentage,
+    avg_time_summary_trend=avg_time_summary_trend,
+    avg_time_summary_trend_percentage=avg_time_summary_trend_percentage,
+    avg_time_trend_since_pandemic=avg_time_trend_since_pandemic,
+    avg_time_trend_since_pandemic_percentage=avg_time_trend_since_pandemic_percentage
+  )
+
 @app.route('/', defaults={'date_string': ''})
 @app.route('/<date_string>', methods=['GET'])
 @cache.cached(forced_update=DateCacheInfo.should_force_update)
@@ -71,9 +123,16 @@ def index(date_string):
   start = start_of_date_string(date_string)
   end = end_of_date_string(date_string)
 
+  # refresh_tweets_on_date_string(date_string)
+
   tweets = Tweet.objects.filter(timestamp__gte=start, timestamp__lte=end)
   calculations = get_all_calculations(tweets)
   hashtags = get_hashtags(tweets)
+  retweets = Tweet.objects.filter(timestamp__gte=start, timestamp__lte=end, retweet=True)
+  retweeted_users = get_retweets(retweets)
+  domains = get_domains(tweets)
+  trendTweetsNo, trendTweetsPercentage = tweet_per_day_trend(date_string)
+  trendTime, trendTimePercentage = time_per_day_trend(date_string)
 
   jsonable_tweets = [{
     'id': tweet.id,
@@ -91,7 +150,32 @@ def index(date_string):
     'text': tweet.text,
   } for tweet in tweets]
 
-  return jsonify(tweets=jsonable_tweets, calculations=calculations, hashtags=hashtags, start_of_day=start.isoformat())
+  return jsonify(
+    tweets=jsonable_tweets, 
+    calculations=calculations, 
+    hashtags=hashtags, 
+    retweeted_users=retweeted_users, 
+    domains=domains, 
+    trendTweetsNo=trendTweetsNo,
+    trendTweetsPercentage=trendTweetsPercentage,
+    trendTime=trendTime,
+    trendTimePercentage=trendTimePercentage,
+    start_of_day=start.isoformat()
+  )
+
+# @app.route('/calculate-daily-summaries', methods=['GET'])
+# def calculate_daily_summaries():
+#   start_date = date(2022, 2, 1)
+#   end_date = date(2022, 2, 16)
+#   delta = timedelta(days=1)
+#   while start_date <= end_date:
+#     print(start_date.strftime("%Y-%m-%d"))
+#     refresh_tweets_on_date_string(start_date.strftime("%Y-%m-%d"))
+#     start_date += delta
+
+#   return jsonify(
+#     message="success"
+#   )
 
 # @app.route('/twint-test', defaults={'date_string': ''})
 # @app.route('/twint-test/<date_string>', methods=['GET'])

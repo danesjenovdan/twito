@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from pytz import timezone, utc
 
 TIMEZONE = timezone('CET')
@@ -64,4 +64,17 @@ def end_in_iso_utc_format(dt):
   return end_of_date_string(dt).astimezone(utc).isoformat().replace('+00:00', 'Z')
 
 def get_cet_time_from_twint_datestring(datestring):
-    return datetime.strptime(datestring, '%Y-%m-%d %H:%M:%S %Z').astimezone(timezone('CET'))
+  return datetime.strptime(datestring, '%Y-%m-%d %H:%M:%S %Z').astimezone(timezone('CET'))
+
+def get_yesterday(date_string):
+  (year, month, day) = [int(date_part) for date_part in date_string.split("-")]
+  datestamp = datetime(
+    year,
+    month,
+    day,
+    hour=0,
+    minute=0,
+    second=0,
+    tzinfo=TIMEZONE,
+  )
+  return datestamp - timedelta(1)
