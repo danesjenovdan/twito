@@ -142,8 +142,11 @@ def get_avg_tweets_trend():
   avg_today = get_avg_tweet_summary()
   avg_yesterday = round(Tweet.objects.filter(timestamp__lte=slovenian_time.start_of_date(datetime.now())).values('timestamp__date').annotate(total=Count('id')).aggregate(Avg('total'))['total__avg'])
   difference = avg_today - avg_yesterday
-  percentage = round((difference / avg_yesterday) * 100)
-  return (difference, percentage)
+  if avg_yesterday == 0:
+    return (difference, None)
+  else:
+    percentage = round((difference / avg_yesterday) * 100)
+    return (difference, percentage)
 
 def get_avg_tweet_summary_since_pandemic():
   qs = Tweet.objects.filter(timestamp__date__gte=datetime(2020, 3, 12)).values('timestamp__date').annotate(total=Count('id')).aggregate(Avg('total'))
@@ -153,8 +156,11 @@ def get_avg_tweets_trend_since_pandemic():
   avg_today = get_avg_tweet_summary_since_pandemic()
   avg_yesterday = round(Tweet.objects.filter(timestamp__date__gte=datetime(2020, 3, 12), timestamp__lte=slovenian_time.start_of_date(datetime.now())).values('timestamp__date').annotate(total=Count('id')).aggregate(Avg('total'))['total__avg'])
   difference = avg_today - avg_yesterday
-  percentage = round((difference / avg_yesterday) * 100)
-  return (difference, percentage)
+  if avg_yesterday == 0:
+    return (difference, None)
+  else:
+    percentage = round((difference / avg_yesterday) * 100)
+    return (difference, percentage)
 
 def get_avg_time_summary():
   qs = DailySummary.objects.all().aggregate(Avg('time'))
