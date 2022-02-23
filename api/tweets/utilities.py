@@ -158,25 +158,49 @@ def get_avg_tweets_trend_since_pandemic():
 
 def get_avg_time_summary():
   qs = DailySummary.objects.all().aggregate(Avg('time'))
-  return round(qs['time__avg'])
+  if qs['time__avg']:
+    return round(qs['time__avg'])
+  return None
 
 def get_avg_time_summary_trend():
+  # average time spent on twitter until today
   avg_today = get_avg_time_summary()
-  avg_yesterday = round(DailySummary.objects.filter(date__lt=slovenian_time.start_of_date(slovenian_time.now())).aggregate(Avg('time'))['time__avg'])
+  # average time spent on twitter until end of yesterday
+  qs = DailySummary.objects.filter(date__lt=slovenian_time.start_of_date(slovenian_time.now())).aggregate(Avg('time'))['time__avg']
+  # if daily summaries do not exist return None
+  if not qs:
+    return (None, None)
+  avg_yesterday = round(qs)
   difference = avg_today - avg_yesterday
-  percentage = round((difference / avg_yesterday) * 100)
-  return (difference, percentage)
+  # make sure we don't divide by zero
+  if avg_yesterday == 0:
+    return (difference, None)
+  else:
+    percentage = round((difference / avg_yesterday) * 100)
+    return (difference, percentage)
 
 def get_avg_time_summary_since_pandemic():
   qs = DailySummary.objects.filter(date__gte=datetime(2020, 3, 12)).aggregate(Avg('time'))
-  return round(qs['time__avg'])
+  if qs['time__avg']:
+    return round(qs['time__avg'])
+  return None
 
 def get_avg_time_summary_trend_since_pandemic():
+  # average time spent on twitter since start of the pandemic until today
   avg_today = get_avg_time_summary_since_pandemic()
-  avg_yesterday = round(DailySummary.objects.filter(date__gte=datetime(2020, 3, 12), date__lt=slovenian_time.start_of_date(slovenian_time.now())).aggregate(Avg('time'))['time__avg'])
+  # average time spent on twitter since start of the pandemic until end of yesterday
+  qs = DailySummary.objects.filter(date__gte=datetime(2020, 3, 12), date__lt=slovenian_time.start_of_date(slovenian_time.now())).aggregate(Avg('time'))['time__avg']
+  # if daily summaries do not exist return None
+  if not qs:
+    return (None, None)
+  avg_yesterday = round(qs)
   difference = avg_today - avg_yesterday
-  percentage = round((difference / avg_yesterday) * 100)
-  return (difference, percentage)
+  # make sure we don't divide by zero
+  if avg_yesterday == 0:
+    return (difference, None)
+  else:
+    percentage = round((difference / avg_yesterday) * 100)
+    return (difference, percentage)
 
 def group_by_day(tweets):
   days = {}
@@ -220,24 +244,29 @@ def get_tweet_id(tweet):
 def tweet_per_day_trend(date_string):
   today = slovenian_time.start_of_date_string(date_string)
   yesterday = slovenian_time.get_yesterday(date_string)
-
-  no_of_tweets_yesterday = Tweet.objects.filter(timestamp__gte=slovenian_time.start_of_date(yesterday), timestamp__lte=slovenian_time.end_of_date(yesterday)).count()
-  no_of_tweets_today = Tweet.objects.filter(timestamp__gte=slovenian_time.start_of_date(today), timestamp__lte=slovenian_time.end_of_date(today)).count()
-
-  difference = no_of_tweets_today - no_of_tweets_yesterday
-  percentage = round((difference / no_of_tweets_yesterday) * 100)
-  return (difference, percentage)
+  try:
+    no_of_tweets_yesterday = Tweet.objects.filter(timestamp__gte=slovenian_time.start_of_date(yesterday), timestamp__lte=slovenian_time.end_of_date(yesterday)).count()
+    no_of_tweets_today = Tweet.objects.filter(timestamp__gte=slovenian_time.start_of_date(today), timestamp__lte=slovenian_time.end_of_date(today)).count()
+    if no_of_tweets_yesterday == 0:
+      return (difference, None)
+    else:
+      difference = no_of_tweets_today - no_of_tweets_yesterday
+      percentage = round((difference / no_of_tweets_yesterday) * 100)
+      return (difference, percentage)
+  except:
+    return (0, 0)
   
 def time_per_day_trend(date_string):
   today = slovenian_time.start_of_date_string(date_string)
   yesterday = slovenian_time.get_yesterday(date_string)
-
   try:
     time_yesterday = DailySummary.objects.get(date=yesterday.date()).time
     time_today = DailySummary.objects.get(date=today.date()).time
-
     difference = time_today - time_yesterday
-    percentage = round((difference / time_yesterday) * 100)
-    return (difference, percentage)
+    if time_yesterday == 0:
+      return (difference, None)
+    else:
+      percentage = round((difference / time_yesterday) * 100)
+      return (difference, percentage)
   except:
-    return 0, 0
+    return (0, 0)

@@ -73,6 +73,10 @@ def refresh_tweets_on_date_string(date_string):
     end_time = end_in_iso_utc_format(date_string)
     
     result = get_tweets(client, start_time, end_time)
+
+    if not result.data:
+        print("Tweets not available!")
+        return
     
     while result:
         tweets = result.data
