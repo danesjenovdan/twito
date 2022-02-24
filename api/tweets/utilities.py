@@ -135,12 +135,14 @@ def get_all_calculations(tweets):
   return calculations
 
 def get_avg_tweet_summary():
+  # average including today
   qs = Tweet.objects.values('timestamp__date').annotate(total=Count('id')).aggregate(Avg('total'))
   return round(qs['total__avg'])
 
 def get_avg_tweets_trend():
+  # average including yesterday, but not today
   avg_today = get_avg_tweet_summary()
-  avg_yesterday = round(Tweet.objects.filter(timestamp__lte=slovenian_time.start_of_date(datetime.now())).values('timestamp__date').annotate(total=Count('id')).aggregate(Avg('total'))['total__avg'])
+  avg_yesterday = round(Tweet.objects.filter(timestamp__date__lt=slovenian_time.now()).values('timestamp__date').annotate(total=Count('id')).aggregate(Avg('total'))['total__avg'])
   difference = avg_today - avg_yesterday
   if avg_yesterday == 0:
     return (difference, None)
@@ -154,7 +156,7 @@ def get_avg_tweet_summary_since_pandemic():
 
 def get_avg_tweets_trend_since_pandemic():
   avg_today = get_avg_tweet_summary_since_pandemic()
-  avg_yesterday = round(Tweet.objects.filter(timestamp__date__gte=datetime(2020, 3, 12), timestamp__lte=slovenian_time.start_of_date(datetime.now())).values('timestamp__date').annotate(total=Count('id')).aggregate(Avg('total'))['total__avg'])
+  avg_yesterday = round(Tweet.objects.filter(timestamp__date__gte=datetime(2020, 3, 12), timestamp__date__lt=slovenian_time.now()).values('timestamp__date').annotate(total=Count('id')).aggregate(Avg('total'))['total__avg'])
   difference = avg_today - avg_yesterday
   if avg_yesterday == 0:
     return (difference, None)
@@ -172,7 +174,7 @@ def get_avg_time_summary_trend():
   # average time spent on twitter until today
   avg_today = get_avg_time_summary()
   # average time spent on twitter until end of yesterday
-  qs = DailySummary.objects.filter(date__lt=slovenian_time.start_of_date(slovenian_time.now())).aggregate(Avg('time'))['time__avg']
+  qs = DailySummary.objects.filter(date__lt=slovenian_time.now()).aggregate(Avg('time'))['time__avg']
   # if daily summaries do not exist return None
   if not qs:
     return (None, None)
@@ -195,7 +197,7 @@ def get_avg_time_summary_trend_since_pandemic():
   # average time spent on twitter since start of the pandemic until today
   avg_today = get_avg_time_summary_since_pandemic()
   # average time spent on twitter since start of the pandemic until end of yesterday
-  qs = DailySummary.objects.filter(date__gte=datetime(2020, 3, 12), date__lt=slovenian_time.start_of_date(slovenian_time.now())).aggregate(Avg('time'))['time__avg']
+  qs = DailySummary.objects.filter(date__gte=datetime(2020, 3, 12), date__lt=slovenian_time.now()).aggregate(Avg('time'))['time__avg']
   # if daily summaries do not exist return None
   if not qs:
     return (None, None)
@@ -251,8 +253,8 @@ def tweet_per_day_trend(date_string):
   today = slovenian_time.start_of_date_string(date_string)
   yesterday = slovenian_time.get_yesterday(date_string)
   try:
-    no_of_tweets_yesterday = Tweet.objects.filter(timestamp__gte=slovenian_time.start_of_date(yesterday), timestamp__lte=slovenian_time.end_of_date(yesterday)).count()
-    no_of_tweets_today = Tweet.objects.filter(timestamp__gte=slovenian_time.start_of_date(today), timestamp__lte=slovenian_time.end_of_date(today)).count()
+    no_of_tweets_yesterday = Tweet.objects.filter(timestamp__date=slovenian_time.now() - timedelta(days=1)).count()
+    no_of_tweets_today = Tweet.objects.filter(timestamp__date=slovenian_time.now()).count()
     if no_of_tweets_yesterday == 0:
       return (difference, None)
     else:
