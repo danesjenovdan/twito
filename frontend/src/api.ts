@@ -74,11 +74,11 @@ export const fetchAnalysis = async (): Promise<AnalysisResponse> => {
     averageDailyTweetTime: responseData.avg_time_summary,
     averageDailyTweetTimeDifference: responseData.avg_time_summary_trend,
     averageDailyTweetTimeDifferencePercentage: responseData.avg_time_summary_trend_percentage,
-    averageDailyTweetCountSincePandemic: responseData.avg_tweet_summary_pandemic,
-    averageDailyTweetCountDifferenceSincePandemic: responseData.avg_tweets_trend_since_pandemic,
-    averageDailyTweetCountDifferencePercentageSincePandemic: responseData.avg_tweets_trend_since_pandemic_percentage,
-    averageDailyTweetTimeSincePandemic: responseData.avg_time_summary_pandemic,
-    averageDailyTweetTimeDifferenceSincePandemic: responseData.avg_time_trend_since_pandemic,
-    averageDailyTweetTimeDifferencePercentageSincePandemic: responseData.avg_time_trend_since_pandemic_percentage,
+    // averageDailyTweetCountSincePandemic: responseData.avg_tweet_summary_pandemic,
+    // averageDailyTweetCountDifferenceSincePandemic: responseData.avg_tweets_trend_since_pandemic,
+    // averageDailyTweetCountDifferencePercentageSincePandemic: responseData.avg_tweets_trend_since_pandemic_percentage,
+    // averageDailyTweetTimeSincePandemic: responseData.avg_time_summary_pandemic,
+    // averageDailyTweetTimeDifferenceSincePandemic: responseData.avg_time_trend_since_pandemic,
+    // averageDailyTweetTimeDifferencePercentageSincePandemic: responseData.avg_time_trend_since_pandemic_percentage,
   } as AnalysisResponse;
 } 

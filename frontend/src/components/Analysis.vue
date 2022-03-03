@@ -5,13 +5,15 @@
           :title-time="$t('summary.averageTimeEstimation')"
           :count="summary.averageDailyTweetCount"
           :time="summary.averageDailyTweetTime"
-          :trend-tweets-no="summary.averageDailyTweetCountDifference"
-          :trend-tweets-percentage="summary.averageDailyTweetCountDifferencePercentage"
-          :trend-time="summary.averageDailyTweetTimeDifferencePercentage"
-          :trend-time-percentage="summary.averageDailyTweetTimeDifferencePercentage"
         />
+        <!-- 
+        :trend-tweets-no="summary.averageDailyTweetCountDifference"
+        :trend-tweets-percentage="summary.averageDailyTweetCountDifferencePercentage"
+        :trend-time="summary.averageDailyTweetTimeDifferencePercentage"
+        :trend-time-percentage="summary.averageDailyTweetTimeDifferencePercentage"
+        -->
 
-        <br />
+        <!-- <br />
 
         <big-tweet-counts
           :title-count="$t('summary.averageNumberOfTweetsPandemic')"
@@ -22,7 +24,7 @@
           :trend-tweets-percentage="summary.averageDailyTweetCountDifferencePercentageSincePandemic"
           :trend-time="summary.averageDailyTweetTimeDifferencePercentageSincePandemic"
           :trend-time-percentage="summary.averageDailyTweetTimeDifferencePercentageSincePandemic"
-        />
+        /> -->
 
         <summary-chart />
     </div>
@@ -50,12 +52,12 @@ export default defineComponent({
         averageDailyTweetTime: 0,
         averageDailyTweetTimeDifference: 0,
         averageDailyTweetTimeDifferencePercentage: 0,
-        averageDailyTweetCountSincePandemic: 0,
-        averageDailyTweetCountDifferenceSincePandemic: 0,
-        averageDailyTweetCountDifferencePercentageSincePandemic: 0,
-        averageDailyTweetTimeSincePandemic: 0,
-        averageDailyTweetTimeDifferenceSincePandemic: 0,
-        averageDailyTweetTimeDifferencePercentageSincePandemic: 0,
+        // averageDailyTweetCountSincePandemic: 0,
+        // averageDailyTweetCountDifferenceSincePandemic: 0,
+        // averageDailyTweetCountDifferencePercentageSincePandemic: 0,
+        // averageDailyTweetTimeSincePandemic: 0,
+        // averageDailyTweetTimeDifferenceSincePandemic: 0,
+        // averageDailyTweetTimeDifferencePercentageSincePandemic: 0,
       },
     }
   },

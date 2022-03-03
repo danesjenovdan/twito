@@ -4,11 +4,12 @@
       <div class="big-count-label">{{ titleCount }}</div>
       <div class="big-count-stats">
         <div class="big-count-number">{{ count }}</div>
-        <div class="tweet-trend">
+        <div class="tweet-trend" v-if="trendTweetsNo">
           <span>
             <span v-if="trendTweetsNo > 0">+</span>
             <span v-if="trendTweetsNo < 0">-</span>
-            {{ Math.abs(trendTweetsNo) }} ({{ trendTweetsPercentage }} %)
+            {{ Math.abs(trendTweetsNo) }}
+            <!-- ({{ trendTweetsPercentage }} %) -->
           </span>
           <img
             v-if="trendTweetsNo < 0"
@@ -33,12 +34,12 @@
           {{ formattedTime.hours }}<span class="time-unit">h</span>
           {{ formattedTime.minutes }}<span class="time-unit">min</span>
         </div>
-        <div class="tweet-trend">
+        <div class="tweet-trend" v-if="trendTime">
           <span>
             <span v-if="trendTime > 0">+</span>
             <span v-if="trendTime < 0">-</span>
             {{ formattedTrendTime.hours }}h {{ formattedTrendTime.minutes }}min
-            ({{ trendTimePercentage }} %)
+            <!-- ({{ trendTimePercentage }} %) -->
           </span>
           <img
             v-if="trendTime < 0"
@@ -106,7 +107,7 @@ export default defineComponent({
 }
 
 .big-count-label {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   line-height: 1em;
   padding-bottom: 0.8125rem;
   border-bottom: 1px solid black;

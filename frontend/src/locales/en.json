@@ -6,8 +6,7 @@
     "longestBreak": "longest break in the last 24 hours"
   },
   "analysis": {
-    "title": "Analysis",
-    "summarised": "Summarised analysis",
+    "title": "Summaries",
     "daily": "Daily analysis"
   },
   "summary": {

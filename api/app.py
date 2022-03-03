@@ -94,26 +94,26 @@ def running_gap():
 def get_analysis():
   avg_tweet_summary = get_avg_tweet_summary()
   avg_tweets_trend, avg_tweets_trend_percentage = get_avg_tweets_trend()
-  avg_tweet_summary_pandemic = get_avg_tweet_summary_since_pandemic()
-  avg_tweets_trend_since_pandemic, avg_tweets_trend_since_pandemic_percentage = get_avg_tweets_trend_since_pandemic()
+  # avg_tweet_summary_pandemic = get_avg_tweet_summary_since_pandemic()
+  # avg_tweets_trend_since_pandemic, avg_tweets_trend_since_pandemic_percentage = get_avg_tweets_trend_since_pandemic()
   avg_time_summary = get_avg_time_summary()
   avg_time_summary_trend, avg_time_summary_trend_percentage = get_avg_time_summary_trend()
-  avg_time_summary_pandemic = get_avg_time_summary_since_pandemic()
-  avg_time_trend_since_pandemic, avg_time_trend_since_pandemic_percentage = get_avg_time_summary_trend_since_pandemic()
+  # avg_time_summary_pandemic = get_avg_time_summary_since_pandemic()
+  # avg_time_trend_since_pandemic, avg_time_trend_since_pandemic_percentage = get_avg_time_summary_trend_since_pandemic()
 
   return jsonify(
     avg_tweet_summary=avg_tweet_summary,
     avg_time_summary=avg_time_summary, 
-    avg_tweet_summary_pandemic=avg_tweet_summary_pandemic,
-    avg_time_summary_pandemic=avg_time_summary_pandemic,
+    # avg_tweet_summary_pandemic=avg_tweet_summary_pandemic,
+    # avg_time_summary_pandemic=avg_time_summary_pandemic,
     avg_tweets_trend=avg_tweets_trend,
     avg_tweets_trend_percentage=avg_tweets_trend_percentage,
-    avg_tweets_trend_since_pandemic=avg_tweets_trend_since_pandemic,
-    avg_tweets_trend_since_pandemic_percentage=avg_tweets_trend_since_pandemic_percentage,
+    # avg_tweets_trend_since_pandemic=avg_tweets_trend_since_pandemic,
+    # avg_tweets_trend_since_pandemic_percentage=avg_tweets_trend_since_pandemic_percentage,
     avg_time_summary_trend=avg_time_summary_trend,
     avg_time_summary_trend_percentage=avg_time_summary_trend_percentage,
-    avg_time_trend_since_pandemic=avg_time_trend_since_pandemic,
-    avg_time_trend_since_pandemic_percentage=avg_time_trend_since_pandemic_percentage
+    # avg_time_trend_since_pandemic=avg_time_trend_since_pandemic,
+    # avg_time_trend_since_pandemic_percentage=avg_time_trend_since_pandemic_percentage
   )
 
 @app.route('/', defaults={'date_string': ''})

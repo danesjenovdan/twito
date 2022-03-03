@@ -34,7 +34,8 @@ export default defineComponent({
   flex: inherit;
   padding: 1rem 0;
   text-align: center;
-  min-width: 20%;
+  /* min-width: 20%; */
+  flex-grow: 1;
 }
 
 .small-count-label {
