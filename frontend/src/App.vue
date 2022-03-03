@@ -2,7 +2,8 @@
   <div class="wrapper">
     <div class="sidebar" :class="{'hidden': !showNavigationMenu }">
       <div class="navigation">
-        <router-link to="/analize" class="navigation-link uppercase">{{ $t('analysis.title') }}</router-link>
+        <router-link to="/dnevne-analize" class="navigation-link uppercase">{{ $t('analysis.daily') }}</router-link>
+         <router-link to="/povzetki" class="navigation-link uppercase">{{ $t('analysis.title') }}</router-link>
         <router-link to="/o-projektu" class="navigation-link uppercase">{{ $t('about.title') }}</router-link>
         <router-link to="/kako-racunamo" class="navigation-link uppercase">{{ $t('methodology.title') }}</router-link>
         <a href="https://twitter.com/twitosledilnik" target="_blank" class="navigation-link">@twitosledilnik</a>
@@ -33,7 +34,9 @@
         <div class="mobile-navigation-button" @click="togglenNavigationMenu">
           <img src="/public/icons/open-menu.svg" />
         </div>
-        <router-view></router-view>
+        <div class="container">
+          <router-view></router-view>
+        </div>
       </div>
     </div>
   </div>
@@ -115,7 +118,7 @@ export default defineComponent({
   text-decoration: underline;
 }
 
-.navigation-link:nth-child(3) {
+.navigation-link:nth-child(4) {
   margin-bottom: 60px;
 }
 
@@ -129,6 +132,12 @@ export default defineComponent({
   position: fixed;
   transition: all 0.5s ease-in-out;
   z-index: 1;
+}
+
+.container {
+  max-width: 978px;
+  margin: 0 auto;
+  margin-bottom: 60px;
 }
 
 .twito-title-img {

@@ -1,8 +1,6 @@
 import { RouteRecordRaw } from 'vue-router'
-import Main from './Main.vue'
 import DayView from './components/DayView.vue'
 import Analysis from './components/Analysis.vue'
-import AnalysisDaily from './components/AnalysisDaily.vue'
 import About from './components/About.vue'
 import How from './components/How.vue'
 
@@ -16,32 +14,13 @@ export default <RouteRecordRaw[]>[
     }),
   },
   {
-    path: '/analize/',
+    path: '/povzetki',
+    component: Analysis,
+  },
+  {
+    path: '/dnevne-analize',
     alias: '/',
-    component: Main,
-    children: [
-      {
-        path: '',
-        name: 'analize',
-        redirect: { name: 'analize-skupne' }
-      },
-      {
-        path: 'skupne',
-        name: 'analize-skupne',
-        component: Analysis,
-      },
-      {
-        path: 'dnevne',
-        component: DayView
-      },
-      {
-        path: ':date?',
-        component: AnalysisDaily,
-        props: (route) => ({
-          date: route.params.date || undefined,
-        }),
-      },
-    ]
+    component: DayView
   },
   {
     path: '/o-projektu',

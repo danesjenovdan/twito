@@ -12,14 +12,12 @@ import formatISO from 'date-fns/formatISO'
 import parseISO from 'date-fns/parseISO'
 
 import TweetStats from './TweetStats.vue'
-import ViewButtons from './ViewButtons.vue'
 
 const getShortIsoDate = (date) => formatISO(date, { representation: 'date' })
 
 export default defineComponent({
   components: {
     TweetStats,
-    ViewButtons,
   },
   provide: {
     inProduction: window.location.hostname === 'twito.si',

@@ -15,7 +15,7 @@
           :key="hashtag.hashtag"
           class="top-stats-list-element"
         >
-          <span>{{ hashtag.hashtag }}</span>
+          <span><a :href="`https://twitter.com/search?q=%23${hashtag.hashtag.substring(1)}`" target="_blank">{{ hashtag.hashtag }}</a></span>
           <span>{{ hashtag.number }}</span>
         </div>
       </div>
