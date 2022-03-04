@@ -35,7 +35,7 @@
           :key="domain.tag"
           class="top-stats-list-element"
         >
-          <span>{{ domain.domain }}</span>
+          <span><a :href="`https://${domain.domain}`" target="_blank">{{ domain.domain }}</a></span>
           <span>{{ domain.domain_num }}</span>
         </div>
       </div>
@@ -121,13 +121,7 @@ export default defineComponent({
   margin: 1rem 1rem 0;
 }
 .top-stats-list-element {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
   line-height: 1.75rem;
-}
-.top-stats-list-element span {
-  margin: 0 0.5rem;
 }
 .top-stats-list-element span:first-child {
   text-decoration: underline;
@@ -135,5 +129,6 @@ export default defineComponent({
 .top-stats-list-element span:last-child {
   font-size: 1.25rem;
   font-weight: 700;
+  float: right;
 }
 </style>
