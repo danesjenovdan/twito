@@ -253,8 +253,8 @@ def tweet_per_day_trend(date_string):
   today = slovenian_time.start_of_date_string(date_string)
   yesterday = slovenian_time.get_yesterday(date_string)
   try:
-    no_of_tweets_yesterday = Tweet.objects.filter(timestamp__date=slovenian_time.now() - timedelta(days=1)).count()
-    no_of_tweets_today = Tweet.objects.filter(timestamp__date=slovenian_time.now()).count()
+    no_of_tweets_yesterday = Tweet.objects.filter(timestamp__gte=slovenian_time.start_of_date(yesterday), timestamp__lte=slovenian_time.end_of_date(yesterday)).count()
+    no_of_tweets_today = Tweet.objects.filter(timestamp__gte=slovenian_time.start_of_date(today), timestamp__lte=slovenian_time.end_of_date(today)).count()
     if no_of_tweets_yesterday == 0:
       return (difference, None)
     else:
