@@ -122,7 +122,9 @@ def get_gaps(tweets):
 def daily_time(date_string):
   (year, month, day) = [int(date_part) for date_part in date_string.split("-")]
   date = datetime(year, month, day)
-  tweets = Tweet.objects.filter(timestamp__date=date)
+  start_date = slovenian_time.start_of_date_string(date_string)
+  end_date = slovenian_time.end_of_date_string(date_string)
+  tweets = Tweet.objects.filter(timestamp__gte=start_date, timestamp__lte=end_date)
   time = _calculate_time(tweets).seconds
   ds, created = DailySummary.objects.get_or_create(date=date)
   ds.time = time
@@ -265,11 +267,12 @@ def tweet_per_day_trend(date_string):
     return (0, 0)
   
 def time_per_day_trend(date_string):
-  today = slovenian_time.start_of_date_string(date_string)
-  yesterday = slovenian_time.get_yesterday(date_string)
+  (year, month, day) = [int(date_part) for date_part in date_string.split("-")]
+  date = datetime(year, month, day)
+  date_before =  date - timedelta(days=1)
   try:
-    time_yesterday = DailySummary.objects.get(date=yesterday.date()).time
-    time_today = DailySummary.objects.get(date=today.date()).time
+    time_yesterday = DailySummary.objects.get(date=date_before).time
+    time_today = DailySummary.objects.get(date=date).time
     difference = time_today - time_yesterday
     if time_yesterday == 0:
       return (difference, None)
