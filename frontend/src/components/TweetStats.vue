@@ -18,6 +18,7 @@
       :title-time="$t('daily.timeEstimation')"
       :count="allTweets"
       :time="calculations.time"
+      :show-trends="today !== date"
       :trend-tweets-no="trendTweetsNo"
       :trend-tweets-percentage="trendTweetsPercentage"
       :trend-time="trendTime"
@@ -73,6 +74,7 @@ export default defineComponent({
   inject: ['inProduction'],
   props: {
     date: { type: String, required: true },
+    today: { type: String, required: true },
   },
   data() {
     return {
