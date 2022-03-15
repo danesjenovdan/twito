@@ -1,16 +1,21 @@
 <template>
-  <div class="box-top">Preteklih 90 dni</div>
-  <div class="frame">
-    <canvas ref="chart" class="chart"></canvas>
-    <div class="legend">
-      <div
-        v-for="(style, type) in tweetColorStyle"
-        :key="type"
-        :style="style"
-        class="legend-item"
-      >
-        {{ getWordForm(type, 3) }}
+  <div>
+    <div class="box-top">{{ $t('summary.title') }}</div>
+    <div class="frame">
+      <canvas ref="chart" class="chart"></canvas>
+      <div class="legend">
+        <div
+          v-for="(style, type) in tweetColorStyle"
+          :key="type"
+          :style="style"
+          class="legend-item"
+        >
+          {{ getWordForm(type, 3, $i18n.locale) }}
+        </div>
       </div>
+    </div>
+    <div class="box-bottom button-container">
+      <share-buttons />
     </div>
   </div>
 </template>
@@ -29,6 +34,7 @@ import {
   BarElement,
   Tooltip,
 } from 'chart.js'
+import ShareButtons from './ShareButtons.vue'
 
 import { fetchSummary } from '../api'
 import { TweetType } from '../types'
@@ -47,6 +53,9 @@ Chart.defaults.font.family = '"Space Grotesk", sans-serif'
 Chart.defaults.font.size = 14
 
 export default defineComponent({
+  components: {
+    ShareButtons
+  },
   data() {
     return {
       chart: {},
@@ -89,17 +98,17 @@ export default defineComponent({
           labels,
           datasets: [
             {
-              label: getWordForm(TweetType.TWEET, 5),
+              label: getWordForm(TweetType.TWEET, 5, this.$i18n.locale),
               backgroundColor: '#ff4e3a',
               data: tweets,
             },
             {
-              label: getWordForm(TweetType.RETWEET_WITH_COMMENT, 5),
+              label: getWordForm(TweetType.RETWEET_WITH_COMMENT, 5, this.$i18n.locale),
               backgroundColor: '#ffc208',
               data: retweetsWithComment,
             },
             {
-              label: getWordForm(TweetType.RETWEET, 5),
+              label: getWordForm(TweetType.RETWEET, 5, this.$i18n.locale),
               backgroundColor: '#44a58a',
               data: retweets,
             },

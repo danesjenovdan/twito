@@ -1,0 +1,61 @@
+{
+  "projectName": "Maršal Twito – Sledilnik",
+  "djnd": "Danes je nov dan",
+  "header": {
+    "noActivity": "brez Twitter aktivnosti že",
+    "longestBreak": "najdaljši premor v zadnjih 24 urah"
+  },
+  "analysis": {
+    "title": "Povzetki",
+    "daily": "Dnevne analize"
+  },
+  "summary": {
+    "title": "Preteklih 90 dni",
+    "averageNumberOfTweets": "povprečno število dnevnih tvitov",
+    "averageTimeEstimation": "povprečna ocena dnevno preživetega časa na Twitterju",
+    "averageNumberOfTweetsPandemic": "povprečno število tvitov od začetka pandemije",
+    "averageTimeEstimationPandemic": "povprečna ocena dnevno preživetega časa na Twitterju od začetka pandemije"
+  },
+  "daily": {
+    "numberOfTweets": "število tvitov",
+    "timeEstimation": "ocena preživetega časa na Twitterju",
+    "negativeTrendIconAlt": "icon with an arrow showing trend going down",
+    "positiveTrendIconAlt": "icon with an arrow showing trend going up",
+    "timeline": {
+      "label": "razporeditev tvitov čez dan"
+    },
+    "topStats": {
+      "hashtags": "top kljucniki",
+      "hashtagsIconAlt": "",
+      "domains": "top domene",
+      "domainsIconAlt": "",
+      "retweets": "top RTji",
+      "retweetsIconAlt": ""
+    },
+    "share": {
+      "shareLink": "Deli",
+      "shareFB": "Deli na FB",
+      "shareTW": "Deli na TW"
+    }
+  },
+  "methodology": {
+    "title": "Kako računamo čas?",
+    "desc1": "S sledilnikom na podlagi aktivnosti Twitter profila {0} računamo oceno preživetega časa na Twitterju. Dolžino intervala aktivnosti začnemo beležiti, ko profil objavi tvit ali ritvit, in jo merimo do trenutka, ko po tvitu ali ritvitu več kot 5 minut ni nove objave. Takrat sklepamo, da je Twitter aktivnost zaključena. Dokler Maršal objavi vsaj en tvit na 5 minut, potem domnevamo, da je njegova pozornost osredotočena zgolj na Twitter.",
+    "desc2": "Trajanje posameznih intervalov v dnevu nato seštejemo, da dobimo skupno oceno dnevno preživetega časa na Twitterju.",
+    "desc3": "V intervalih ne upoštevamo premierjevih drugih aktivnosti, kot so všečkanje tvitov, saj jih je težje beležiti. Če bi nam rad/-a pomagal/-a rešiti to težavo, {0}.",
+    "mailLink": "nam piši"
+  },
+  "about": {
+    "title": "O projektu",
+    "desc1": "Premier Janez Janša veliko tvita. Projekt {0} beleži in analizira njegovo aktivnost na Twitterju.",
+    "desc2": "Twitter je eden Janševih osrednjih političnih instrumentov. Z njim kot predsednik vlade državljanom in medijem sporoča pomembne odločitve, ukrepe in poteze vlade v času epidemije. Obenem pa ga že vrsto let uporablja tudi za osebne napade na posameznike, ideološka obračunavanja z institucijami in mediji, promocijo lastnega medijskega podjetja Nova24, mobilizacijo skrajne desnice in podpihovanje sovražnega govora, lažnih novic in teorij zarote. Profil Janeza Janše je gotovo najbolj vpliven Twitter profil v državi in menimo, da je pomembno, da smo nanj pozorni.",
+    "desc3": "Namen projekta je opozoriti na zaskrbljujočo odvisnost predsednika vlade od družbenih omrežij, raziskovalce, medije in civilno družbo pa opolnomočiti z informacijami, ki jim lahko pomagajo pri pozivanju k odgovornosti tistih, ki so na položajih moči. Sekundarni cilj je zavarovati in ohraniti omrežje Twitter kot svoboden javni prostor političnega diskurza in opozoriti na problematiko propagandističnih aktivnosti vladajoče stranke.",
+    "desc4": "Metodo sledilnika smo izbrali po vzoru projekta Sledilnik COVID-19, ki ga vidimo kot eno od boljših zgodb učinkovitega in pomembnega angažiranja digitalne civilne družbe, h kateremu smo zavezani tudi sami. Maršal Twito - Sledilnik z njim ni povezan v nobeni meri.",
+    "subtitle1": "Pridruži se",
+    "desc5": "Sledilnik nameravamo razvijati tudi v prihodnosti in redno dodajati nove analize. Če imaš znanja in veščine z analiziranjem in vizualizacijo podatkov, pa tudi s področja front-end programiranja, nam piši na {0}.",
+    "subtitle2": "Avtorji",
+    "desc6": "Za spletno mesto skrbi ekipa {0}. Če želiš podpreti naše delo, lahko {1}.",
+    "donate": "doniraš",
+    "desc7": "Naslovno ilustracijo je ustvaril {0}."
+  }
+}

@@ -47,3 +47,10 @@ spec:
               name: db-credentials
           - secretRef:
               name: redis-credentials
+        resources:
+          requests:
+            memory: 1Gi
+            cpu: 500m
+          limits:
+            memory: 1Gi
+            cpu: 500m

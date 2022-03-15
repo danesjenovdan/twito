@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <a :href="shareUrls.link" class="button">Deli</a>
-    <a :href="shareUrls.facebook" class="button">Deli na FB</a>
-    <a :href="shareUrls.twitter" class="button">Deli na TW</a>
+    <a :href="shareUrls.link" class="button" target="_blank">{{ $t('daily.share.shareLink') }}</a>
+    <a :href="shareUrls.facebook" class="button" target="_blank">{{ $t('daily.share.shareFB') }}</a>
+    <a :href="shareUrls.twitter" class="button" target="_blank">{{ $t('daily.share.shareTW') }}</a>
   </div>
 </template>
 
@@ -13,18 +13,27 @@ import { formatDate } from '../utils'
 
 export default defineComponent({
   props: {
-    date: { type: String, required: true },
+    date: { type: String, required: false },
   },
   computed: {
     shareUrls() {
-      const text = encodeURIComponent(
-        `${formatDate(this.date)} // Maršal Twito - Sledilnik`
-      )
-      const url = encodeURIComponent(`https://twito.si/${this.date}`)
-      return {
-        facebook: `https://www.facebook.com/dialog/feed?app_id=381430693089489&redirect_uri=${url}&link=${url}&ref=responsive&name=${text}`,
-        twitter: `https://twitter.com/intent/tweet?text=${text}%20${url}`,
-        link: decodeURIComponent(url),
+      if (this.date) {
+        const text = encodeURIComponent(
+          `${formatDate(this.date)} // Maršal Twito - Sledilnik`
+        )
+        const url = encodeURIComponent(`https://twito.si/${this.date}`)
+        return {
+          facebook: `https://www.facebook.com/dialog/feed?app_id=381430693089489&redirect_uri=${url}&link=${url}&ref=responsive&name=${text}`,
+          twitter: `https://twitter.com/intent/tweet?text=${text}%20${url}`,
+          link: decodeURIComponent(url),
+        }
+      } else {
+        const url = encodeURIComponent(`https://twito.si/analize/skupne`)
+        return {
+          facebook: `https://www.facebook.com/dialog/feed?app_id=381430693089489&redirect_uri=${url}&link=${url}&ref=responsive`,
+          twitter: `https://twitter.com/intent/tweet?text=${url}`,
+          link: decodeURIComponent(url),
+        }
       }
     },
   },

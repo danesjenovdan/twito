@@ -13,7 +13,17 @@
   </div>
 
   <div class="frame">
-    <big-tweet-counts :count="allTweets" :time="calculations.time" />
+    <big-tweet-counts
+      :title-count="$t('daily.numberOfTweets')"
+      :title-time="$t('daily.timeEstimation')"
+      :count="allTweets"
+      :time="calculations.time"
+      :show-trends="today !== date"
+      :trend-tweets-no="trendTweetsNo"
+      :trend-tweets-percentage="trendTweetsPercentage"
+      :trend-time="trendTime"
+      :trend-time-percentage="trendTimePercentage"
+    />
 
     <div class="divider" />
 
@@ -32,7 +42,7 @@
     <template v-if="!inProduction">
       <div class="divider" />
 
-      <hashtags :hashtags="hashtags" />
+      <hashtags :hashtags="hashtags" :domains="domains" :retweets="retweets" />
     </template>
   </div>
 
@@ -64,6 +74,7 @@ export default defineComponent({
   inject: ['inProduction'],
   props: {
     date: { type: String, required: true },
+    today: { type: String, required: true },
   },
   data() {
     return {
@@ -73,7 +84,13 @@ export default defineComponent({
         retweetWithComment: 0,
         time: 0,
       },
+      trendTweetsNo: 0,
+      trendTweetsPercentage: 0,
+      trendTime: 0,
+      trendTimePercentage: 0,
       hashtags: [],
+      domains: [],
+      retweets: [],
       tweets: [],
       startOfDay: '',
       TweetType,
@@ -85,10 +102,10 @@ export default defineComponent({
       return tweet + retweet + retweetWithComment
     },
     formattedDateDesktop() {
-      return formatDate(this.date)
+      return formatDate(this.date, this.$i18n.locale)
     },
     formattedDateMobile() {
-      const [day, remainder] = formatDateMobile(this.date).split(', ')
+      const [day, remainder] = formatDateMobile(this.date, this.$i18n.locale).split(', ')
       return { day, remainder }
     },
   },
@@ -105,8 +122,14 @@ export default defineComponent({
       try {
         const response = await fetchSingleDate(date)
         this.calculations = response.calculations
+        this.trendTweetsNo = response.trendTweetsNo
+        this.trendTweetsPercentage = response.trendTweetsPercentage
+        this.trendTime = response.trendTime
+        this.trendTimePercentage = response.trendTimePercentage
         this.tweets = response.tweets
         this.hashtags = response.hashtags
+        this.domains = response.domains
+        this.retweets = response.retweets
         this.startOfDay = response.startOfDay
       } catch (error) {
         console.error(error)

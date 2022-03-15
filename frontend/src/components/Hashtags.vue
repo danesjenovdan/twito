@@ -1,9 +1,63 @@
 <template>
   <div class="wrapper">
-    <div class="label">Najbolj uporabljeni hashtagi</div>
-    <div class="hashtagContainer">
-      <div v-for="hashtag in topHashtags" :key="hashtag" class="hashtag">
-        {{ hashtag }}
+    <div class="top-stats">
+      <div class="label">
+        <img
+          src="/icons/hashtag.png"
+          alt="{{ $t('daily.topStats.hashtagsIconAlt') }}"
+        />
+        <span>{{ $t('daily.topStats.hashtags') }}</span>
+      </div>
+      <div class="divider" />
+      <div class="top-stats-list">
+        <div
+          v-for="hashtag in hashtags"
+          :key="hashtag.hashtag"
+          class="top-stats-list-element"
+        >
+          <span><a :href="`https://twitter.com/search?q=%23${hashtag.hashtag.substring(1)}`" target="_blank">{{ hashtag.hashtag }}</a></span>
+          <span>{{ hashtag.number }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="top-stats">
+      <div class="label">
+        <img
+          src="/icons/website.png"
+          alt="{{ $t('daily.topStats.domainsIconAlt') }}"
+        />
+        <span>{{ $t('daily.topStats.domains') }}</span>
+      </div>
+      <div class="divider" />
+      <div class="top-stats-list">
+        <div
+          v-for="domain in domains"
+          :key="domain.tag"
+          class="top-stats-list-element"
+        >
+          <span><a :href="`https://${domain.domain}`" target="_blank">{{ domain.domain }}</a></span>
+          <span>{{ domain.domain_num }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="top-stats">
+      <div class="label">
+        <img
+          src="/icons/retweet.png"
+          alt="{{ $t('daily.topStats.retweetsIconAlt') }}"
+        />
+        <span>{{ $t('daily.topStats.retweets') }}</span>
+      </div>
+      <div class="divider" />
+      <div class="top-stats-list">
+        <div
+          v-for="retweet in retweets"
+          :key="retweet.tag"
+          class="top-stats-list-element"
+        >
+          <span>{{ retweet.tag }}</span>
+          <span>{{ retweet.number }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -11,39 +65,70 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { Hashtag } from '../types'
+import { TweetTop } from '../types'
 
 export default defineComponent({
   props: {
-    hashtags: { type: Array as PropType<Hashtag[]>, required: true },
-  },
-  computed: {
-    topHashtags() {
-      return this.hashtags.map(
-        ({ hashtag, number }, index) =>
-          `${index + 1}. ${hashtag}: ${number}-krat`
-      )
-    },
+    hashtags: { type: Array as PropType<TweetTop[]>, required: true },
+    domains: { type: Array as PropType<TweetTop[]>, required: true },
+    retweets: { type: Array as PropType<TweetTop[]>, required: true },
   },
 })
 </script>
 
 <style scoped>
 .wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
   margin: 1.5rem 0;
 }
+@media (min-width: 768px) {
+  .wrapper {
+    display: flex;
+  }
+}
+.divider {
+  margin: 0;
+}
+.top-stats {
+  border: 5px solid #ddf7f8;
+  padding: 1rem;
+  margin-bottom: 1em;
+  width: 100%;
+  display: inline-block;
+}
+@media (min-width: 768px) {
+  .top-stats {
+    width: 30%;
+    margin-right: 5%;
+    margin-bottom: 0;
+  }
+}
+.top-stats:last-child {
+  margin-right: 0;
+}
 .label {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.label span {
   font-size: 1.25rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
   line-height: 1em;
+  margin-left: 0.5rem;
 }
-.hashtag {
-  font-size: 1rem;
-  margin-bottom: 0.25rem;
+.top-stats-list {
+  margin: 1rem 1rem 0;
+}
+.top-stats-list-element {
+  line-height: 1.75rem;
+}
+.top-stats-list-element span:first-child {
+  text-decoration: underline;
+}
+.top-stats-list-element span:last-child {
+  font-size: 1.25rem;
+  font-weight: 700;
+  float: right;
 }
 </style>

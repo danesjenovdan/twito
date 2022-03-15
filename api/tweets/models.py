@@ -33,3 +33,8 @@ class Url(Timestampable):
     resolved_url = models.URLField(null=True)
     domain = models.TextField(null=True)
     tweet = models.ForeignKey('tweets.Tweet', on_delete=models.CASCADE)
+
+
+class DailySummary(models.Model):
+    date = models.DateField()
+    time = models.IntegerField(null=True)

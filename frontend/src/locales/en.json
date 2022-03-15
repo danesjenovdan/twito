@@ -1,0 +1,61 @@
+{
+  "projectName": "Marshal Twito – Tracker",
+  "djnd": "Today is a new day",
+  "header": {
+    "noActivity": "without Twitter activity already",
+    "longestBreak": "longest break in the last 24 hours"
+  },
+  "analysis": {
+    "title": "Summaries",
+    "daily": "Daily analysis"
+  },
+  "summary": {
+    "title": "Last 90 days",
+    "averageNumberOfTweets": "average daily number of tweets",
+    "averageTimeEstimation": "average daily estimation of time spent on Twitter",
+    "averageNumberOfTweetsPandemic": "number of tweets since the beginning of the pandemic",
+    "averageTimeEstimationPandemic": "estimation of time spent on Twitter since the beginning of the pandemic"
+  },
+  "daily": {
+    "numberOfTweets": "number of tweets",
+    "timeEstimation": "estimation of time spent on Twitter",
+    "negativeTrendIconAlt": "icon with an arrow showing trend going down",
+    "positiveTrendIconAlt": "icon with an arrow showing trend going up",
+    "timeline": {
+      "label": "tweets throughout the day"
+    },
+    "topStats": {
+      "hashtags": "top hashtags",
+      "hashtagsIconAlt": "",
+      "domains": "top domains",
+      "domainsIconAlt": "",
+      "retweets": "top RTs",
+      "retweetsIconAlt": ""
+    },
+    "share": {
+      "shareLink": "Share",
+      "shareFB": "Share on FB",
+      "shareTW": "Share on TW"
+    }
+  },
+  "methodology": {
+    "title": "How do we calculate the time?",
+    "desc1": "Based on the activity of the Twitter profile {0}, we use the tracker to estimate the time spent on Twitter. We start recording the length of the activity interval when the profile posts a tweet or a retweet, and measure it until there is no new post after the tweet or retweet for more than 5 minutes. That’s when we conclude that Twitter activity is complete. As long as Marshal posts at least one tweet every 5 minutes, then we assume his attention is focused solely on Twitter.",
+    "desc2": "Durations of the individual intervals in the day are then added up to get an overall estimate of the daily time spent on Twitter.",
+    "desc3": "Intervals don't include Prime Minister's other activities, such as liking tweets, because they are more difficult to record. If you would like to help up solve this issue, {0}.",
+    "mailLink": "write to us"
+  },
+  "about": {
+    "title": "About the project",
+    "desc1": "Prime Minister Janez Janša tweets a lot. Project {0} records and analyzes his activity on Twitter.",
+    "desc2": "Twitter is one of Janša's most important political instruments. As Prime Minister he uses it to communicate important decisions, measures and moves of the government during the epidemic to citizens and the media. At the same time, he has been using it for many years for personal attacks on individuals, ideological confrontations with institutions and the media, promotion of his own media company Nova24, mobilization of the far right and incitement of hate speech, false news and conspiracy theories. Janez Janša's profile is certainly the most influential Twitter profile in the country and we believe that it is important that we pay attention to it.",
+    "desc3": "The aim of this project is to draw attention to the Prime Minister's worrying addiction to social networks, and to empower researchers, the media and civil society with information that can help them hold those in power accountable. The secondary goal is to protect and preserve the Twitter network as a free public space of political discourse and to draw attention to the issue of propaganda activities of the ruling party.",
+    "desc4": "The method of tracking was inspired by the COVID-19 Tracker project, which we see as one of the better solutions of effective and important engagement of digital civil society, to which we are also committed. Marshal Twito - Tracker has no relation to it in any way.",
+    "subtitle1": "Join us",
+    "desc5": "We plan to keep developing the tracker in the future and adding new analyzes on a regular basis. If you have knowledge and skills in data analysis and visualization, as well as in the field of front-end development, write to us at {0}.",
+    "subtitle2": "Authors",
+    "desc6": "The site is taken care of by {0}. If you would like to support our work, you can {1}.",
+    "donate": "donate",
+    "desc7": "Illustration in the header was created by {0}."
+  }
+}

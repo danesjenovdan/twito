@@ -18,7 +18,7 @@ export default defineComponent({
   },
   computed: {
     label() {
-      return getWordForm(this.type, this.count)
+      return getWordForm(this.type, this.count, this.$i18n.locale)
     },
     colorStyle() {
       return tweetColorStyle[this.type]
@@ -31,9 +31,10 @@ export default defineComponent({
 .small-count {
   border-width: 0.3125rem;
   border-style: solid;
-  flex: 1;
+  flex: inherit;
   padding: 1rem 0;
   text-align: center;
+  flex: 1 1 0px;
 }
 
 .small-count-label {

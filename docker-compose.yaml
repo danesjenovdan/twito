@@ -13,6 +13,7 @@ services:
       REDIS_URL: redis://redis
       DB_NAME: twito.sqlite3
       DJANGO_SETTINGS_MODULE: settings
+      CLIENT_TOKEN: token
     entrypoint: ./run.sh
 
   worker:
@@ -20,7 +21,8 @@ services:
     volumes:
       - ./api:/api
     environment:
-      - REDIS_URL
+      REDIS_URL: redis://redis
+      CLIENT_TOKEN: token
     command: ['celery', '-A', 'tasks', 'worker', '--loglevel=DEBUG']
 
   beat:
@@ -28,7 +30,7 @@ services:
     volumes:
       - ./api:/api
     environment:
-      - REDIS_URL
+      REDIS_URL: redis://redis
     command: ['celery', '-A', 'tasks', 'beat', '--loglevel=DEBUG']
 
   redis:
