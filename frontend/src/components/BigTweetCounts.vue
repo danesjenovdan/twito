@@ -4,7 +4,7 @@
       <div class="big-count-label">{{ titleCount }}</div>
       <div class="big-count-stats">
         <div class="big-count-number">{{ count }}</div>
-        <div class="tweet-trend" v-if="trendTweetsNo">
+        <div class="tweet-trend" v-if="showTrends && trendTweetsNo">
           <span>
             <span v-if="trendTweetsNo > 0">+</span>
             <span v-if="trendTweetsNo < 0">-</span>
@@ -34,7 +34,7 @@
           {{ formattedTime.hours }}<span class="time-unit">h</span>
           {{ formattedTime.minutes }}<span class="time-unit">min</span>
         </div>
-        <div class="tweet-trend" v-if="trendTime">
+        <div class="tweet-trend" v-if="showTrends && trendTime">
           <span>
             <span v-if="trendTime > 0">+</span>
             <span v-if="trendTime < 0">-</span>
@@ -74,6 +74,7 @@ export default defineComponent({
     titleTime: {type: String, required: true},
     count: { type: Number, required: true },
     time: { type: Number, required: true },
+    showTrends: { type: Boolean, default: true },
     trendTweetsNo: { type: Number, required: true },
     trendTweetsPercentage: { type: Number, required: true },
     trendTime: { type: Number, required: true },

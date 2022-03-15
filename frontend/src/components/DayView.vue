@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <tweet-stats v-for="d in dates" :key="d" :date="d" />
+    <tweet-stats v-for="d in dates" :key="d" :date="d" :today="today" />
     <div ref="bottom" />
   </div>
 </template>
@@ -32,6 +32,7 @@ export default defineComponent({
     return {
       dates: [this.date],
       isIntersecting: false,
+      today: getShortIsoDate(new Date()),
     }
   },
   computed: {
