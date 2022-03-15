@@ -1,7 +1,7 @@
 
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: twito-staging
+namespace: twito
 resources:
   - celery.yaml
   - twito.yaml
@@ -10,7 +10,7 @@ resources:
 images:
 - name: twito
   newName: rg.fr-par.scw.cloud/djnd/twito
-  newTag: '955081b89d0b1acd686469ac3dbfa50dcdb5143d'
+  newTag: '6b5df3fbc593f10e1f4e7a707d32d436e167344d'
 - name: twito-frontend
   newName: rg.fr-par.scw.cloud/djnd/twito-frontend
-  newTag: '955081b89d0b1acd686469ac3dbfa50dcdb5143d'
+  newTag: '6b5df3fbc593f10e1f4e7a707d32d436e167344d'
