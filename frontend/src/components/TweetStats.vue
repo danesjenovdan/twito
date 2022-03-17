@@ -39,11 +39,9 @@
       />
     </div>
 
-    <template v-if="!inProduction">
-      <div class="divider" />
+    <div class="divider" />
 
-      <hashtags :hashtags="hashtags" :domains="domains" :retweets="retweets" />
-    </template>
+    <hashtags :hashtags="hashtags" :domains="domains" :retweets="retweets" />
   </div>
 
   <div class="box-bottom button-container">
@@ -71,7 +69,6 @@ export default defineComponent({
     SmallTweetCount,
     Timeline,
   },
-  inject: ['inProduction'],
   props: {
     date: { type: String, required: true },
     today: { type: String, required: true },
