@@ -19,9 +19,6 @@ export default defineComponent({
   components: {
     TweetStats,
   },
-  provide: {
-    inProduction: window.location.hostname === 'twito.si',
-  },
   props: {
     date: {
       type: String,
