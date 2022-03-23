@@ -73,23 +73,24 @@ def store_tweets(tweets, includes):
         db_tweet.timestamp = tweet.created_at
         db_tweet.text = tweet.text
 
-        referenced_tweets = tweet.referenced_tweets
+        entities = tweet.entities
+        # save urls mentioned in the tweet
+        if entities and len(entities) > 0 and 'urls' in entities and entities['urls']:
+            for url in entities['urls']:
+                if not url['display_url'].startswith('pic.twitter'):
+                    db_url = Url(short_url=url['url'], domain=get_domain_from_url(url['expanded_url']), tweet=db_tweet)
+                    db_url.save()
 
+        referenced_tweets = tweet.referenced_tweets
         if referenced_tweets and len(referenced_tweets) > 0:
             if referenced_tweets[0].type == "retweeted":
                 db_tweet.retweet = True
                 db_tweet.retweet_id = referenced_tweets[0].id
             elif referenced_tweets[0].type == "quoted":
                 db_tweet.quote = True
-                urls = tweet.entities['urls']
+                urls = entities['urls']
                 db_tweet.quote_url = urls[len(urls)-1]['url'] # get the last url because this is the url of quoted tweet
-        else:
-            if tweet.entities and 'urls' in tweet.entities:
-                for url in tweet.entities['urls']:
-                    if not url['display_url'].startswith('pic.twitter'):
-                        db_url = Url(short_url=url['url'], domain=get_domain_from_url(url['expanded_url']), tweet=db_tweet)
-                        db_url.save()
-
+        
         db_tweet.favorite_count = tweet.public_metrics['like_count']
         db_tweet.retweet_count = tweet.public_metrics['retweet_count']
 
@@ -101,11 +102,19 @@ def store_tweets(tweets, includes):
         if len(qs): # if this is a retweet we found the original tweet by retweet_id
             ot = qs[0]
             ot.retweet_timestamp = tweet.created_at
+            # save urls mentioned in the retweet
+            entities = tweet.entities
+            if entities and len(entities) > 0 and 'urls' in entities and entities['urls']:
+                for url in entities['urls']:
+                    if not url['display_url'].startswith('pic.twitter'):
+                        db_url = Url(short_url=url['url'], domain=get_domain_from_url(url['expanded_url']), tweet=ot)
+                        db_url.save()
+
             referenced_tweets = tweet.referenced_tweets
             if referenced_tweets and len(referenced_tweets) > 0:
                 if referenced_tweets[0].type == "quoted":
                     ot.retweet_quote = True
-                    urls = tweet.entities['urls']
+                    urls = entities['urls']
                     ot.retweet_quote_url = urls[len(urls)-1]['url']
             ot.save()
 
