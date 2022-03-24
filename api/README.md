@@ -31,3 +31,8 @@ Date format: `%Y-%m-%d`
 ! Summaries are calculated on existing tweets in the database, so run `get_tweets` command first.
 
 `[docker-compose exec flask] flask calculate_daily_summaries start_date end_date`
+
+### Parse json file to get tweets
+Parses a json file which has to be an array of json objects with key "_id" that stores a tweet id. Tweets are then queried from Twitter API and stored in the database.
+
+`[docker-compose exec flask] flask parse_json filepath`
