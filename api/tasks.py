@@ -102,6 +102,8 @@ def store_tweets(tweets, includes):
         if len(qs): # if this is a retweet we found the original tweet by retweet_id
             ot = qs[0]
             ot.retweet_timestamp = tweet.created_at
+            retweet_tag = ot.text.split() # to get RT @<name>:
+            ot.text = f'RT {retweet_tag[1]} {tweet.text}'
             # save urls mentioned in the retweet
             entities = tweet.entities
             if entities and len(entities) > 0 and 'urls' in entities and entities['urls']:
