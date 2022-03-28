@@ -65,7 +65,7 @@ def get_domains(tweets):
 def get_hashtags(tweets):
   hashtags = defaultdict(int)
   for tweet in tweets:
-    words = map(lambda word: word.lower().replace('-', ''), tweet.text.split())
+    words = map(lambda word: word.replace('-', '').replace(',', '').replace('.', ''), tweet.text.split())
 
     for word in words:
       if word.startswith("#"):
@@ -78,7 +78,7 @@ def get_hashtags(tweets):
 def get_retweets(tweets):
   retweets = defaultdict(int)
   for tweet in tweets:
-    words = map(lambda word: word.lower().replace('-', ''), tweet.text.split())
+    words = map(lambda word: word, tweet.text.split())
 
     for word in words:
       if word.startswith("@"):

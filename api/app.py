@@ -5,17 +5,17 @@ from flask_cors import CORS
 from flask_caching import Cache
 from flask.cli import with_appcontext
 import click
-
+import json
+import tweepy
 
 from django.apps import apps
 from django.conf import settings
 from django.forms.models import model_to_dict
 
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 
 # import tweepy
 # from pytz import timezone
-
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 apps.populate(settings.INSTALLED_APPS)
@@ -46,10 +46,9 @@ from tweets.utilities import (
   daily_time
 )
 
-from datetime import datetime, timedelta
 from slovenian_time import get_cet_time_from_twint_datestring, TIMEZONE, start_of_date, end_of_date, now, start_of_date_string, end_of_date_string, get_yesterday
 from utils import is_valid_date_string
-from tasks import refresh_tweets_on_date_string
+from tasks import refresh_tweets_on_date_string, get_tweets_from_id_list, store_tweets
 
 from tweets.models import Tweet
 
@@ -180,6 +179,7 @@ def index(date_string):
 #     message="success"
 #   )
 
+
 # command to calculate daily summaries from start_date to end_date
 # both start_date and end_date are included!
 @click.command(name='calculate_daily_summaries')
@@ -201,6 +201,7 @@ def calculate_daily_summaries(start_date_string, end_date_string):
     print(start_date.strftime("%Y-%m-%d"), ':', time)
     start_date += delta
  
+
 # command to get tweets from start_date to end_date
 # both start_date and end_date are included!
 @click.command(name='get_tweets')
@@ -223,8 +224,53 @@ def get_tweets(start_date_string, end_date_string):
     print(start_date.strftime("%Y-%m-%d"), 'done')
     start_date += delta
 
+
+@click.command(name='parse_json')
+@click.argument('filepath')
+@with_appcontext
+def parse_json(filepath):
+  client = tweepy.Client(os.getenv('CLIENT_TOKEN', ''))
+  
+  # open json file
+  f = open(filepath)
+  data = json.load(f)
+
+  # print('data len', len(data))
+  
+  batch = [] # collect tweet ids in batches of 100
+  for i, tweet in enumerate(data):
+    tweet_id = tweet['_id']
+    try:
+      tweet_obj = Tweet.objects.get(twitter_id=tweet_id)
+      print('tweet', tweet_id, 'že v bazi')
+    except:
+      print('tweet', tweet_id, 'dodajamo v bazo')
+      if len(batch) < 100:
+        batch.append(tweet_id)
+      else: # batch is full
+        # send request to get tweet data from api
+        result = get_tweets_from_id_list(client, batch)
+        tweets = result.data
+        # process result
+        if (tweets):
+          includes = result.includes['tweets']
+          store_tweets(tweets, includes)
+        # start new batch
+        batch = [tweet_id]
+  # store last batch
+  result = get_tweets_from_id_list(client, batch)
+  tweets = result.data
+  # print('errors', result.errors)
+  if (tweets):
+    includes = result.includes['tweets']
+    store_tweets(tweets, includes)
+  # close file
+  f.close()
+
+
 app.cli.add_command(calculate_daily_summaries)
 app.cli.add_command(get_tweets)
+app.cli.add_command(parse_json)
 
 # @app.route('/twint-test', defaults={'date_string': ''})
 # @app.route('/twint-test/<date_string>', methods=['GET'])

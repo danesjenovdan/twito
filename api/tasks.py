@@ -44,6 +44,13 @@ def get_tweets(client, start_time, end_time, next_token=None):
         expansions=['referenced_tweets.id','author_id'] # add 'referenced_tweets.id.author_id' to get user data
     )
 
+def get_tweets_from_id_list(client, id_list):
+    return client.get_tweets(
+        id_list,
+        tweet_fields=['created_at', 'text', 'referenced_tweets', 'author_id', 'public_metrics', 'entities'],
+        expansions=['referenced_tweets.id','author_id']
+    )
+
 @shared_task(autoretry_for=(Exception,), retry_kwargs={'max_retries': 5}, retry_backoff=True)
 def resolve_url_for_tweet(tweet):
 
@@ -55,12 +62,63 @@ def resolve_url_for_tweet(tweet):
         logger.info(result)
 
 @shared_task
-def store_tweets(tweets):
+def store_tweets(tweets, includes):
     for tweet in tweets:
-        Tweet.create_from_tweet(tweet)
-        # resolve url for tweet
-        # logger.info(f'resolving tweet <{get_tweet_id(tweet)}>')
-        # resolve_url_for_tweet.delay(tweet)
+        db_tweet, created = Tweet.objects.get_or_create(twitter_id=tweet.id)
+
+        # delete related urls
+        Url.objects.filter(tweet=db_tweet).delete()
+
+        db_tweet.user_handle = 'JJansaSDS'
+        db_tweet.timestamp = tweet.created_at
+        db_tweet.text = tweet.text
+
+        entities = tweet.entities
+        # save urls mentioned in the tweet
+        if entities and len(entities) > 0 and 'urls' in entities and entities['urls']:
+            for url in entities['urls']:
+                if not url['display_url'].startswith('pic.twitter'):
+                    db_url = Url(short_url=url['url'], domain=get_domain_from_url(url['expanded_url']), tweet=db_tweet)
+                    db_url.save()
+
+        referenced_tweets = tweet.referenced_tweets
+        if referenced_tweets and len(referenced_tweets) > 0:
+            if referenced_tweets[0].type == "retweeted":
+                db_tweet.retweet = True
+                db_tweet.retweet_id = referenced_tweets[0].id
+            elif referenced_tweets[0].type == "quoted":
+                db_tweet.quote = True
+                urls = entities['urls']
+                db_tweet.quote_url = urls[len(urls)-1]['url'] # get the last url because this is the url of quoted tweet
+        
+        db_tweet.favorite_count = tweet.public_metrics['like_count']
+        db_tweet.retweet_count = tweet.public_metrics['retweet_count']
+
+        db_tweet.save()
+
+    # additional information about referenced (retweeted and quoted) tweets
+    for tweet in includes:
+        qs = Tweet.objects.filter(retweet_id=tweet.id)
+        if len(qs): # if this is a retweet we found the original tweet by retweet_id
+            ot = qs[0]
+            ot.retweet_timestamp = tweet.created_at
+            retweet_tag = ot.text.split() # to get RT @<name>:
+            ot.text = f'RT {retweet_tag[1]} {tweet.text}'
+            # save urls mentioned in the retweet
+            entities = tweet.entities
+            if entities and len(entities) > 0 and 'urls' in entities and entities['urls']:
+                for url in entities['urls']:
+                    if not url['display_url'].startswith('pic.twitter'):
+                        db_url = Url(short_url=url['url'], domain=get_domain_from_url(url['expanded_url']), tweet=ot)
+                        db_url.save()
+
+            referenced_tweets = tweet.referenced_tweets
+            if referenced_tweets and len(referenced_tweets) > 0:
+                if referenced_tweets[0].type == "quoted":
+                    ot.retweet_quote = True
+                    urls = entities['urls']
+                    ot.retweet_quote_url = urls[len(urls)-1]['url']
+            ot.save()
 
 @shared_task
 def refresh_tweets_on_date_string(date_string):
@@ -80,54 +138,8 @@ def refresh_tweets_on_date_string(date_string):
     
     while result:
         tweets = result.data
-    
-        for tweet in tweets:
-            db_tweet, created = Tweet.objects.get_or_create(twitter_id=tweet.id)
-
-            # delete related urls
-            Url.objects.filter(tweet=db_tweet).delete()
-
-            db_tweet.user_handle = 'JJansaSDS'
-            db_tweet.timestamp = tweet.created_at
-            db_tweet.text = tweet.text
-
-            referenced_tweets = tweet.referenced_tweets
-
-            if referenced_tweets and len(referenced_tweets) > 0:
-                if referenced_tweets[0].type == "retweeted":
-                    db_tweet.retweet = True
-                    db_tweet.retweet_id = referenced_tweets[0].id
-                elif referenced_tweets[0].type == "quoted":
-                    db_tweet.quote = True
-                    urls = tweet.entities['urls']
-                    db_tweet.quote_url = urls[len(urls)-1]['url'] # get the last url because this is the url of quoted tweet
-            else:
-                if tweet.entities and 'urls' in tweet.entities:
-                    for url in tweet.entities['urls']:
-                        if not url['display_url'].startswith('pic.twitter'):
-                            db_url = Url(short_url=url['url'], domain=get_domain_from_url(url['expanded_url']), tweet=db_tweet)
-                            db_url.save()
-
-            db_tweet.favorite_count = tweet.public_metrics['like_count']
-            db_tweet.retweet_count = tweet.public_metrics['retweet_count']
-
-            db_tweet.save()
-
-        # additional information about referenced (retweeted and quoted) tweets
         includes = result.includes['tweets']
-
-        for tweet in includes:
-            qs = Tweet.objects.filter(retweet_id=tweet.id)
-            if len(qs): # if this is a retweet we found the original tweet by retweet_id
-                ot = qs[0]
-                ot.retweet_timestamp = tweet.created_at
-                referenced_tweets = tweet.referenced_tweets
-                if referenced_tweets and len(referenced_tweets) > 0:
-                    if referenced_tweets[0].type == "quoted":
-                        ot.retweet_quote = True
-                        urls = tweet.entities['urls']
-                        ot.retweet_quote_url = urls[len(urls)-1]['url']
-                ot.save()
+        store_tweets(tweets, includes)
 
         # next page of results
         next_token = result.meta.get('next_token', None)
