@@ -57,6 +57,7 @@
         <img
           src="/icons/retweet.png"
           alt="{{ $t('daily.topStats.retweetsIconAlt') }}"
+          style="padding: 2px 0"
         />
         <span>{{ $t('daily.topStats.retweets') }}</span>
       </div>
@@ -133,6 +134,9 @@ export default defineComponent({
   font-weight: bold;
   line-height: 1em;
   margin-left: 0.5rem;
+}
+.label img {
+  height: 25px;
 }
 .top-stats-list {
   margin: 1rem 1rem 0;
