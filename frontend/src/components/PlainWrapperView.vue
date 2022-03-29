@@ -31,19 +31,10 @@ export default defineComponent({
 <style scoped>
 .container {
   background-color: white;
-  padding: 10px;
 }
 
 .container >>> .box-top,
 .container >>> .box-bottom {
   display: none;
-}
-
-.container >>> .frame {
-  padding: 0;
-}
-
-.container >>> .wrapper {
-  margin: 0;
 }
 </style>
