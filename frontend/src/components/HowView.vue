@@ -1,23 +1,24 @@
 <template>
-    <div class="container">
-        <header class="header-image"></header>
-        <div class="body">
-            <div class="title">{{ $t('methodology.title') }}</div>
-            <i18n-t keypath="methodology.desc1" tag="p">
-            <a href="https://twitter.com/jjansasds" target="_blank">@jjansasds</a>
-            </i18n-t>
+  <div class="container">
+    <header class="header-image"></header>
+    <div class="body">
+      <div class="title">{{ $t('methodology.title') }}</div>
+      <i18n-t keypath="methodology.desc1" tag="p">
+        <a href="https://twitter.com/jjansasds" target="_blank">@jjansasds</a>
+      </i18n-t>
 
-            <p>{{ $t('methodology.desc2') }}</p>
+      <p>{{ $t('methodology.desc2') }}</p>
 
-            <i18n-t keypath="methodology.desc3" tag="p">
-            <a href="mailto:vsi@danesjenovdan.si" target="_blank">{{ $t('methodology.mailLink') }}</a>
-            </i18n-t>
-        </div>
+      <i18n-t keypath="methodology.desc3" tag="p">
+        <a href="mailto:vsi@danesjenovdan.si" target="_blank">{{
+          $t('methodology.mailLink')
+        }}</a>
+      </i18n-t>
     </div>
+  </div>
 </template>
 
 <style scoped>
-
 .header-image {
   line-height: 0;
   background: #44a58a;
@@ -35,11 +36,11 @@
 }
 
 .body {
-    background-color: white;
-    color: black;
-    text-align: left;
-    padding: 60px 75px;
-    font-size: 1.5rem;
+  background-color: white;
+  color: black;
+  text-align: left;
+  padding: 60px 75px;
+  font-size: 1.5rem;
 }
 
 @media (max-width: 767.98px) {
@@ -75,5 +76,4 @@ p:last-child {
 a {
   color: inherit;
 }
-
 </style>

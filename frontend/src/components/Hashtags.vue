@@ -15,7 +15,15 @@
           :key="hashtag.hashtag"
           class="top-stats-list-element"
         >
-          <span><a :href="`https://twitter.com/search?q=%23${hashtag.hashtag.substring(1)}`" target="_blank">{{ hashtag.hashtag }}</a></span>
+          <span
+            ><a
+              :href="`https://twitter.com/search?q=%23${hashtag.hashtag.substring(
+                1
+              )}`"
+              target="_blank"
+              >{{ truncate(hashtag.hashtag, 16) }}</a
+            ></span
+          >
           <span>{{ hashtag.number }}</span>
         </div>
       </div>
@@ -35,7 +43,11 @@
           :key="domain.tag"
           class="top-stats-list-element"
         >
-          <span><a :href="`https://${domain.domain}`" target="_blank">{{ domain.domain }}</a></span>
+          <span
+            ><a :href="`https://${domain.domain}`" target="_blank">{{
+              truncate(domain.domain, 16)
+            }}</a></span
+          >
           <span>{{ domain.domain_num }}</span>
         </div>
       </div>
@@ -72,6 +84,11 @@ export default defineComponent({
     hashtags: { type: Array as PropType<TweetTop[]>, required: true },
     domains: { type: Array as PropType<TweetTop[]>, required: true },
     retweets: { type: Array as PropType<TweetTop[]>, required: true },
+  },
+  methods: {
+    truncate(str, n) {
+      return str.length > n ? str.substr(0, n - 1) + '...' : str
+    },
   },
 })
 </script>

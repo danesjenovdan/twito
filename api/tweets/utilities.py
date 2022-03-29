@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from collections import defaultdict
 from django.db.models import Count, Avg
+import string
 
 import slovenian_time
 
@@ -65,11 +66,11 @@ def get_domains(tweets):
 def get_hashtags(tweets):
   hashtags = defaultdict(int)
   for tweet in tweets:
-    words = map(lambda word: word.replace('-', '').replace(',', '').replace('.', ''), tweet.text.split())
-
+    words = tweet.text.split()
     for word in words:
       if word.startswith("#"):
-        hashtags[word] += 1
+        new_word = "#" + word.translate(str.maketrans('', '', string.punctuation))
+        hashtags[new_word] += 1
 
   sorted_tuples = sorted(hashtags.items(), key=lambda hashtag: hashtag[1])
   sorted_hashtags = [{"hashtag": hashtag, "number": number} for hashtag, number in list(reversed(sorted_tuples))]
