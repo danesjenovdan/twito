@@ -9,10 +9,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - api.twito.si
+    - api.twito.djnd.si
     secretName: twito-tls
   rules:
-  - host: api.twito.si
+  - host: api.twito.djnd.si
     http:
       paths:
       - path: /
@@ -34,10 +34,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - twito.si
+    - twito.djnd.si
     secretName: twito-frontend-tls
   rules:
-  - host: twito.si
+  - host: twito.djnd.si
     http:
       paths:
       - path: /

@@ -16,7 +16,7 @@ def count_work_time_tweets(tweets_by_hour):
 
 ratios = []
 for day in (start_date + timedelta(days=n) for n in range(number_of_days)):
-    tweets = requests.get(f'https://api.twito.si/{day.strftime("%Y-%m-%d")}').json()
+    tweets = requests.get(f'https://api.twito.djnd.si/{day.strftime("%Y-%m-%d")}').json()
     total_number_of_tweets = len(tweets)
     tweets_by_hour = {}
     for hour in range(24):

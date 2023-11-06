@@ -18,7 +18,7 @@ for i, dt in enumerate(
         until=datetime.strptime(b, "%Y-%m-%d"),
     )
 ):
-    daily_data = requests.get(f"https://api.twito.si/{dt.strftime('%Y-%m-%d')}").json()
+    daily_data = requests.get(f"https://api.twito.djnd.si/{dt.strftime('%Y-%m-%d')}").json()
     tweets += daily_data["tweets"]
     total_seconds += daily_data["calculations"]["time"]
     if i % 10 == 0:

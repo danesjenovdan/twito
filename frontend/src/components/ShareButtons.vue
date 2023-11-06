@@ -21,14 +21,14 @@ export default defineComponent({
         const text = encodeURIComponent(
           `${formatDate(this.date)} // Maršal Twito - Sledilnik`
         )
-        const url = encodeURIComponent(`https://twito.si/${this.date}`)
+        const url = encodeURIComponent(`https://twito.djnd.si/${this.date}`)
         return {
           facebook: `https://www.facebook.com/dialog/feed?app_id=381430693089489&redirect_uri=${url}&link=${url}&ref=responsive&name=${text}`,
           twitter: `https://twitter.com/intent/tweet?text=${text}%20${url}`,
           link: decodeURIComponent(url),
         }
       } else {
-        const url = encodeURIComponent(`https://twito.si/analize/skupne`)
+        const url = encodeURIComponent(`https://twito.djnd.si/analize/skupne`)
         return {
           facebook: `https://www.facebook.com/dialog/feed?app_id=381430693089489&redirect_uri=${url}&link=${url}&ref=responsive`,
           twitter: `https://twitter.com/intent/tweet?text=${url}`,
