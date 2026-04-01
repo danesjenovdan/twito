@@ -3,10 +3,9 @@ kind: Ingress
 metadata:
   name: twito-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: "letsencrypt-production"
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   tls:
   - hosts:
     - api.twito.djnd.si
@@ -28,17 +27,17 @@ kind: Ingress
 metadata:
   name: twito-frontend-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: "letsencrypt-production"
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   tls:
   - hosts:
     - twito.djnd.si
+    - twito.danesjenovdan.si
     secretName: twito-frontend-tls
   rules:
   - host: twito.djnd.si
-    http:
+    http: &http_paths
       paths:
       - path: /
         pathType: Prefix
@@ -47,3 +46,5 @@ spec:
             name: twito-frontend
             port:
               number: 80
+  - host: twito.danesjenovdan.si
+    http: *http_paths
