@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   name: twito-celery
   labels:
-    app: twito
+    app: twito-celery
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: twito
+      app: twito-celery
   template:
     metadata:
       labels:
-        app: twito
+        app: twito-celery
     spec:
       containers:
       - name: twito-celery
